@@ -14,11 +14,11 @@ TypeVar. Type ::= QualType ;
 ArgType. Type ::= QualType "<" [AnnType] ">" ;
 separator AnnType "," ;
 
-AnnType. AnnType ::= [Ann] Type;
+AnnType_. AnnType ::= [Ann] Type;
 
-QualType. QualType ::= [QualTypeIdent] ;
+QualType_. QualType ::= [QualTypeIdent] ;
 separator QualType "," ;
-QualTypeIdent. QualTypeIdent ::= TypeIdent ;
+QualTypeIdent_. QualTypeIdent ::= TypeIdent ;
 separator QualTypeIdent "." ;
 
 entrypoints Program ;
@@ -26,7 +26,7 @@ entrypoints Program ;
 -- TODO: support many modules inside the same file
 Prog. Program  ::= ModuleDecl;
 
-ModuleDecl. ModuleDecl ::= "module" QualType ";" [Export] [Import] [AnnDecl] MaybeBlock ;
+ModuleDecl_. ModuleDecl ::= "module" QualType ";" [Export] [Import] [AnnDecl] MaybeBlock ;
 
 ExportAny. Export ::= "export" [AnyIdent] ;
 ExportAnyFrom. Export ::= "export" [AnyIdent] "from" QualType ;
@@ -47,7 +47,7 @@ AnyIdentI. AnyIdent ::= Ident ;
 AnyIdentT. AnyIdent ::= TypeIdent ;
 separator AnyIdent "," ;
 
-AnnDecl. AnnDecl ::= [Ann] Decl;
+AnnDecl_. AnnDecl ::= [Ann] Decl;
 
 TypeDecl. Decl ::= "type" TypeIdent "=" Type ";" ;
 DataDecl. Decl ::= "data" TypeIdent "=" [ConstrIdent] ";" ;
@@ -65,7 +65,7 @@ ParFun. Decl ::= "def" Type Ident "<" [TypeIdent] ">" "(" [Param] ")" "=" FunBod
 
 InterfDecl. Decl ::= "interface" TypeIdent "{" [MethSig] "}" ;
 ExtendsDecl. Decl ::= "interface" TypeIdent "extends" [QualType] "{" [MethSig] "}" ;
-MethSig. MethSig ::= Type Ident "(" [Param] ")" ;
+MethSig_. MethSig ::= Type Ident "(" [Param] ")" ;
 
 terminator MethSig ";" ;
 
@@ -80,7 +80,7 @@ FieldDeclAss. BodyDecl ::= Type Ident "=" PureExp ";" ;
 MethDecl. BodyDecl ::= Type Ident "(" [Param] ")" Block ;
 separator BodyDecl "" ;
 
-Block. Block ::= "{" [Stm] "}" ;
+Block_. Block ::= "{" [Stm] "}" ;
 
 JustBlock. MaybeBlock ::= Block ;
 NoBlock.   MaybeBlock ::=  ;
@@ -158,6 +158,7 @@ EThis.   PureExp8 ::= "this" "." Ident ;
 -- EQualVar. PureExp8 ::= QualType "." Ident ;
 EUnaryConstr.   PureExp8 ::= QualType ;
 EMultConstr. PureExp8 ::= QualType "(" [PureExp] ")" ;
+-- i think the following line is not needed, because it is implied by coercions
 _. PureExp9 ::= "(" PureExp ")" ;
 coercions PureExp 9 ;
 

@@ -2,3 +2,7 @@
 /gen/doc/DocABS.log
 /gen/doc/DocABS.out
 /gen/doc/DocABS.tex
+*.hi
+*.o
+*.bak
+/gen/haskell/TestABS

@@ -21,7 +21,7 @@ To build the frontend, invoke bnfc for your compiler language:
 
 ~~~
 cd src/
-bnfc --language ABS.cf
+bnfc -m --language ABS.cf
 ~~~
 
 ### Building for Haskell
@@ -36,7 +36,7 @@ Then run bnfc with:
 
 ~~~
 cd src/
-bnfc --haskell ABS.cf
+bnfc -m --haskell ABS.cf
 ~~~
 
 Files generated:
@@ -45,11 +45,12 @@ Files generated:
 - PrintABS.hs : module for pretty-printing ABS-AST code.
 - LexABS.x : the lexer specification in Alex format.
 - ParABS.y : the parser specification in Happy format.
-- TestABS.hs: example program that parses and prints ABS source code from input.
 - SkelABS.hs : helper file for TestABS.hs
 - ErrM.hs : helper file used by other-generated files
+- TestABS.hs: example program that parses and prints ABS source code from input.
+- Makefile: a file to *automatically* build the lexer/parser and the test example
 
-To generate the actual haskell lexer and parser:
+To generate *manually* the haskell lexer and parser:
 
 ~~~
 happy -gca ParABS.y
@@ -67,6 +68,8 @@ TODO
 
 
 ### (Optional) Generate documentation for any BNFC-language
+
+You need to install `txt2tags` program for your distribution.
 
 After you run bnfc (regardless of your backend language), 
 you can generate HTML documentation  for the ABS grammar with:

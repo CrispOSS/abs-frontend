@@ -688,14 +688,14 @@ happyReduction_15 happy_x_2
 	 =  case happyOut63 happy_x_1 of { happy_var_1 -> 
 	case happyOut8 happy_x_2 of { happy_var_2 -> 
 	happyIn10
-		 (AnnType (reverse happy_var_1) happy_var_2
+		 (AnnType_ (reverse happy_var_1) happy_var_2
 	)}}
 
 happyReduce_16 = happySpecReduce_1  7# happyReduction_16
 happyReduction_16 happy_x_1
 	 =  case happyOut14 happy_x_1 of { happy_var_1 -> 
 	happyIn11
-		 (QualType happy_var_1
+		 (QualType_ happy_var_1
 	)}
 
 happyReduce_17 = happySpecReduce_0  8# happyReduction_17
@@ -724,7 +724,7 @@ happyReduce_20 = happySpecReduce_1  9# happyReduction_20
 happyReduction_20 happy_x_1
 	 =  case happyOut7 happy_x_1 of { happy_var_1 -> 
 	happyIn13
-		 (QualTypeIdent happy_var_1
+		 (QualTypeIdent_ happy_var_1
 	)}
 
 happyReduce_21 = happySpecReduce_0  10# happyReduction_21
@@ -771,7 +771,7 @@ happyReduction_25 (happy_x_7 `HappyStk`
 	case happyOut38 happy_x_6 of { happy_var_6 -> 
 	case happyOut36 happy_x_7 of { happy_var_7 -> 
 	happyIn16
-		 (ModuleDecl happy_var_2 (reverse happy_var_4) (reverse happy_var_5) (reverse happy_var_6) happy_var_7
+		 (ModuleDecl_ happy_var_2 (reverse happy_var_4) (reverse happy_var_5) (reverse happy_var_6) happy_var_7
 	) `HappyStk` happyRest}}}}}
 
 happyReduce_26 = happySpecReduce_2  13# happyReduction_26
@@ -921,7 +921,7 @@ happyReduction_43 happy_x_2
 	 =  case happyOut63 happy_x_1 of { happy_var_1 -> 
 	case happyOut25 happy_x_2 of { happy_var_2 -> 
 	happyIn24
-		 (AnnDecl (reverse happy_var_1) happy_var_2
+		 (AnnDecl_ (reverse happy_var_1) happy_var_2
 	)}}
 
 happyReduce_44 = happyReduce 5# 21# happyReduction_44
@@ -1232,7 +1232,7 @@ happyReduction_68 (happy_x_5 `HappyStk`
 	case happyOut4 happy_x_2 of { happy_var_2 -> 
 	case happyOut41 happy_x_4 of { happy_var_4 -> 
 	happyIn31
-		 (MethSig happy_var_1 happy_var_2 happy_var_4
+		 (MethSig_ happy_var_1 happy_var_2 happy_var_4
 	) `HappyStk` happyRest}}}
 
 happyReduce_69 = happySpecReduce_0  28# happyReduction_69
@@ -1310,7 +1310,7 @@ happyReduction_76 happy_x_3
 	happy_x_1
 	 =  case happyOut39 happy_x_2 of { happy_var_2 -> 
 	happyIn35
-		 (Block (reverse happy_var_2)
+		 (Block_ (reverse happy_var_2)
 	)}
 
 happyReduce_77 = happySpecReduce_1  32# happyReduction_77

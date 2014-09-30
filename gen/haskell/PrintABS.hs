@@ -104,7 +104,7 @@ instance Print Type where
 
 instance Print AnnType where
   prt i e = case e of
-   AnnType anns type' -> prPrec i 0 (concatD [prt 0 anns , prt 0 type'])
+   AnnType_ anns type' -> prPrec i 0 (concatD [prt 0 anns , prt 0 type'])
 
   prtList es = case es of
    [] -> (concatD [])
@@ -113,7 +113,7 @@ instance Print AnnType where
 
 instance Print QualType where
   prt i e = case e of
-   QualType qualtypeidents -> prPrec i 0 (concatD [prt 0 qualtypeidents])
+   QualType_ qualtypeidents -> prPrec i 0 (concatD [prt 0 qualtypeidents])
 
   prtList es = case es of
    [] -> (concatD [])
@@ -122,7 +122,7 @@ instance Print QualType where
 
 instance Print QualTypeIdent where
   prt i e = case e of
-   QualTypeIdent typeident -> prPrec i 0 (concatD [prt 0 typeident])
+   QualTypeIdent_ typeident -> prPrec i 0 (concatD [prt 0 typeident])
 
   prtList es = case es of
    [] -> (concatD [])
@@ -136,7 +136,7 @@ instance Print Program where
 
 instance Print ModuleDecl where
   prt i e = case e of
-   ModuleDecl qualtype exports imports anndecls maybeblock -> prPrec i 0 (concatD [doc (showString "module") , prt 0 qualtype , doc (showString ";") , prt 0 exports , prt 0 imports , prt 0 anndecls , prt 0 maybeblock])
+   ModuleDecl_ qualtype exports imports anndecls maybeblock -> prPrec i 0 (concatD [doc (showString "module") , prt 0 qualtype , doc (showString ";") , prt 0 exports , prt 0 imports , prt 0 anndecls , prt 0 maybeblock])
 
 
 instance Print Export where
@@ -177,7 +177,7 @@ instance Print AnyIdent where
 
 instance Print AnnDecl where
   prt i e = case e of
-   AnnDecl anns decl -> prPrec i 0 (concatD [prt 0 anns , prt 0 decl])
+   AnnDecl_ anns decl -> prPrec i 0 (concatD [prt 0 anns , prt 0 decl])
 
   prtList es = case es of
    [] -> (concatD [])
@@ -220,7 +220,7 @@ instance Print ConstrType where
 
 instance Print MethSig where
   prt i e = case e of
-   MethSig type' id params -> prPrec i 0 (concatD [prt 0 type' , prt 0 id , doc (showString "(") , prt 0 params , doc (showString ")")])
+   MethSig_ type' id params -> prPrec i 0 (concatD [prt 0 type' , prt 0 id , doc (showString "(") , prt 0 params , doc (showString ")")])
 
   prtList es = case es of
    [] -> (concatD [])
@@ -238,7 +238,7 @@ instance Print BodyDecl where
 
 instance Print Block where
   prt i e = case e of
-   Block stms -> prPrec i 0 (concatD [doc (showString "{") , prt 0 stms , doc (showString "}")])
+   Block_ stms -> prPrec i 0 (concatD [doc (showString "{") , prt 0 stms , doc (showString "}")])
 
 
 instance Print MaybeBlock where

@@ -32,17 +32,17 @@ transType x = case x of
 
 transAnnType :: AnnType -> Result
 transAnnType x = case x of
-  AnnType anns type'  -> failure x
+  AnnType_ anns type'  -> failure x
 
 
 transQualType :: QualType -> Result
 transQualType x = case x of
-  QualType qualtypeidents  -> failure x
+  QualType_ qualtypeidents  -> failure x
 
 
 transQualTypeIdent :: QualTypeIdent -> Result
 transQualTypeIdent x = case x of
-  QualTypeIdent typeident  -> failure x
+  QualTypeIdent_ typeident  -> failure x
 
 
 transProgram :: Program -> Result
@@ -52,7 +52,7 @@ transProgram x = case x of
 
 transModuleDecl :: ModuleDecl -> Result
 transModuleDecl x = case x of
-  ModuleDecl qualtype exports imports anndecls maybeblock  -> failure x
+  ModuleDecl_ qualtype exports imports anndecls maybeblock  -> failure x
 
 
 transExport :: Export -> Result
@@ -83,7 +83,7 @@ transAnyIdent x = case x of
 
 transAnnDecl :: AnnDecl -> Result
 transAnnDecl x = case x of
-  AnnDecl anns decl  -> failure x
+  AnnDecl_ anns decl  -> failure x
 
 
 transDecl :: Decl -> Result
@@ -115,7 +115,7 @@ transConstrType x = case x of
 
 transMethSig :: MethSig -> Result
 transMethSig x = case x of
-  MethSig type' id params  -> failure x
+  MethSig_ type' id params  -> failure x
 
 
 transBodyDecl :: BodyDecl -> Result
@@ -127,7 +127,7 @@ transBodyDecl x = case x of
 
 transBlock :: Block -> Result
 transBlock x = case x of
-  Block stms  -> failure x
+  Block_ stms  -> failure x
 
 
 transMaybeBlock :: MaybeBlock -> Result

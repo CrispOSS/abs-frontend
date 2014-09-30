@@ -111,11 +111,11 @@ ListAnnType : {- empty -} { [] }
 
 
 AnnType :: { AnnType }
-AnnType : ListAnn Type { AnnType (reverse $1) $2 } 
+AnnType : ListAnn Type { AnnType_ (reverse $1) $2 } 
 
 
 QualType :: { QualType }
-QualType : ListQualTypeIdent { QualType $1 } 
+QualType : ListQualTypeIdent { QualType_ $1 } 
 
 
 ListQualType :: { [QualType] }
@@ -125,7 +125,7 @@ ListQualType : {- empty -} { [] }
 
 
 QualTypeIdent :: { QualTypeIdent }
-QualTypeIdent : TypeIdent { QualTypeIdent $1 } 
+QualTypeIdent : TypeIdent { QualTypeIdent_ $1 } 
 
 
 ListQualTypeIdent :: { [QualTypeIdent] }
@@ -139,7 +139,7 @@ Program : ModuleDecl { Prog $1 }
 
 
 ModuleDecl :: { ModuleDecl }
-ModuleDecl : 'module' QualType ';' ListExport ListImport ListAnnDecl MaybeBlock { ModuleDecl $2 (reverse $4) (reverse $5) (reverse $6) $7 } 
+ModuleDecl : 'module' QualType ';' ListExport ListImport ListAnnDecl MaybeBlock { ModuleDecl_ $2 (reverse $4) (reverse $5) (reverse $6) $7 } 
 
 
 Export :: { Export }
@@ -181,7 +181,7 @@ ListAnyIdent : {- empty -} { [] }
 
 
 AnnDecl :: { AnnDecl }
-AnnDecl : ListAnn Decl { AnnDecl (reverse $1) $2 } 
+AnnDecl : ListAnn Decl { AnnDecl_ (reverse $1) $2 } 
 
 
 Decl :: { Decl }
@@ -227,7 +227,7 @@ ListConstrIdent : {- empty -} { [] }
 
 
 MethSig :: { MethSig }
-MethSig : Type Ident '(' ListParam ')' { MethSig $1 $2 $4 } 
+MethSig : Type Ident '(' ListParam ')' { MethSig_ $1 $2 $4 } 
 
 
 ListMethSig :: { [MethSig] }
@@ -247,7 +247,7 @@ ListBodyDecl : {- empty -} { [] }
 
 
 Block :: { Block }
-Block : '{' ListStm '}' { Block (reverse $2) } 
+Block : '{' ListStm '}' { Block_ (reverse $2) } 
 
 
 MaybeBlock :: { MaybeBlock }

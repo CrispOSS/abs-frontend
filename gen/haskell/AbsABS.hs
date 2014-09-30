@@ -20,15 +20,15 @@ data Type =
   deriving (Eq,Ord,Show,Read)
 
 data AnnType =
-   AnnType [Ann] Type
+   AnnType_ [Ann] Type
   deriving (Eq,Ord,Show,Read)
 
 data QualType =
-   QualType [QualTypeIdent]
+   QualType_ [QualTypeIdent]
   deriving (Eq,Ord,Show,Read)
 
 data QualTypeIdent =
-   QualTypeIdent TypeIdent
+   QualTypeIdent_ TypeIdent
   deriving (Eq,Ord,Show,Read)
 
 data Program =
@@ -36,7 +36,7 @@ data Program =
   deriving (Eq,Ord,Show,Read)
 
 data ModuleDecl =
-   ModuleDecl QualType [Export] [Import] [AnnDecl] MaybeBlock
+   ModuleDecl_ QualType [Export] [Import] [AnnDecl] MaybeBlock
   deriving (Eq,Ord,Show,Read)
 
 data Export =
@@ -62,7 +62,7 @@ data AnyIdent =
   deriving (Eq,Ord,Show,Read)
 
 data AnnDecl =
-   AnnDecl [Ann] Decl
+   AnnDecl_ [Ann] Decl
   deriving (Eq,Ord,Show,Read)
 
 data Decl =
@@ -90,7 +90,7 @@ data ConstrType =
   deriving (Eq,Ord,Show,Read)
 
 data MethSig =
-   MethSig Type Ident [Param]
+   MethSig_ Type Ident [Param]
   deriving (Eq,Ord,Show,Read)
 
 data BodyDecl =
@@ -100,7 +100,7 @@ data BodyDecl =
   deriving (Eq,Ord,Show,Read)
 
 data Block =
-   Block [Stm]
+   Block_ [Stm]
   deriving (Eq,Ord,Show,Read)
 
 data MaybeBlock =
