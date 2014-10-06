@@ -9,96 +9,19 @@ import ABS.Absyn.*;
 
 public class VisitSkel
 {
-  public class TypeVisitor<R,A> implements Type.Visitor<R,A>
+  public class AnyIdentVisitor<R,A> implements AnyIdent.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.TyUnit p, A arg)
+    public R visit(ABS.Absyn.AnyIden p, A arg)
     {
-      /* Code For TyUnit Goes Here */
+      /* Code For AnyIden Goes Here */
 
+      //p.ident_;
 
       return null;
     }
-    public R visit(ABS.Absyn.TyInt p, A arg)
+    public R visit(ABS.Absyn.AnyTyIden p, A arg)
     {
-      /* Code For TyInt Goes Here */
-
-
-      return null;
-    }
-    public R visit(ABS.Absyn.TyRat p, A arg)
-    {
-      /* Code For TyRat Goes Here */
-
-
-      return null;
-    }
-    public R visit(ABS.Absyn.TyFut p, A arg)
-    {
-      /* Code For TyFut Goes Here */
-
-      p.type_.accept(new TypeVisitor<R,A>(), arg);
-
-      return null;
-    }
-    public R visit(ABS.Absyn.TyUnderscore p, A arg)
-    {
-      /* Code For TyUnderscore Goes Here */
-
-
-      return null;
-    }
-    public R visit(ABS.Absyn.TypeVar p, A arg)
-    {
-      /* Code For TypeVar Goes Here */
-
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
-
-      return null;
-    }
-    public R visit(ABS.Absyn.ArgType p, A arg)
-    {
-      /* Code For ArgType Goes Here */
-
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
-      for (AnnType x : p.listanntype_) {
-      }
-
-      return null;
-    }
-
-  }
-  public class AnnTypeVisitor<R,A> implements AnnType.Visitor<R,A>
-  {
-    public R visit(ABS.Absyn.AnnType_ p, A arg)
-    {
-      /* Code For AnnType_ Goes Here */
-
-      for (Ann x : p.listann_) {
-      }
-      p.type_.accept(new TypeVisitor<R,A>(), arg);
-
-      return null;
-    }
-
-  }
-  public class QualTypeVisitor<R,A> implements QualType.Visitor<R,A>
-  {
-    public R visit(ABS.Absyn.QualType_ p, A arg)
-    {
-      /* Code For QualType_ Goes Here */
-
-      for (QualTypeIdent x : p.listqualtypeident_) {
-      }
-
-      return null;
-    }
-
-  }
-  public class QualTypeIdentVisitor<R,A> implements QualTypeIdent.Visitor<R,A>
-  {
-    public R visit(ABS.Absyn.QualTypeIdent_ p, A arg)
-    {
-      /* Code For QualTypeIdent_ Goes Here */
+      /* Code For AnyTyIden Goes Here */
 
       //p.typeident_;
 
@@ -112,24 +35,25 @@ public class VisitSkel
     {
       /* Code For Prog Goes Here */
 
-      p.moduledecl_.accept(new ModuleDeclVisitor<R,A>(), arg);
+      for (Module x : p.listmodule_) {
+      }
 
       return null;
     }
 
   }
-  public class ModuleDeclVisitor<R,A> implements ModuleDecl.Visitor<R,A>
+  public class ModuleVisitor<R,A> implements Module.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.ModuleDecl_ p, A arg)
+    public R visit(ABS.Absyn.Modul p, A arg)
     {
-      /* Code For ModuleDecl_ Goes Here */
+      /* Code For Modul Goes Here */
 
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
       for (Export x : p.listexport_) {
       }
       for (Import x : p.listimport_) {
       }
-      for (AnnDecl x : p.listanndecl_) {
+      for (Decl x : p.listdecl_) {
       }
       p.maybeblock_.accept(new MaybeBlockVisitor<R,A>(), arg);
 
@@ -139,55 +63,37 @@ public class VisitSkel
   }
   public class ExportVisitor<R,A> implements Export.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.ExportAny p, A arg)
+    public R visit(ABS.Absyn.AnyExport p, A arg)
     {
-      /* Code For ExportAny Goes Here */
+      /* Code For AnyExport Goes Here */
 
       for (AnyIdent x : p.listanyident_) {
       }
 
       return null;
     }
-    public R visit(ABS.Absyn.ExportAnyFrom p, A arg)
+    public R visit(ABS.Absyn.AnyFromExport p, A arg)
     {
-      /* Code For ExportAnyFrom Goes Here */
+      /* Code For AnyFromExport Goes Here */
 
       for (AnyIdent x : p.listanyident_) {
       }
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
 
       return null;
     }
-    public R visit(ABS.Absyn.ExportStar p, A arg)
+    public R visit(ABS.Absyn.StarExport p, A arg)
     {
-      /* Code For ExportStar Goes Here */
-
-
-      return null;
-    }
-    public R visit(ABS.Absyn.ExportStarFrom p, A arg)
-    {
-      /* Code For ExportStarFrom Goes Here */
-
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
-
-      return null;
-    }
-
-  }
-  public class ImportTypeVisitor<R,A> implements ImportType.Visitor<R,A>
-  {
-    public R visit(ABS.Absyn.ImportHaskell p, A arg)
-    {
-      /* Code For ImportHaskell Goes Here */
+      /* Code For StarExport Goes Here */
 
 
       return null;
     }
-    public R visit(ABS.Absyn.ImportABS p, A arg)
+    public R visit(ABS.Absyn.StarFromExport p, A arg)
     {
-      /* Code For ImportABS Goes Here */
+      /* Code For StarFromExport Goes Here */
 
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
 
       return null;
     }
@@ -195,57 +101,94 @@ public class VisitSkel
   }
   public class ImportVisitor<R,A> implements Import.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.ImportAnyFrom p, A arg)
+    public R visit(ABS.Absyn.AnyImport p, A arg)
     {
-      /* Code For ImportAnyFrom Goes Here */
+      /* Code For AnyImport Goes Here */
+
+      p.importtype_.accept(new ImportTypeVisitor<R,A>(), arg);
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      p.anyident_.accept(new AnyIdentVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.AnyFromImport p, A arg)
+    {
+      /* Code For AnyFromImport Goes Here */
 
       p.importtype_.accept(new ImportTypeVisitor<R,A>(), arg);
       for (AnyIdent x : p.listanyident_) {
       }
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
 
       return null;
     }
-    public R visit(ABS.Absyn.ImportStarFrom p, A arg)
+    public R visit(ABS.Absyn.StarFromImport p, A arg)
     {
-      /* Code For ImportStarFrom Goes Here */
+      /* Code For StarFromImport Goes Here */
 
       p.importtype_.accept(new ImportTypeVisitor<R,A>(), arg);
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
 
       return null;
     }
 
   }
-  public class AnyIdentVisitor<R,A> implements AnyIdent.Visitor<R,A>
+  public class ImportTypeVisitor<R,A> implements ImportType.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.AnyIdentI p, A arg)
+    public R visit(ABS.Absyn.ForeignImport p, A arg)
     {
-      /* Code For AnyIdentI Goes Here */
+      /* Code For ForeignImport Goes Here */
 
-      //p.ident_;
 
       return null;
     }
-    public R visit(ABS.Absyn.AnyIdentT p, A arg)
+    public R visit(ABS.Absyn.NormalImport p, A arg)
     {
-      /* Code For AnyIdentT Goes Here */
+      /* Code For NormalImport Goes Here */
+
+
+      return null;
+    }
+
+  }
+  public class TypeVisitor<R,A> implements Type.Visitor<R,A>
+  {
+    public R visit(ABS.Absyn.UnderscoreType p, A arg)
+    {
+      /* Code For UnderscoreType Goes Here */
+
+
+      return null;
+    }
+    public R visit(ABS.Absyn.SimpleType p, A arg)
+    {
+      /* Code For SimpleType Goes Here */
+
+      for (QualTypeIdent x : p.listqualtypeident_) {
+      }
+
+      return null;
+    }
+    public R visit(ABS.Absyn.ParType p, A arg)
+    {
+      /* Code For ParType Goes Here */
+
+      for (QualTypeIdent x : p.listqualtypeident_) {
+      }
+      for (Type x : p.listtype_) {
+      }
+
+      return null;
+    }
+
+  }
+  public class QualTypeIdentVisitor<R,A> implements QualTypeIdent.Visitor<R,A>
+  {
+    public R visit(ABS.Absyn.QualTypeIden p, A arg)
+    {
+      /* Code For QualTypeIden Goes Here */
 
       //p.typeident_;
-
-      return null;
-    }
-
-  }
-  public class AnnDeclVisitor<R,A> implements AnnDecl.Visitor<R,A>
-  {
-    public R visit(ABS.Absyn.AnnDecl_ p, A arg)
-    {
-      /* Code For AnnDecl_ Goes Here */
-
-      for (Ann x : p.listann_) {
-      }
-      p.decl_.accept(new DeclVisitor<R,A>(), arg);
 
       return null;
     }
@@ -272,9 +215,9 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(ABS.Absyn.ParDataDecl p, A arg)
+    public R visit(ABS.Absyn.DataParDecl p, A arg)
     {
-      /* Code For ParDataDecl Goes Here */
+      /* Code For DataParDecl Goes Here */
 
       //p.typeident_;
       for (String x : p.listtypeident_) {
@@ -284,9 +227,9 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(ABS.Absyn.Fun p, A arg)
+    public R visit(ABS.Absyn.FunDecl p, A arg)
     {
-      /* Code For Fun Goes Here */
+      /* Code For FunDecl Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
       //p.ident_;
@@ -296,9 +239,9 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(ABS.Absyn.ParFun p, A arg)
+    public R visit(ABS.Absyn.FunParDecl p, A arg)
     {
-      /* Code For ParFun Goes Here */
+      /* Code For FunParDecl Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
       //p.ident_;
@@ -315,7 +258,7 @@ public class VisitSkel
       /* Code For InterfDecl Goes Here */
 
       //p.typeident_;
-      for (MethSig x : p.listmethsig_) {
+      for (MethSignat x : p.listmethsignat_) {
       }
 
       return null;
@@ -325,9 +268,9 @@ public class VisitSkel
       /* Code For ExtendsDecl Goes Here */
 
       //p.typeident_;
-      for (QualType x : p.listqualtype_) {
+      for (Type x : p.listtype_) {
       }
-      for (MethSig x : p.listmethsig_) {
+      for (MethSignat x : p.listmethsignat_) {
       }
 
       return null;
@@ -337,10 +280,10 @@ public class VisitSkel
       /* Code For ClassDecl Goes Here */
 
       //p.typeident_;
-      for (BodyDecl x : p.listbodydecl_1) {
+      for (ClassBody x : p.listclassbody_1) {
       }
       p.maybeblock_.accept(new MaybeBlockVisitor<R,A>(), arg);
-      for (BodyDecl x : p.listbodydecl_2) {
+      for (ClassBody x : p.listclassbody_2) {
       }
 
       return null;
@@ -352,10 +295,10 @@ public class VisitSkel
       //p.typeident_;
       for (Param x : p.listparam_) {
       }
-      for (BodyDecl x : p.listbodydecl_1) {
+      for (ClassBody x : p.listclassbody_1) {
       }
       p.maybeblock_.accept(new MaybeBlockVisitor<R,A>(), arg);
-      for (BodyDecl x : p.listbodydecl_2) {
+      for (ClassBody x : p.listclassbody_2) {
       }
 
       return null;
@@ -365,12 +308,12 @@ public class VisitSkel
       /* Code For ClassImplements Goes Here */
 
       //p.typeident_;
-      for (QualType x : p.listqualtype_) {
+      for (Type x : p.listtype_) {
       }
-      for (BodyDecl x : p.listbodydecl_1) {
+      for (ClassBody x : p.listclassbody_1) {
       }
       p.maybeblock_.accept(new MaybeBlockVisitor<R,A>(), arg);
-      for (BodyDecl x : p.listbodydecl_2) {
+      for (ClassBody x : p.listclassbody_2) {
       }
 
       return null;
@@ -382,12 +325,12 @@ public class VisitSkel
       //p.typeident_;
       for (Param x : p.listparam_) {
       }
-      for (QualType x : p.listqualtype_) {
+      for (Type x : p.listtype_) {
       }
-      for (BodyDecl x : p.listbodydecl_1) {
+      for (ClassBody x : p.listclassbody_1) {
       }
       p.maybeblock_.accept(new MaybeBlockVisitor<R,A>(), arg);
-      for (BodyDecl x : p.listbodydecl_2) {
+      for (ClassBody x : p.listclassbody_2) {
       }
 
       return null;
@@ -396,17 +339,17 @@ public class VisitSkel
   }
   public class ConstrIdentVisitor<R,A> implements ConstrIdent.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.UnaryConstr p, A arg)
+    public R visit(ABS.Absyn.SinglConstrIdent p, A arg)
     {
-      /* Code For UnaryConstr Goes Here */
+      /* Code For SinglConstrIdent Goes Here */
 
       //p.typeident_;
 
       return null;
     }
-    public R visit(ABS.Absyn.MultConstr p, A arg)
+    public R visit(ABS.Absyn.ParamConstrIdent p, A arg)
     {
-      /* Code For MultConstr Goes Here */
+      /* Code For ParamConstrIdent Goes Here */
 
       //p.typeident_;
       for (ConstrType x : p.listconstrtype_) {
@@ -437,11 +380,30 @@ public class VisitSkel
     }
 
   }
-  public class MethSigVisitor<R,A> implements MethSig.Visitor<R,A>
+  public class FunBodyVisitor<R,A> implements FunBody.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.MethSig_ p, A arg)
+    public R visit(ABS.Absyn.BuiltinFunBody p, A arg)
     {
-      /* Code For MethSig_ Goes Here */
+      /* Code For BuiltinFunBody Goes Here */
+
+
+      return null;
+    }
+    public R visit(ABS.Absyn.NormalFunBody p, A arg)
+    {
+      /* Code For NormalFunBody Goes Here */
+
+      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
+
+      return null;
+    }
+
+  }
+  public class MethSignatVisitor<R,A> implements MethSignat.Visitor<R,A>
+  {
+    public R visit(ABS.Absyn.MethSig p, A arg)
+    {
+      /* Code For MethSig Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
       //p.ident_;
@@ -452,20 +414,20 @@ public class VisitSkel
     }
 
   }
-  public class BodyDeclVisitor<R,A> implements BodyDecl.Visitor<R,A>
+  public class ClassBodyVisitor<R,A> implements ClassBody.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.FieldDecl p, A arg)
+    public R visit(ABS.Absyn.FieldClassBody p, A arg)
     {
-      /* Code For FieldDecl Goes Here */
+      /* Code For FieldClassBody Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
       //p.ident_;
 
       return null;
     }
-    public R visit(ABS.Absyn.FieldDeclAss p, A arg)
+    public R visit(ABS.Absyn.FieldAssignClassBody p, A arg)
     {
-      /* Code For FieldDeclAss Goes Here */
+      /* Code For FieldAssignClassBody Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
       //p.ident_;
@@ -473,9 +435,9 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(ABS.Absyn.MethDecl p, A arg)
+    public R visit(ABS.Absyn.MethClassBody p, A arg)
     {
-      /* Code For MethDecl Goes Here */
+      /* Code For MethClassBody Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
       //p.ident_;
@@ -489,9 +451,9 @@ public class VisitSkel
   }
   public class BlockVisitor<R,A> implements Block.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.Block_ p, A arg)
+    public R visit(ABS.Absyn.Bloc p, A arg)
     {
-      /* Code For Block_ Goes Here */
+      /* Code For Bloc Goes Here */
 
       for (Stm x : p.liststm_) {
       }
@@ -519,33 +481,195 @@ public class VisitSkel
     }
 
   }
-  public class FunBodyVisitor<R,A> implements FunBody.Visitor<R,A>
-  {
-    public R visit(ABS.Absyn.Builtin p, A arg)
-    {
-      /* Code For Builtin Goes Here */
-
-
-      return null;
-    }
-    public R visit(ABS.Absyn.PureBody p, A arg)
-    {
-      /* Code For PureBody Goes Here */
-
-      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
-
-      return null;
-    }
-
-  }
   public class ParamVisitor<R,A> implements Param.Visitor<R,A>
   {
     public R visit(ABS.Absyn.Par p, A arg)
     {
       /* Code For Par Goes Here */
 
-      p.anntype_.accept(new AnnTypeVisitor<R,A>(), arg);
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
       //p.ident_;
+
+      return null;
+    }
+
+  }
+  public class StmVisitor<R,A> implements Stm.Visitor<R,A>
+  {
+    public R visit(ABS.Absyn.SExp p, A arg)
+    {
+      /* Code For SExp Goes Here */
+
+      p.exp_.accept(new ExpVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.SBlock p, A arg)
+    {
+      /* Code For SBlock Goes Here */
+
+      for (Stm x : p.liststm_) {
+      }
+
+      return null;
+    }
+    public R visit(ABS.Absyn.SWhile p, A arg)
+    {
+      /* Code For SWhile Goes Here */
+
+      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
+      p.stm_.accept(new StmVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.SReturn p, A arg)
+    {
+      /* Code For SReturn Goes Here */
+
+      p.exp_.accept(new ExpVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.SAss p, A arg)
+    {
+      /* Code For SAss Goes Here */
+
+      //p.ident_;
+      p.exp_.accept(new ExpVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.SFieldAss p, A arg)
+    {
+      /* Code For SFieldAss Goes Here */
+
+      //p.ident_;
+      p.exp_.accept(new ExpVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.SDec p, A arg)
+    {
+      /* Code For SDec Goes Here */
+
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      //p.ident_;
+
+      return null;
+    }
+    public R visit(ABS.Absyn.SDecAss p, A arg)
+    {
+      /* Code For SDecAss Goes Here */
+
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      //p.ident_;
+      p.exp_.accept(new ExpVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.SIf p, A arg)
+    {
+      /* Code For SIf Goes Here */
+
+      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
+      p.stm_.accept(new StmVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.SIfElse p, A arg)
+    {
+      /* Code For SIfElse Goes Here */
+
+      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
+      p.stm_1.accept(new StmVisitor<R,A>(), arg);
+      p.stm_2.accept(new StmVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.SSuspend p, A arg)
+    {
+      /* Code For SSuspend Goes Here */
+
+
+      return null;
+    }
+    public R visit(ABS.Absyn.SSkip p, A arg)
+    {
+      /* Code For SSkip Goes Here */
+
+
+      return null;
+    }
+    public R visit(ABS.Absyn.SAssert p, A arg)
+    {
+      /* Code For SAssert Goes Here */
+
+      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.SAwait p, A arg)
+    {
+      /* Code For SAwait Goes Here */
+
+      p.guard_.accept(new GuardVisitor<R,A>(), arg);
+
+      return null;
+    }
+
+  }
+  public class GuardVisitor<R,A> implements Guard.Visitor<R,A>
+  {
+    public R visit(ABS.Absyn.VarGuard p, A arg)
+    {
+      /* Code For VarGuard Goes Here */
+
+      //p.ident_;
+
+      return null;
+    }
+    public R visit(ABS.Absyn.FieldGuard p, A arg)
+    {
+      /* Code For FieldGuard Goes Here */
+
+      //p.ident_;
+
+      return null;
+    }
+    public R visit(ABS.Absyn.ExpGuard p, A arg)
+    {
+      /* Code For ExpGuard Goes Here */
+
+      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.AndGuard p, A arg)
+    {
+      /* Code For AndGuard Goes Here */
+
+      p.guard_1.accept(new GuardVisitor<R,A>(), arg);
+      p.guard_2.accept(new GuardVisitor<R,A>(), arg);
+
+      return null;
+    }
+
+  }
+  public class ExpVisitor<R,A> implements Exp.Visitor<R,A>
+  {
+    public R visit(ABS.Absyn.ExpP p, A arg)
+    {
+      /* Code For ExpP Goes Here */
+
+      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.ExpE p, A arg)
+    {
+      /* Code For ExpE Goes Here */
+
+      p.effexp_.accept(new EffExpVisitor<R,A>(), arg);
 
       return null;
     }
@@ -553,6 +677,15 @@ public class VisitSkel
   }
   public class PureExpVisitor<R,A> implements PureExp.Visitor<R,A>
   {
+    public R visit(ABS.Absyn.EOr p, A arg)
+    {
+      /* Code For EOr Goes Here */
+
+      p.pureexp_1.accept(new PureExpVisitor<R,A>(), arg);
+      p.pureexp_2.accept(new PureExpVisitor<R,A>(), arg);
+
+      return null;
+    }
     public R visit(ABS.Absyn.Let p, A arg)
     {
       /* Code For Let Goes Here */
@@ -580,15 +713,6 @@ public class VisitSkel
       p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
       for (CaseBranch x : p.listcasebranch_) {
       }
-
-      return null;
-    }
-    public R visit(ABS.Absyn.EOr p, A arg)
-    {
-      /* Code For EOr Goes Here */
-
-      p.pureexp_1.accept(new PureExpVisitor<R,A>(), arg);
-      p.pureexp_2.accept(new PureExpVisitor<R,A>(), arg);
 
       return null;
     }
@@ -716,9 +840,9 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(ABS.Absyn.ECall p, A arg)
+    public R visit(ABS.Absyn.EFunCall p, A arg)
     {
-      /* Code For ECall Goes Here */
+      /* Code For EFunCall Goes Here */
 
       //p.ident_;
       for (PureExp x : p.listpureexp_) {
@@ -726,9 +850,20 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(ABS.Absyn.ENaryCall p, A arg)
+    public R visit(ABS.Absyn.EQualFunCall p, A arg)
     {
-      /* Code For ENaryCall Goes Here */
+      /* Code For EQualFunCall Goes Here */
+
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      //p.ident_;
+      for (PureExp x : p.listpureexp_) {
+      }
+
+      return null;
+    }
+    public R visit(ABS.Absyn.ENaryFunCall p, A arg)
+    {
+      /* Code For ENaryFunCall Goes Here */
 
       //p.ident_;
       for (PureExp x : p.listpureexp_) {
@@ -736,11 +871,14 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(ABS.Absyn.ELit p, A arg)
+    public R visit(ABS.Absyn.ENaryQualFunCall p, A arg)
     {
-      /* Code For ELit Goes Here */
+      /* Code For ENaryQualFunCall Goes Here */
 
-      p.literal_.accept(new LiteralVisitor<R,A>(), arg);
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      //p.ident_;
+      for (PureExp x : p.listpureexp_) {
+      }
 
       return null;
     }
@@ -760,21 +898,38 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(ABS.Absyn.EUnaryConstr p, A arg)
+    public R visit(ABS.Absyn.EQualVar p, A arg)
     {
-      /* Code For EUnaryConstr Goes Here */
+      /* Code For EQualVar Goes Here */
 
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      //p.ident_;
 
       return null;
     }
-    public R visit(ABS.Absyn.EMultConstr p, A arg)
+    public R visit(ABS.Absyn.ESinglConstr p, A arg)
     {
-      /* Code For EMultConstr Goes Here */
+      /* Code For ESinglConstr Goes Here */
 
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.EParamConstr p, A arg)
+    {
+      /* Code For EParamConstr Goes Here */
+
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
       for (PureExp x : p.listpureexp_) {
       }
+
+      return null;
+    }
+    public R visit(ABS.Absyn.ELit p, A arg)
+    {
+      /* Code For ELit Goes Here */
+
+      p.literal_.accept(new LiteralVisitor<R,A>(), arg);
 
       return null;
     }
@@ -782,9 +937,9 @@ public class VisitSkel
   }
   public class CaseBranchVisitor<R,A> implements CaseBranch.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.CBranch p, A arg)
+    public R visit(ABS.Absyn.CaseBranc p, A arg)
     {
-      /* Code For CBranch Goes Here */
+      /* Code For CaseBranc Goes Here */
 
       p.pattern_.accept(new PatternVisitor<R,A>(), arg);
       p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
@@ -795,33 +950,33 @@ public class VisitSkel
   }
   public class PatternVisitor<R,A> implements Pattern.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.PIdent p, A arg)
+    public R visit(ABS.Absyn.IdentPat p, A arg)
     {
-      /* Code For PIdent Goes Here */
+      /* Code For IdentPat Goes Here */
 
       //p.ident_;
 
       return null;
     }
-    public R visit(ABS.Absyn.PLit p, A arg)
+    public R visit(ABS.Absyn.LitPat p, A arg)
     {
-      /* Code For PLit Goes Here */
+      /* Code For LitPat Goes Here */
 
       p.literal_.accept(new LiteralVisitor<R,A>(), arg);
 
       return null;
     }
-    public R visit(ABS.Absyn.PUnaryConstr p, A arg)
+    public R visit(ABS.Absyn.SinglConstrPat p, A arg)
     {
-      /* Code For PUnaryConstr Goes Here */
+      /* Code For SinglConstrPat Goes Here */
 
       //p.typeident_;
 
       return null;
     }
-    public R visit(ABS.Absyn.PMultConstr p, A arg)
+    public R visit(ABS.Absyn.ParamConstrPat p, A arg)
     {
-      /* Code For PMultConstr Goes Here */
+      /* Code For ParamConstrPat Goes Here */
 
       //p.typeident_;
       for (Pattern x : p.listpattern_) {
@@ -829,171 +984,10 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(ABS.Absyn.PUnderscore p, A arg)
+    public R visit(ABS.Absyn.UnderscorePat p, A arg)
     {
-      /* Code For PUnderscore Goes Here */
+      /* Code For UnderscorePat Goes Here */
 
-
-      return null;
-    }
-
-  }
-  public class StmVisitor<R,A> implements Stm.Visitor<R,A>
-  {
-    public R visit(ABS.Absyn.SExp p, A arg)
-    {
-      /* Code For SExp Goes Here */
-
-      p.effexp_.accept(new EffExpVisitor<R,A>(), arg);
-
-      return null;
-    }
-    public R visit(ABS.Absyn.SBlock p, A arg)
-    {
-      /* Code For SBlock Goes Here */
-
-      for (Stm x : p.liststm_) {
-      }
-
-      return null;
-    }
-    public R visit(ABS.Absyn.SWhile p, A arg)
-    {
-      /* Code For SWhile Goes Here */
-
-      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
-      p.stm_.accept(new StmVisitor<R,A>(), arg);
-
-      return null;
-    }
-    public R visit(ABS.Absyn.SReturn p, A arg)
-    {
-      /* Code For SReturn Goes Here */
-
-      p.exp_.accept(new ExpVisitor<R,A>(), arg);
-
-      return null;
-    }
-    public R visit(ABS.Absyn.SAss p, A arg)
-    {
-      /* Code For SAss Goes Here */
-
-      //p.ident_;
-      p.exp_.accept(new ExpVisitor<R,A>(), arg);
-
-      return null;
-    }
-    public R visit(ABS.Absyn.SFieldAss p, A arg)
-    {
-      /* Code For SFieldAss Goes Here */
-
-      //p.ident_;
-      p.exp_.accept(new ExpVisitor<R,A>(), arg);
-
-      return null;
-    }
-    public R visit(ABS.Absyn.SDec p, A arg)
-    {
-      /* Code For SDec Goes Here */
-
-      p.type_.accept(new TypeVisitor<R,A>(), arg);
-      //p.ident_;
-
-      return null;
-    }
-    public R visit(ABS.Absyn.SDecAss p, A arg)
-    {
-      /* Code For SDecAss Goes Here */
-
-      p.type_.accept(new TypeVisitor<R,A>(), arg);
-      //p.ident_;
-      p.exp_.accept(new ExpVisitor<R,A>(), arg);
-
-      return null;
-    }
-    public R visit(ABS.Absyn.SIf p, A arg)
-    {
-      /* Code For SIf Goes Here */
-
-      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
-      p.stm_.accept(new StmVisitor<R,A>(), arg);
-
-      return null;
-    }
-    public R visit(ABS.Absyn.SIfElse p, A arg)
-    {
-      /* Code For SIfElse Goes Here */
-
-      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
-      p.stm_1.accept(new StmVisitor<R,A>(), arg);
-      p.stm_2.accept(new StmVisitor<R,A>(), arg);
-
-      return null;
-    }
-    public R visit(ABS.Absyn.SAwait p, A arg)
-    {
-      /* Code For SAwait Goes Here */
-
-      p.guard_.accept(new GuardVisitor<R,A>(), arg);
-
-      return null;
-    }
-    public R visit(ABS.Absyn.SSuspend p, A arg)
-    {
-      /* Code For SSuspend Goes Here */
-
-
-      return null;
-    }
-    public R visit(ABS.Absyn.SSkip p, A arg)
-    {
-      /* Code For SSkip Goes Here */
-
-
-      return null;
-    }
-    public R visit(ABS.Absyn.SAssert p, A arg)
-    {
-      /* Code For SAssert Goes Here */
-
-      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
-
-      return null;
-    }
-
-  }
-  public class GuardVisitor<R,A> implements Guard.Visitor<R,A>
-  {
-    public R visit(ABS.Absyn.VarGuard p, A arg)
-    {
-      /* Code For VarGuard Goes Here */
-
-      //p.ident_;
-
-      return null;
-    }
-    public R visit(ABS.Absyn.FieldGuard p, A arg)
-    {
-      /* Code For FieldGuard Goes Here */
-
-      //p.ident_;
-
-      return null;
-    }
-    public R visit(ABS.Absyn.ExpGuard p, A arg)
-    {
-      /* Code For ExpGuard Goes Here */
-
-      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
-
-      return null;
-    }
-    public R visit(ABS.Absyn.AndGuard p, A arg)
-    {
-      /* Code For AndGuard Goes Here */
-
-      p.guard_1.accept(new GuardVisitor<R,A>(), arg);
-      p.guard_2.accept(new GuardVisitor<R,A>(), arg);
 
       return null;
     }
@@ -1011,6 +1005,13 @@ public class VisitSkel
     public R visit(ABS.Absyn.LThis p, A arg)
     {
       /* Code For LThis Goes Here */
+
+
+      return null;
+    }
+    public R visit(ABS.Absyn.LThisDC p, A arg)
+    {
+      /* Code For LThisDC Goes Here */
 
 
       return null;
@@ -1055,9 +1056,9 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(ABS.Absyn.SyncCall p, A arg)
+    public R visit(ABS.Absyn.SyncMethCall p, A arg)
     {
-      /* Code For SyncCall Goes Here */
+      /* Code For SyncMethCall Goes Here */
 
       p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
       //p.ident_;
@@ -1066,9 +1067,9 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(ABS.Absyn.ThisSyncCall p, A arg)
+    public R visit(ABS.Absyn.ThisSyncMethCall p, A arg)
     {
-      /* Code For ThisSyncCall Goes Here */
+      /* Code For ThisSyncMethCall Goes Here */
 
       //p.ident_;
       for (PureExp x : p.listpureexp_) {
@@ -1076,9 +1077,9 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(ABS.Absyn.AsyncCall p, A arg)
+    public R visit(ABS.Absyn.AsyncMethCall p, A arg)
     {
-      /* Code For AsyncCall Goes Here */
+      /* Code For AsyncMethCall Goes Here */
 
       p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
       //p.ident_;
@@ -1087,9 +1088,9 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(ABS.Absyn.ThisAsyncCall p, A arg)
+    public R visit(ABS.Absyn.ThisAsyncMethCall p, A arg)
     {
-      /* Code For ThisAsyncCall Goes Here */
+      /* Code For ThisAsyncMethCall Goes Here */
 
       //p.ident_;
       for (PureExp x : p.listpureexp_) {
@@ -1105,35 +1106,14 @@ public class VisitSkel
 
       return null;
     }
-
-  }
-  public class ExpVisitor<R,A> implements Exp.Visitor<R,A>
-  {
-    public R visit(ABS.Absyn.ExpP p, A arg)
+    public R visit(ABS.Absyn.Spawns p, A arg)
     {
-      /* Code For ExpP Goes Here */
+      /* Code For Spawns Goes Here */
 
       p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
-
-      return null;
-    }
-    public R visit(ABS.Absyn.ExpE p, A arg)
-    {
-      /* Code For ExpE Goes Here */
-
-      p.effexp_.accept(new EffExpVisitor<R,A>(), arg);
-
-      return null;
-    }
-
-  }
-  public class AnnVisitor<R,A> implements Ann.Visitor<R,A>
-  {
-    public R visit(ABS.Absyn.SimpleAnn p, A arg)
-    {
-      /* Code For SimpleAnn Goes Here */
-
-      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      for (PureExp x : p.listpureexp_) {
+      }
 
       return null;
     }

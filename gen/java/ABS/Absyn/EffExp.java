@@ -5,11 +5,12 @@ public abstract class EffExp implements java.io.Serializable {
   public interface Visitor <R,A> {
     public R visit(ABS.Absyn.New p, A arg);
     public R visit(ABS.Absyn.NewLocal p, A arg);
-    public R visit(ABS.Absyn.SyncCall p, A arg);
-    public R visit(ABS.Absyn.ThisSyncCall p, A arg);
-    public R visit(ABS.Absyn.AsyncCall p, A arg);
-    public R visit(ABS.Absyn.ThisAsyncCall p, A arg);
+    public R visit(ABS.Absyn.SyncMethCall p, A arg);
+    public R visit(ABS.Absyn.ThisSyncMethCall p, A arg);
+    public R visit(ABS.Absyn.AsyncMethCall p, A arg);
+    public R visit(ABS.Absyn.ThisAsyncMethCall p, A arg);
     public R visit(ABS.Absyn.Get p, A arg);
+    public R visit(ABS.Absyn.Spawns p, A arg);
 
   }
 

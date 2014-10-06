@@ -5,6 +5,7 @@ public abstract class Literal implements java.io.Serializable {
   public interface Visitor <R,A> {
     public R visit(ABS.Absyn.LNull p, A arg);
     public R visit(ABS.Absyn.LThis p, A arg);
+    public R visit(ABS.Absyn.LThisDC p, A arg);
     public R visit(ABS.Absyn.LStr p, A arg);
     public R visit(ABS.Absyn.LInt p, A arg);
 
