@@ -3,114 +3,89 @@
 comment "//" ;
 comment "/*" "*/" ;
  
--- Types
-TyUnit. Type ::= "Unit" ;
-TyInt. Type ::= "Int" ;
-TyRat. Type ::= "Rat" ;
-TyFut. Type ::= "Fut" "<" Type ">";
-TyUnderscore. Type ::= "_";
--- treat both unqualified and qualified types as qualified
-TypeVar. Type ::= QualType ;
-ArgType. Type ::= QualType "<" [AnnType] ">" ;
-separator AnnType "," ;
-
-AnnType_. AnnType ::= [Ann] Type;
-
-QualType_. QualType ::= [QualTypeIdent] ;
-separator QualType "," ;
-QualTypeIdent_. QualTypeIdent ::= TypeIdent ;
-separator QualTypeIdent "." ;
+-- Identifiers (variables and types)
+AnyIden. AnyIdent ::= Ident ;
+AnyTyIden. AnyIdent ::= TypeIdent ;
+separator nonempty AnyIdent "," ;
 
 entrypoints Program ;
+Prog. Program  ::= [Module]; -- a Program is a list of modules definitions
+separator Module "";
 
--- TODO: support many modules inside the same file
-Prog. Program  ::= ModuleDecl;
+-- Modules
+Modul. Module ::= "module" Type ";" [Export] [Import] [Decl] MaybeBlock ;
 
-ModuleDecl_. ModuleDecl ::= "module" QualType ";" [Export] [Import] [AnnDecl] MaybeBlock ;
-
-ExportAny. Export ::= "export" [AnyIdent] ;
-ExportAnyFrom. Export ::= "export" [AnyIdent] "from" QualType ;
-ExportStar. Export ::= "export" "*" ;
-ExportStarFrom. Export ::= "export" "*" "from" QualType ;
-
+-- Exports
+AnyExport. Export ::= "export" [AnyIdent] ;
+AnyFromExport. Export ::= "export" [AnyIdent] "from" Type ;
+StarExport. Export ::= "export" "*" ;
+StarFromExport. Export ::= "export" "*" "from" Type ;
 terminator Export ";" ;
 
-ImportHaskell. ImportType ::= "fimport";
-ImportABS.     ImportType ::= "import";
-
--- ImportAny. Import ::= ImportType QualType "." Ident  ; -- ambiguous
-ImportAnyFrom. Import ::= ImportType [AnyIdent] "from" QualType ;
-ImportStarFrom. Import ::= ImportType "*" "from" QualType ;
+-- Imports
+AnyImport. Import ::= ImportType Type "." AnyIdent  ; -- maybe ambiguous, but no such claim by bnfc
+AnyFromImport. Import ::= ImportType [AnyIdent] "from" Type ;
+StarFromImport. Import ::= ImportType "*" "from" Type ;
 terminator Import ";" ;
+ForeignImport. ImportType ::= "fimport";
+NormalImport.     ImportType ::= "import";
 
-AnyIdentI. AnyIdent ::= Ident ;
-AnyIdentT. AnyIdent ::= TypeIdent ;
-separator AnyIdent "," ;
+-- Type valid names
+UnderscoreType. Type ::= "_";  -- for type inference
+SimpleType. Type ::= [QualTypeIdent] ;
+ParType. Type ::= [QualTypeIdent] "<" [Type] ">" ;
+separator nonempty Type "," ;
+-- list wrapper to TypeIndent to separate with dots "."
+QualTypeIden. QualTypeIdent ::= TypeIdent ;
+separator nonempty QualTypeIdent "." ;
 
-AnnDecl_. AnnDecl ::= [Ann] Decl;
-
+-- Declarations (ADT)
+terminator Decl "" ;
 TypeDecl. Decl ::= "type" TypeIdent "=" Type ";" ;
 DataDecl. Decl ::= "data" TypeIdent "=" [ConstrIdent] ";" ;
-ParDataDecl. Decl ::= "data" TypeIdent "<" [TypeIdent] ">" "=" [ConstrIdent] ";" ;
-UnaryConstr. ConstrIdent ::= TypeIdent ;
-MultConstr. ConstrIdent ::= TypeIdent "(" [ConstrType] ")" ;
+DataParDecl. Decl ::= "data" TypeIdent "<" [TypeIdent] ">" "=" [ConstrIdent] ";" ;
+SinglConstrIdent. ConstrIdent ::= TypeIdent ;
+ParamConstrIdent. ConstrIdent ::= TypeIdent "(" [ConstrType] ")" ;
 EmptyConstrType. ConstrType ::= Type ;
 RecordConstrType. ConstrType ::= Type Ident ;
 separator ConstrType "," ;
-separator TypeIdent "," ;
-separator ConstrIdent "|" ;
+separator nonempty TypeIdent "," ;
+separator nonempty ConstrIdent "|" ;
 
-Fun.  Decl ::= "def" Type Ident "(" [Param] ")" "=" FunBody ";" ;
-ParFun. Decl ::= "def" Type Ident "<" [TypeIdent] ">" "(" [Param] ")" "=" FunBody ";" ;
+-- Declarations (Functions)
+FunDecl.  Decl ::= "def" Type Ident "(" [Param] ")" "=" FunBody ";" ;
+FunParDecl. Decl ::= "def" Type Ident "<" [TypeIdent] ">" "(" [Param] ")" "=" FunBody ";" ;
+BuiltinFunBody. FunBody ::= "builtin" ;
+NormalFunBody. FunBody ::= PureExp ;
 
-InterfDecl. Decl ::= "interface" TypeIdent "{" [MethSig] "}" ;
-ExtendsDecl. Decl ::= "interface" TypeIdent "extends" [QualType] "{" [MethSig] "}" ;
-MethSig_. MethSig ::= Type Ident "(" [Param] ")" ;
+-- Declarations (Interface)
+InterfDecl. Decl ::= "interface" TypeIdent "{" [MethSignat] "}" ;
+ExtendsDecl. Decl ::= "interface" TypeIdent "extends" [Type] "{" [MethSignat] "}" ;
+MethSig. MethSignat ::= Type Ident "(" [Param] ")" ;
+terminator MethSignat ";" ;
 
-terminator MethSig ";" ;
+-- Declarations (Class)
+ClassDecl. Decl ::= "class" TypeIdent "{" [ClassBody] MaybeBlock [ClassBody] "}" ;
+ClassParamDecl. Decl ::= "class" TypeIdent "(" [Param] ")" "{" [ClassBody] MaybeBlock [ClassBody]  "}" ;
+ClassImplements. Decl ::= "class" TypeIdent "implements" [Type] "{" [ClassBody] MaybeBlock [ClassBody]  "}" ;
+ClassParamImplements. Decl ::= "class" TypeIdent "(" [Param] ")" "implements" [Type]  "{" [ClassBody] MaybeBlock [ClassBody]  "}" ;
+FieldClassBody. ClassBody ::= Type Ident ";" ;
+FieldAssignClassBody. ClassBody ::= Type Ident "=" PureExp ";" ;
+MethClassBody. ClassBody ::= Type Ident "(" [Param] ")" Block ;
+separator ClassBody "" ;
 
-ClassDecl. Decl ::= "class" TypeIdent "{" [BodyDecl] MaybeBlock [BodyDecl] "}" ;
-ClassParamDecl. Decl ::= "class" TypeIdent "(" [Param] ")" "{" [BodyDecl] MaybeBlock [BodyDecl]  "}" ;
-ClassImplements. Decl ::= "class" TypeIdent "implements" [QualType] "{" [BodyDecl] MaybeBlock [BodyDecl]  "}" ;
-ClassParamImplements. Decl ::= "class" TypeIdent "(" [Param] ")" "implements" [QualType]  "{" [BodyDecl] MaybeBlock [BodyDecl]  "}" ;
-
-
-FieldDecl. BodyDecl ::= Type Ident ";" ;
-FieldDeclAss. BodyDecl ::= Type Ident "=" PureExp ";" ;
-MethDecl. BodyDecl ::= Type Ident "(" [Param] ")" Block ;
-separator BodyDecl "" ;
-
-Block_. Block ::= "{" [Stm] "}" ;
-
+-- Blocks
+Bloc. Block ::= "{" [Stm] "}" ;
 JustBlock. MaybeBlock ::= Block ;
 NoBlock.   MaybeBlock ::=  ;
 
-Builtin. FunBody ::= "builtin" ;
-PureBody. FunBody ::= PureExp ;
-
-terminator AnnDecl "" ;
-terminator Stm "" ;
-
-
-Par. Param ::= AnnType Ident;
+-- Formal parameters to function/interface/method declarations
 separator Param "," ;
+Par. Param ::= Type Ident;
 
-Let. PureExp ::= "let" "(" Param ")" "=" PureExp "in" PureExp ;
-If. PureExp ::= "if" PureExp "then" PureExp "else" PureExp ;
-Case. PureExp ::= "case" PureExp "{" [CaseBranch] "}" ;
-CBranch. CaseBranch ::= Pattern "=>" PureExp ;
-terminator CaseBranch ";" ;
-
-PIdent. Pattern ::= Ident ;
-PLit. Pattern ::= Literal ;
-PUnaryConstr. Pattern ::= TypeIdent ;
-PMultConstr. Pattern ::= TypeIdent "(" [Pattern] ")" ;
-PUnderscore. Pattern ::= "_" ;
-
-separator Pattern "," ;
-
-
-SExp.    Stm ::= EffExp ";" ;
+-- Statements
+terminator Stm "" ;
+SExp.    Stm ::= Exp ";" ;
 SBlock.  Stm ::= "{" [Stm] "}" ;
 SWhile.  Stm ::= "while" "(" PureExp ")" Stm ;
 SReturn. Stm ::= "return" Exp  ";" ;
@@ -120,62 +95,88 @@ SDec.    Stm ::= Type Ident ";" ;
 SDecAss. Stm ::= Type Ident "=" Exp ";" ;
 SIf.     Stm ::= "if" "(" PureExp ")" Stm ;
 SIfElse. Stm ::= "if" "(" PureExp ")" Stm "else" Stm ;
+SSuspend. Stm ::= "suspend" ";" ;
+SSkip. Stm ::= "skip" ";" ;
+SAssert. Stm ::= "assert" PureExp ";" ;
 SAwait.  Stm ::= "await" Guard ";" ;
+
+-- Await Guards
 VarGuard. Guard ::= Ident "?" ;
 FieldGuard. Guard ::= "this" "." Ident "?" ;
 ExpGuard. Guard ::= PureExp ;
 AndGuard. Guard ::= Guard "&" Guard ;
-SSuspend. Stm ::= "suspend" ";" ;
-SSkip. Stm ::= "skip" ";" ;
-SAssert. Stm ::= "assert" PureExp ";" ;
 
-
-EOr.      PureExp1 ::= PureExp1 "||" PureExp2 ;
-EAnd.     PureExp2 ::= PureExp2 "&&" PureExp3 ;
-EEq.     PureExp3 ::= PureExp3 "==" PureExp4 ;
-ENeq.    PureExp3 ::= PureExp3 "!=" PureExp4 ;
-ELt.     PureExp4 ::= PureExp4 "<" PureExp5 ;
-ELe.     PureExp4 ::= PureExp4 "<=" PureExp5 ;
-EGt.     PureExp4 ::= PureExp4 ">" PureExp5 ;
-EGe.     PureExp4 ::= PureExp4 ">=" PureExp5 ;
-EAdd.    PureExp5 ::= PureExp5 "+" PureExp6 ;
-ESub.    PureExp5 ::= PureExp5 "-" PureExp6 ;
-EMul.    PureExp6 ::= PureExp6 "*" PureExp7 ;
-EDiv.    PureExp6 ::= PureExp6 "/" PureExp7 ;
-EMod.    PureExp6 ::= PureExp6 "%" PureExp7 ;
-ELogNeg. PureExp7 ::= "~" PureExp6 ;
-EIntNeg. PureExp7 ::= "-" PureExp6 ;
-ECall.    PureExp8 ::= Ident "(" [PureExp] ")" ;
--- EQualCall. PureExp8 ::= QualType "." Ident "(" [PureExp] ")" ;
-ENaryCall. PureExp8 ::= Ident "[" [PureExp] "]" ;
-ELit.    PureExp8 ::= Literal ;
-LNull.   Literal ::= "null" ;
-LThis.   Literal ::= "this" ;
-LStr.    Literal ::= String ;
-LInt.    Literal ::= Integer ;
-EVar.    PureExp8 ::= Ident ;
-EThis.   PureExp8 ::= "this" "." Ident ; 
--- EQualVar. PureExp8 ::= QualType "." Ident ;
-EUnaryConstr.   PureExp8 ::= QualType ;
-EMultConstr. PureExp8 ::= QualType "(" [PureExp] ")" ;
--- i think the following line is not needed, because it is implied by coercions
-_. PureExp9 ::= "(" PureExp ")" ;
-coercions PureExp 9 ;
-
-New. EffExp ::= "new" Type "(" [PureExp] ")" ;
-NewLocal. EffExp ::= "new" "local" Type "(" [PureExp] ")" ;
-SyncCall. EffExp ::= PureExp "." Ident "(" [PureExp] ")" ;
-ThisSyncCall. EffExp ::= "this" "." Ident "(" [PureExp] ")" ;
-AsyncCall. EffExp ::= PureExp "!" Ident "(" [PureExp] ")" ;
-ThisAsyncCall. EffExp ::= "this" "!" Ident "(" [PureExp] ")" ;
-Get. EffExp ::= PureExp "." "get" ;
-
-separator PureExp "," ;
- 
+-- Expressions
 ExpP. Exp ::= PureExp ;
 ExpE. Exp ::= EffExp ;
 
--- added annotations
-SimpleAnn. Ann ::= "[" PureExp "]";
-separator Ann "" ;
--- todo: there are more elaborate annotations
+-- Pure Expressions
+separator PureExp "," ;  -- for passing arguments to function/method calls
+EOr.      PureExp ::= PureExp "||" PureExp1 ;
+EAnd.     PureExp1 ::= PureExp1 "&&" PureExp2 ;
+EEq.     PureExp2 ::= PureExp2 "==" PureExp3 ;
+ENeq.    PureExp2 ::= PureExp2 "!=" PureExp3 ;
+ELt.     PureExp3 ::= PureExp3 "<" PureExp4 ;
+ELe.     PureExp3 ::= PureExp3 "<=" PureExp4 ;
+EGt.     PureExp3 ::= PureExp3 ">" PureExp4 ;
+EGe.     PureExp3 ::= PureExp3 ">=" PureExp4 ;
+EAdd.    PureExp4 ::= PureExp4 "+" PureExp5 ;
+ESub.    PureExp4 ::= PureExp4 "-" PureExp5 ;
+EMul.    PureExp5 ::= PureExp5 "*" PureExp6 ;
+EDiv.    PureExp5 ::= PureExp5 "/" PureExp6 ;
+EMod.    PureExp5 ::= PureExp5 "%" PureExp6 ;
+ELogNeg. PureExp6 ::= "~" PureExp6 ;
+EIntNeg. PureExp6 ::= "-" PureExp6 ;
+EFunCall.    PureExp7 ::= Ident "(" [PureExp] ")" ;
+EQualFunCall. PureExp7 ::= Type "." Ident "(" [PureExp] ")" ; -- maybe ambiguous, but no such claim by bnfc
+ENaryFunCall. PureExp7 ::= Ident "[" [PureExp] "]" ;
+ENaryQualFunCall. PureExp7 ::= Type "." Ident "[" [PureExp] "]" ; -- maybe ambiguous, but no such claim by bnfc
+EVar.    PureExp7 ::= Ident ;
+EThis.   PureExp7 ::= "this" "." Ident ; 
+EQualVar. PureExp7 ::= Type "." Ident ;
+ESinglConstr.   PureExp7 ::= Type ;
+EParamConstr. PureExp7 ::= Type "(" [PureExp] ")" ;
+ELit.    PureExp7 ::= Literal ;
+coercions PureExp 7 ;
+
+Let. PureExp ::= "let" "(" Param ")" "=" PureExp "in" PureExp ;
+If. PureExp ::= "if" PureExp "then" PureExp "else" PureExp ;
+Case. PureExp ::= "case" PureExp "{" [CaseBranch] "}" ;
+CaseBranc. CaseBranch ::= Pattern "=>" PureExp ;
+terminator nonempty CaseBranch ";" ;
+
+-- Pattern Matching
+separator Pattern "," ;
+IdentPat. Pattern ::= Ident ;
+LitPat. Pattern ::= Literal ;
+SinglConstrPat. Pattern ::= TypeIdent ;
+ParamConstrPat. Pattern ::= TypeIdent "(" [Pattern] ")" ;
+UnderscorePat. Pattern ::= "_" ;
+
+-- Literals
+LNull.   Literal ::= "null" ;
+LThis.   Literal ::= "this" ;
+LThisDC.  Literal ::= "thisDC" ;
+LStr.    Literal ::= String ;
+LInt.    Literal ::= Integer ;
+
+-- Effectful Expressions
+New. EffExp ::= "new" Type "(" [PureExp] ")" ;
+NewLocal. EffExp ::= "new" "local" Type "(" [PureExp] ")" ;
+SyncMethCall. EffExp ::= PureExp "." Ident "(" [PureExp] ")" ;
+ThisSyncMethCall. EffExp ::= "this" "." Ident "(" [PureExp] ")" ;
+AsyncMethCall. EffExp ::= PureExp "!" Ident "(" [PureExp] ")" ;
+ThisAsyncMethCall. EffExp ::= "this" "!" Ident "(" [PureExp] ")" ;
+Get. EffExp ::= PureExp "." "get" ;
+Spawns. EffExp ::= PureExp "spawns" Type "(" [PureExp] ")" ;
+
+--Annotations (turned off because we don't make use of them)
+--SimpleAnn. Ann ::= "[" PureExp "]";
+--separator Ann "" ;
+--AnnDecl. AnnDecl ::= [Ann] Decl;
+--terminator AnnDecl "" ;
+--AnnType. AnnType ::= [Ann] Type;
+--separator AnnType "," ;
+--there are more places where annotations can be put
+
+--TODO: Deltas

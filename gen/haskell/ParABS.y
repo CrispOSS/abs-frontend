@@ -37,48 +37,46 @@ import ErrM
  '>' { PT _ (TS _ 20) }
  '>=' { PT _ (TS _ 21) }
  '?' { PT _ (TS _ 22) }
- 'Fut' { PT _ (TS _ 23) }
- 'Int' { PT _ (TS _ 24) }
- 'Rat' { PT _ (TS _ 25) }
- 'Unit' { PT _ (TS _ 26) }
- '[' { PT _ (TS _ 27) }
- ']' { PT _ (TS _ 28) }
- '_' { PT _ (TS _ 29) }
- 'assert' { PT _ (TS _ 30) }
- 'await' { PT _ (TS _ 31) }
- 'builtin' { PT _ (TS _ 32) }
- 'case' { PT _ (TS _ 33) }
- 'class' { PT _ (TS _ 34) }
- 'data' { PT _ (TS _ 35) }
- 'def' { PT _ (TS _ 36) }
- 'else' { PT _ (TS _ 37) }
- 'export' { PT _ (TS _ 38) }
- 'extends' { PT _ (TS _ 39) }
- 'fimport' { PT _ (TS _ 40) }
- 'from' { PT _ (TS _ 41) }
- 'get' { PT _ (TS _ 42) }
- 'if' { PT _ (TS _ 43) }
- 'implements' { PT _ (TS _ 44) }
- 'import' { PT _ (TS _ 45) }
- 'in' { PT _ (TS _ 46) }
- 'interface' { PT _ (TS _ 47) }
- 'let' { PT _ (TS _ 48) }
- 'local' { PT _ (TS _ 49) }
- 'module' { PT _ (TS _ 50) }
- 'new' { PT _ (TS _ 51) }
- 'null' { PT _ (TS _ 52) }
- 'return' { PT _ (TS _ 53) }
- 'skip' { PT _ (TS _ 54) }
- 'suspend' { PT _ (TS _ 55) }
- 'then' { PT _ (TS _ 56) }
- 'this' { PT _ (TS _ 57) }
- 'type' { PT _ (TS _ 58) }
- 'while' { PT _ (TS _ 59) }
- '{' { PT _ (TS _ 60) }
- '|' { PT _ (TS _ 61) }
- '||' { PT _ (TS _ 62) }
- '}' { PT _ (TS _ 63) }
- '~' { PT _ (TS _ 64) }
+ '[' { PT _ (TS _ 23) }
+ ']' { PT _ (TS _ 24) }
+ '_' { PT _ (TS _ 25) }
+ 'assert' { PT _ (TS _ 26) }
+ 'await' { PT _ (TS _ 27) }
+ 'builtin' { PT _ (TS _ 28) }
+ 'case' { PT _ (TS _ 29) }
+ 'class' { PT _ (TS _ 30) }
+ 'data' { PT _ (TS _ 31) }
+ 'def' { PT _ (TS _ 32) }
+ 'else' { PT _ (TS _ 33) }
+ 'export' { PT _ (TS _ 34) }
+ 'extends' { PT _ (TS _ 35) }
+ 'fimport' { PT _ (TS _ 36) }
+ 'from' { PT _ (TS _ 37) }
+ 'get' { PT _ (TS _ 38) }
+ 'if' { PT _ (TS _ 39) }
+ 'implements' { PT _ (TS _ 40) }
+ 'import' { PT _ (TS _ 41) }
+ 'in' { PT _ (TS _ 42) }
+ 'interface' { PT _ (TS _ 43) }
+ 'let' { PT _ (TS _ 44) }
+ 'local' { PT _ (TS _ 45) }
+ 'module' { PT _ (TS _ 46) }
+ 'new' { PT _ (TS _ 47) }
+ 'null' { PT _ (TS _ 48) }
+ 'return' { PT _ (TS _ 49) }
+ 'skip' { PT _ (TS _ 50) }
+ 'spawns' { PT _ (TS _ 51) }
+ 'suspend' { PT _ (TS _ 52) }
+ 'then' { PT _ (TS _ 53) }
+ 'this' { PT _ (TS _ 54) }
+ 'thisDC' { PT _ (TS _ 55) }
+ 'type' { PT _ (TS _ 56) }
+ 'while' { PT _ (TS _ 57) }
+ '{' { PT _ (TS _ 58) }
+ '|' { PT _ (TS _ 59) }
+ '||' { PT _ (TS _ 60) }
+ '}' { PT _ (TS _ 61) }
+ '~' { PT _ (TS _ 62) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -94,59 +92,34 @@ String  :: { String }  : L_quoted {  $1 }
 Integer :: { Integer } : L_integ  { (read ( $1)) :: Integer }
 TypeIdent    :: { TypeIdent} : L_TypeIdent { TypeIdent ($1)}
 
-Type :: { Type }
-Type : 'Unit' { TyUnit } 
-  | 'Int' { TyInt }
-  | 'Rat' { TyRat }
-  | 'Fut' '<' Type '>' { TyFut $3 }
-  | '_' { TyUnderscore }
-  | QualType { TypeVar $1 }
-  | QualType '<' ListAnnType '>' { ArgType $1 $3 }
+AnyIdent :: { AnyIdent }
+AnyIdent : Ident { AnyIden $1 } 
+  | TypeIdent { AnyTyIden $1 }
 
 
-ListAnnType :: { [AnnType] }
-ListAnnType : {- empty -} { [] } 
-  | AnnType { (:[]) $1 }
-  | AnnType ',' ListAnnType { (:) $1 $3 }
-
-
-AnnType :: { AnnType }
-AnnType : ListAnn Type { AnnType_ (reverse $1) $2 } 
-
-
-QualType :: { QualType }
-QualType : ListQualTypeIdent { QualType_ $1 } 
-
-
-ListQualType :: { [QualType] }
-ListQualType : {- empty -} { [] } 
-  | QualType { (:[]) $1 }
-  | QualType ',' ListQualType { (:) $1 $3 }
-
-
-QualTypeIdent :: { QualTypeIdent }
-QualTypeIdent : TypeIdent { QualTypeIdent_ $1 } 
-
-
-ListQualTypeIdent :: { [QualTypeIdent] }
-ListQualTypeIdent : {- empty -} { [] } 
-  | QualTypeIdent { (:[]) $1 }
-  | QualTypeIdent '.' ListQualTypeIdent { (:) $1 $3 }
+ListAnyIdent :: { [AnyIdent] }
+ListAnyIdent : AnyIdent { (:[]) $1 } 
+  | AnyIdent ',' ListAnyIdent { (:) $1 $3 }
 
 
 Program :: { Program }
-Program : ModuleDecl { Prog $1 } 
+Program : ListModule { Prog (reverse $1) } 
 
 
-ModuleDecl :: { ModuleDecl }
-ModuleDecl : 'module' QualType ';' ListExport ListImport ListAnnDecl MaybeBlock { ModuleDecl_ $2 (reverse $4) (reverse $5) (reverse $6) $7 } 
+ListModule :: { [Module] }
+ListModule : {- empty -} { [] } 
+  | ListModule Module { flip (:) $1 $2 }
+
+
+Module :: { Module }
+Module : 'module' Type ';' ListExport ListImport ListDecl MaybeBlock { Modul $2 (reverse $4) (reverse $5) (reverse $6) $7 } 
 
 
 Export :: { Export }
-Export : 'export' ListAnyIdent { ExportAny $2 } 
-  | 'export' ListAnyIdent 'from' QualType { ExportAnyFrom $2 $4 }
-  | 'export' '*' { ExportStar }
-  | 'export' '*' 'from' QualType { ExportStarFrom $4 }
+Export : 'export' ListAnyIdent { AnyExport $2 } 
+  | 'export' ListAnyIdent 'from' Type { AnyFromExport $2 $4 }
+  | 'export' '*' { StarExport }
+  | 'export' '*' 'from' Type { StarFromExport $4 }
 
 
 ListExport :: { [Export] }
@@ -154,14 +127,10 @@ ListExport : {- empty -} { [] }
   | ListExport Export ';' { flip (:) $1 $2 }
 
 
-ImportType :: { ImportType }
-ImportType : 'fimport' { ImportHaskell } 
-  | 'import' { ImportABS }
-
-
 Import :: { Import }
-Import : ImportType ListAnyIdent 'from' QualType { ImportAnyFrom $1 $2 $4 } 
-  | ImportType '*' 'from' QualType { ImportStarFrom $1 $4 }
+Import : ImportType Type '.' AnyIdent { AnyImport $1 $2 $4 } 
+  | ImportType ListAnyIdent 'from' Type { AnyFromImport $1 $2 $4 }
+  | ImportType '*' 'from' Type { StarFromImport $1 $4 }
 
 
 ListImport :: { [Import] }
@@ -169,38 +138,53 @@ ListImport : {- empty -} { [] }
   | ListImport Import ';' { flip (:) $1 $2 }
 
 
-AnyIdent :: { AnyIdent }
-AnyIdent : Ident { AnyIdentI $1 } 
-  | TypeIdent { AnyIdentT $1 }
+ImportType :: { ImportType }
+ImportType : 'fimport' { ForeignImport } 
+  | 'import' { NormalImport }
 
 
-ListAnyIdent :: { [AnyIdent] }
-ListAnyIdent : {- empty -} { [] } 
-  | AnyIdent { (:[]) $1 }
-  | AnyIdent ',' ListAnyIdent { (:) $1 $3 }
+Type :: { Type }
+Type : '_' { UnderscoreType } 
+  | ListQualTypeIdent { SimpleType $1 }
+  | ListQualTypeIdent '<' ListType '>' { ParType $1 $3 }
 
 
-AnnDecl :: { AnnDecl }
-AnnDecl : ListAnn Decl { AnnDecl_ (reverse $1) $2 } 
+ListType :: { [Type] }
+ListType : Type { (:[]) $1 } 
+  | Type ',' ListType { (:) $1 $3 }
+
+
+QualTypeIdent :: { QualTypeIdent }
+QualTypeIdent : TypeIdent { QualTypeIden $1 } 
+
+
+ListQualTypeIdent :: { [QualTypeIdent] }
+ListQualTypeIdent : QualTypeIdent { (:[]) $1 } 
+  | QualTypeIdent '.' ListQualTypeIdent { (:) $1 $3 }
+
+
+ListDecl :: { [Decl] }
+ListDecl : {- empty -} { [] } 
+  | ListDecl Decl { flip (:) $1 $2 }
 
 
 Decl :: { Decl }
 Decl : 'type' TypeIdent '=' Type ';' { TypeDecl $2 $4 } 
   | 'data' TypeIdent '=' ListConstrIdent ';' { DataDecl $2 $4 }
-  | 'data' TypeIdent '<' ListTypeIdent '>' '=' ListConstrIdent ';' { ParDataDecl $2 $4 $7 }
-  | 'def' Type Ident '(' ListParam ')' '=' FunBody ';' { Fun $2 $3 $5 $8 }
-  | 'def' Type Ident '<' ListTypeIdent '>' '(' ListParam ')' '=' FunBody ';' { ParFun $2 $3 $5 $8 $11 }
-  | 'interface' TypeIdent '{' ListMethSig '}' { InterfDecl $2 (reverse $4) }
-  | 'interface' TypeIdent 'extends' ListQualType '{' ListMethSig '}' { ExtendsDecl $2 $4 (reverse $6) }
-  | 'class' TypeIdent '{' ListBodyDecl MaybeBlock ListBodyDecl '}' { ClassDecl $2 (reverse $4) $5 (reverse $6) }
-  | 'class' TypeIdent '(' ListParam ')' '{' ListBodyDecl MaybeBlock ListBodyDecl '}' { ClassParamDecl $2 $4 (reverse $7) $8 (reverse $9) }
-  | 'class' TypeIdent 'implements' ListQualType '{' ListBodyDecl MaybeBlock ListBodyDecl '}' { ClassImplements $2 $4 (reverse $6) $7 (reverse $8) }
-  | 'class' TypeIdent '(' ListParam ')' 'implements' ListQualType '{' ListBodyDecl MaybeBlock ListBodyDecl '}' { ClassParamImplements $2 $4 $7 (reverse $9) $10 (reverse $11) }
+  | 'data' TypeIdent '<' ListTypeIdent '>' '=' ListConstrIdent ';' { DataParDecl $2 $4 $7 }
+  | 'def' Type Ident '(' ListParam ')' '=' FunBody ';' { FunDecl $2 $3 $5 $8 }
+  | 'def' Type Ident '<' ListTypeIdent '>' '(' ListParam ')' '=' FunBody ';' { FunParDecl $2 $3 $5 $8 $11 }
+  | 'interface' TypeIdent '{' ListMethSignat '}' { InterfDecl $2 (reverse $4) }
+  | 'interface' TypeIdent 'extends' ListType '{' ListMethSignat '}' { ExtendsDecl $2 $4 (reverse $6) }
+  | 'class' TypeIdent '{' ListClassBody MaybeBlock ListClassBody '}' { ClassDecl $2 (reverse $4) $5 (reverse $6) }
+  | 'class' TypeIdent '(' ListParam ')' '{' ListClassBody MaybeBlock ListClassBody '}' { ClassParamDecl $2 $4 (reverse $7) $8 (reverse $9) }
+  | 'class' TypeIdent 'implements' ListType '{' ListClassBody MaybeBlock ListClassBody '}' { ClassImplements $2 $4 (reverse $6) $7 (reverse $8) }
+  | 'class' TypeIdent '(' ListParam ')' 'implements' ListType '{' ListClassBody MaybeBlock ListClassBody '}' { ClassParamImplements $2 $4 $7 (reverse $9) $10 (reverse $11) }
 
 
 ConstrIdent :: { ConstrIdent }
-ConstrIdent : TypeIdent { UnaryConstr $1 } 
-  | TypeIdent '(' ListConstrType ')' { MultConstr $1 $3 }
+ConstrIdent : TypeIdent { SinglConstrIdent $1 } 
+  | TypeIdent '(' ListConstrType ')' { ParamConstrIdent $1 $3 }
 
 
 ConstrType :: { ConstrType }
@@ -215,63 +199,47 @@ ListConstrType : {- empty -} { [] }
 
 
 ListTypeIdent :: { [TypeIdent] }
-ListTypeIdent : {- empty -} { [] } 
-  | TypeIdent { (:[]) $1 }
+ListTypeIdent : TypeIdent { (:[]) $1 } 
   | TypeIdent ',' ListTypeIdent { (:) $1 $3 }
 
 
 ListConstrIdent :: { [ConstrIdent] }
-ListConstrIdent : {- empty -} { [] } 
-  | ConstrIdent { (:[]) $1 }
+ListConstrIdent : ConstrIdent { (:[]) $1 } 
   | ConstrIdent '|' ListConstrIdent { (:) $1 $3 }
 
 
-MethSig :: { MethSig }
-MethSig : Type Ident '(' ListParam ')' { MethSig_ $1 $2 $4 } 
+FunBody :: { FunBody }
+FunBody : 'builtin' { BuiltinFunBody } 
+  | PureExp { NormalFunBody $1 }
 
 
-ListMethSig :: { [MethSig] }
-ListMethSig : {- empty -} { [] } 
-  | ListMethSig MethSig ';' { flip (:) $1 $2 }
+MethSignat :: { MethSignat }
+MethSignat : Type Ident '(' ListParam ')' { MethSig $1 $2 $4 } 
 
 
-BodyDecl :: { BodyDecl }
-BodyDecl : Type Ident ';' { FieldDecl $1 $2 } 
-  | Type Ident '=' PureExp ';' { FieldDeclAss $1 $2 $4 }
-  | Type Ident '(' ListParam ')' Block { MethDecl $1 $2 $4 $6 }
+ListMethSignat :: { [MethSignat] }
+ListMethSignat : {- empty -} { [] } 
+  | ListMethSignat MethSignat ';' { flip (:) $1 $2 }
 
 
-ListBodyDecl :: { [BodyDecl] }
-ListBodyDecl : {- empty -} { [] } 
-  | ListBodyDecl BodyDecl { flip (:) $1 $2 }
+ClassBody :: { ClassBody }
+ClassBody : Type Ident ';' { FieldClassBody $1 $2 } 
+  | Type Ident '=' PureExp ';' { FieldAssignClassBody $1 $2 $4 }
+  | Type Ident '(' ListParam ')' Block { MethClassBody $1 $2 $4 $6 }
+
+
+ListClassBody :: { [ClassBody] }
+ListClassBody : {- empty -} { [] } 
+  | ListClassBody ClassBody { flip (:) $1 $2 }
 
 
 Block :: { Block }
-Block : '{' ListStm '}' { Block_ (reverse $2) } 
+Block : '{' ListStm '}' { Bloc (reverse $2) } 
 
 
 MaybeBlock :: { MaybeBlock }
 MaybeBlock : Block { JustBlock $1 } 
   | {- empty -} { NoBlock }
-
-
-FunBody :: { FunBody }
-FunBody : 'builtin' { Builtin } 
-  | PureExp { PureBody $1 }
-
-
-ListAnnDecl :: { [AnnDecl] }
-ListAnnDecl : {- empty -} { [] } 
-  | ListAnnDecl AnnDecl { flip (:) $1 $2 }
-
-
-ListStm :: { [Stm] }
-ListStm : {- empty -} { [] } 
-  | ListStm Stm { flip (:) $1 $2 }
-
-
-Param :: { Param }
-Param : AnnType Ident { Par $1 $2 } 
 
 
 ListParam :: { [Param] }
@@ -280,38 +248,17 @@ ListParam : {- empty -} { [] }
   | Param ',' ListParam { (:) $1 $3 }
 
 
-PureExp :: { PureExp }
-PureExp : 'let' '(' Param ')' '=' PureExp 'in' PureExp { Let $3 $6 $8 } 
-  | 'if' PureExp 'then' PureExp 'else' PureExp { If $2 $4 $6 }
-  | 'case' PureExp '{' ListCaseBranch '}' { Case $2 (reverse $4) }
-  | PureExp1 { $1 }
+Param :: { Param }
+Param : Type Ident { Par $1 $2 } 
 
 
-CaseBranch :: { CaseBranch }
-CaseBranch : Pattern '=>' PureExp { CBranch $1 $3 } 
-
-
-ListCaseBranch :: { [CaseBranch] }
-ListCaseBranch : {- empty -} { [] } 
-  | ListCaseBranch CaseBranch ';' { flip (:) $1 $2 }
-
-
-Pattern :: { Pattern }
-Pattern : Ident { PIdent $1 } 
-  | Literal { PLit $1 }
-  | TypeIdent { PUnaryConstr $1 }
-  | TypeIdent '(' ListPattern ')' { PMultConstr $1 $3 }
-  | '_' { PUnderscore }
-
-
-ListPattern :: { [Pattern] }
-ListPattern : {- empty -} { [] } 
-  | Pattern { (:[]) $1 }
-  | Pattern ',' ListPattern { (:) $1 $3 }
+ListStm :: { [Stm] }
+ListStm : {- empty -} { [] } 
+  | ListStm Stm { flip (:) $1 $2 }
 
 
 Stm :: { Stm }
-Stm : EffExp ';' { SExp $1 } 
+Stm : Exp ';' { SExp $1 } 
   | '{' ListStm '}' { SBlock (reverse $2) }
   | 'while' '(' PureExp ')' Stm { SWhile $3 $5 }
   | 'return' Exp ';' { SReturn $2 }
@@ -321,10 +268,10 @@ Stm : EffExp ';' { SExp $1 }
   | Type Ident '=' Exp ';' { SDecAss $1 $2 $4 }
   | 'if' '(' PureExp ')' Stm { SIf $3 $5 }
   | 'if' '(' PureExp ')' Stm 'else' Stm { SIfElse $3 $5 $7 }
-  | 'await' Guard ';' { SAwait $2 }
   | 'suspend' ';' { SSuspend }
   | 'skip' ';' { SSkip }
   | 'assert' PureExp ';' { SAssert $2 }
+  | 'await' Guard ';' { SAwait $2 }
 
 
 Guard :: { Guard }
@@ -334,80 +281,9 @@ Guard : Ident '?' { VarGuard $1 }
   | Guard '&' Guard { AndGuard $1 $3 }
 
 
-PureExp1 :: { PureExp }
-PureExp1 : PureExp1 '||' PureExp2 { EOr $1 $3 } 
-  | PureExp2 { $1 }
-
-
-PureExp2 :: { PureExp }
-PureExp2 : PureExp2 '&&' PureExp3 { EAnd $1 $3 } 
-  | PureExp3 { $1 }
-
-
-PureExp3 :: { PureExp }
-PureExp3 : PureExp3 '==' PureExp4 { EEq $1 $3 } 
-  | PureExp3 '!=' PureExp4 { ENeq $1 $3 }
-  | PureExp4 { $1 }
-
-
-PureExp4 :: { PureExp }
-PureExp4 : PureExp4 '<' PureExp5 { ELt $1 $3 } 
-  | PureExp4 '<=' PureExp5 { ELe $1 $3 }
-  | PureExp4 '>' PureExp5 { EGt $1 $3 }
-  | PureExp4 '>=' PureExp5 { EGe $1 $3 }
-  | PureExp5 { $1 }
-
-
-PureExp5 :: { PureExp }
-PureExp5 : PureExp5 '+' PureExp6 { EAdd $1 $3 } 
-  | PureExp5 '-' PureExp6 { ESub $1 $3 }
-  | PureExp6 { $1 }
-
-
-PureExp6 :: { PureExp }
-PureExp6 : PureExp6 '*' PureExp7 { EMul $1 $3 } 
-  | PureExp6 '/' PureExp7 { EDiv $1 $3 }
-  | PureExp6 '%' PureExp7 { EMod $1 $3 }
-  | PureExp7 { $1 }
-
-
-PureExp7 :: { PureExp }
-PureExp7 : '~' PureExp6 { ELogNeg $2 } 
-  | '-' PureExp6 { EIntNeg $2 }
-  | PureExp8 { $1 }
-
-
-PureExp8 :: { PureExp }
-PureExp8 : Ident '(' ListPureExp ')' { ECall $1 $3 } 
-  | Ident '[' ListPureExp ']' { ENaryCall $1 $3 }
-  | Literal { ELit $1 }
-  | Ident { EVar $1 }
-  | 'this' '.' Ident { EThis $3 }
-  | QualType { EUnaryConstr $1 }
-  | QualType '(' ListPureExp ')' { EMultConstr $1 $3 }
-  | PureExp9 { $1 }
-
-
-Literal :: { Literal }
-Literal : 'null' { LNull } 
-  | 'this' { LThis }
-  | String { LStr $1 }
-  | Integer { LInt $1 }
-
-
-PureExp9 :: { PureExp }
-PureExp9 : '(' PureExp ')' { $2 } 
-  | '(' PureExp ')' { $2 }
-
-
-EffExp :: { EffExp }
-EffExp : 'new' Type '(' ListPureExp ')' { New $2 $4 } 
-  | 'new' 'local' Type '(' ListPureExp ')' { NewLocal $3 $5 }
-  | PureExp '.' Ident '(' ListPureExp ')' { SyncCall $1 $3 $5 }
-  | 'this' '.' Ident '(' ListPureExp ')' { ThisSyncCall $3 $5 }
-  | PureExp '!' Ident '(' ListPureExp ')' { AsyncCall $1 $3 $5 }
-  | 'this' '!' Ident '(' ListPureExp ')' { ThisAsyncCall $3 $5 }
-  | PureExp '.' 'get' { Get $1 }
+Exp :: { Exp }
+Exp : PureExp { ExpP $1 } 
+  | EffExp { ExpE $1 }
 
 
 ListPureExp :: { [PureExp] }
@@ -416,18 +292,106 @@ ListPureExp : {- empty -} { [] }
   | PureExp ',' ListPureExp { (:) $1 $3 }
 
 
-Exp :: { Exp }
-Exp : PureExp { ExpP $1 } 
-  | EffExp { ExpE $1 }
+PureExp :: { PureExp }
+PureExp : PureExp '||' PureExp1 { EOr $1 $3 } 
+  | PureExp1 { $1 }
+  | 'let' '(' Param ')' '=' PureExp 'in' PureExp { Let $3 $6 $8 }
+  | 'if' PureExp 'then' PureExp 'else' PureExp { If $2 $4 $6 }
+  | 'case' PureExp '{' ListCaseBranch '}' { Case $2 $4 }
 
 
-Ann :: { Ann }
-Ann : '[' PureExp ']' { SimpleAnn $2 } 
+PureExp1 :: { PureExp }
+PureExp1 : PureExp1 '&&' PureExp2 { EAnd $1 $3 } 
+  | PureExp2 { $1 }
 
 
-ListAnn :: { [Ann] }
-ListAnn : {- empty -} { [] } 
-  | ListAnn Ann { flip (:) $1 $2 }
+PureExp2 :: { PureExp }
+PureExp2 : PureExp2 '==' PureExp3 { EEq $1 $3 } 
+  | PureExp2 '!=' PureExp3 { ENeq $1 $3 }
+  | PureExp3 { $1 }
+
+
+PureExp3 :: { PureExp }
+PureExp3 : PureExp3 '<' PureExp4 { ELt $1 $3 } 
+  | PureExp3 '<=' PureExp4 { ELe $1 $3 }
+  | PureExp3 '>' PureExp4 { EGt $1 $3 }
+  | PureExp3 '>=' PureExp4 { EGe $1 $3 }
+  | PureExp4 { $1 }
+
+
+PureExp4 :: { PureExp }
+PureExp4 : PureExp4 '+' PureExp5 { EAdd $1 $3 } 
+  | PureExp4 '-' PureExp5 { ESub $1 $3 }
+  | PureExp5 { $1 }
+
+
+PureExp5 :: { PureExp }
+PureExp5 : PureExp5 '*' PureExp6 { EMul $1 $3 } 
+  | PureExp5 '/' PureExp6 { EDiv $1 $3 }
+  | PureExp5 '%' PureExp6 { EMod $1 $3 }
+  | PureExp6 { $1 }
+
+
+PureExp6 :: { PureExp }
+PureExp6 : '~' PureExp6 { ELogNeg $2 } 
+  | '-' PureExp6 { EIntNeg $2 }
+  | PureExp7 { $1 }
+
+
+PureExp7 :: { PureExp }
+PureExp7 : Ident '(' ListPureExp ')' { EFunCall $1 $3 } 
+  | Type '.' Ident '(' ListPureExp ')' { EQualFunCall $1 $3 $5 }
+  | Ident '[' ListPureExp ']' { ENaryFunCall $1 $3 }
+  | Type '.' Ident '[' ListPureExp ']' { ENaryQualFunCall $1 $3 $5 }
+  | Ident { EVar $1 }
+  | 'this' '.' Ident { EThis $3 }
+  | Type '.' Ident { EQualVar $1 $3 }
+  | Type { ESinglConstr $1 }
+  | Type '(' ListPureExp ')' { EParamConstr $1 $3 }
+  | Literal { ELit $1 }
+  | '(' PureExp ')' { $2 }
+
+
+CaseBranch :: { CaseBranch }
+CaseBranch : Pattern '=>' PureExp { CaseBranc $1 $3 } 
+
+
+ListCaseBranch :: { [CaseBranch] }
+ListCaseBranch : CaseBranch ';' { (:[]) $1 } 
+  | CaseBranch ';' ListCaseBranch { (:) $1 $3 }
+
+
+ListPattern :: { [Pattern] }
+ListPattern : {- empty -} { [] } 
+  | Pattern { (:[]) $1 }
+  | Pattern ',' ListPattern { (:) $1 $3 }
+
+
+Pattern :: { Pattern }
+Pattern : Ident { IdentPat $1 } 
+  | Literal { LitPat $1 }
+  | TypeIdent { SinglConstrPat $1 }
+  | TypeIdent '(' ListPattern ')' { ParamConstrPat $1 $3 }
+  | '_' { UnderscorePat }
+
+
+Literal :: { Literal }
+Literal : 'null' { LNull } 
+  | 'this' { LThis }
+  | 'thisDC' { LThisDC }
+  | String { LStr $1 }
+  | Integer { LInt $1 }
+
+
+EffExp :: { EffExp }
+EffExp : 'new' Type '(' ListPureExp ')' { New $2 $4 } 
+  | 'new' 'local' Type '(' ListPureExp ')' { NewLocal $3 $5 }
+  | PureExp '.' Ident '(' ListPureExp ')' { SyncMethCall $1 $3 $5 }
+  | 'this' '.' Ident '(' ListPureExp ')' { ThisSyncMethCall $3 $5 }
+  | PureExp '!' Ident '(' ListPureExp ')' { AsyncMethCall $1 $3 $5 }
+  | 'this' '!' Ident '(' ListPureExp ')' { ThisAsyncMethCall $3 $5 }
+  | PureExp '.' 'get' { Get $1 }
+  | PureExp 'spawns' Type '(' ListPureExp ')' { Spawns $1 $3 $5 }
 
 
 
