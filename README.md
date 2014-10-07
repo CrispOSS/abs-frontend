@@ -69,7 +69,9 @@ You need the java-cup-11b.jar parser and Jlex lexer .Install them with
 cabal install cup Jlex
 
 Then run bnfc with
+
 cd src/
+
 bnfc -m --java ABS.cf
 
 Files generated:
@@ -87,6 +89,7 @@ Files generated:
 To generate manually the java lexer and parser.
 
 java -cp ".:lib:lib/java-cup-11b.jar" ParABS.x
+
 java -lex LexABS.y
 
 
@@ -98,6 +101,7 @@ You can then use all of these .java sources for developing  Java-based backend c
 To check if the abs file parses through the java parser, use the below command:
 
 cd gen/java
+
 java -cp ".:lib:lib/java-cup-11b.jar" ABS.Test ../../test/While.abs
 
 ### (Optional) Generate documentation for any BNFC-language
