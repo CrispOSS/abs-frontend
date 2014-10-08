@@ -40,15 +40,20 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
 /* Type */
-    public R visit(ABS.Absyn.UnderscoreType p, A arg) { return visitDefault(p, arg); }
-    public R visit(ABS.Absyn.SimpleType p, A arg) { return visitDefault(p, arg); }
-    public R visit(ABS.Absyn.ParType p, A arg) { return visitDefault(p, arg); }
+    public R visit(ABS.Absyn.TUnderscore p, A arg) { return visitDefault(p, arg); }
+    public R visit(ABS.Absyn.TSimple p, A arg) { return visitDefault(p, arg); }
+    public R visit(ABS.Absyn.TGen p, A arg) { return visitDefault(p, arg); }
     public R visitDefault(ABS.Absyn.Type p, A arg) {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
-/* QualTypeIdent */
-    public R visit(ABS.Absyn.QualTypeIden p, A arg) { return visitDefault(p, arg); }
-    public R visitDefault(ABS.Absyn.QualTypeIdent p, A arg) {
+/* QualType */
+    public R visit(ABS.Absyn.QType p, A arg) { return visitDefault(p, arg); }
+    public R visitDefault(ABS.Absyn.QualType p, A arg) {
+      throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
+    }
+/* QualTypeSegment */
+    public R visit(ABS.Absyn.QTypeSegment p, A arg) { return visitDefault(p, arg); }
+    public R visitDefault(ABS.Absyn.QualTypeSegment p, A arg) {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
 /* Decl */
@@ -190,11 +195,11 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
 /* Pattern */
-    public R visit(ABS.Absyn.IdentPat p, A arg) { return visitDefault(p, arg); }
-    public R visit(ABS.Absyn.LitPat p, A arg) { return visitDefault(p, arg); }
-    public R visit(ABS.Absyn.SinglConstrPat p, A arg) { return visitDefault(p, arg); }
-    public R visit(ABS.Absyn.ParamConstrPat p, A arg) { return visitDefault(p, arg); }
-    public R visit(ABS.Absyn.UnderscorePat p, A arg) { return visitDefault(p, arg); }
+    public R visit(ABS.Absyn.PIdent p, A arg) { return visitDefault(p, arg); }
+    public R visit(ABS.Absyn.PLit p, A arg) { return visitDefault(p, arg); }
+    public R visit(ABS.Absyn.PSinglConstr p, A arg) { return visitDefault(p, arg); }
+    public R visit(ABS.Absyn.PParamConstr p, A arg) { return visitDefault(p, arg); }
+    public R visit(ABS.Absyn.PUnderscore p, A arg) { return visitDefault(p, arg); }
     public R visitDefault(ABS.Absyn.Pattern p, A arg) {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }

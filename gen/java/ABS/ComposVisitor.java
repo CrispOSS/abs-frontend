@@ -11,7 +11,8 @@ public class ComposVisitor<A> implements
   ABS.Absyn.Import.Visitor<ABS.Absyn.Import,A>,
   ABS.Absyn.ImportType.Visitor<ABS.Absyn.ImportType,A>,
   ABS.Absyn.Type.Visitor<ABS.Absyn.Type,A>,
-  ABS.Absyn.QualTypeIdent.Visitor<ABS.Absyn.QualTypeIdent,A>,
+  ABS.Absyn.QualType.Visitor<ABS.Absyn.QualType,A>,
+  ABS.Absyn.QualTypeSegment.Visitor<ABS.Absyn.QualTypeSegment,A>,
   ABS.Absyn.Decl.Visitor<ABS.Absyn.Decl,A>,
   ABS.Absyn.ConstrIdent.Visitor<ABS.Absyn.ConstrIdent,A>,
   ABS.Absyn.ConstrType.Visitor<ABS.Absyn.ConstrType,A>,
@@ -58,7 +59,7 @@ public class ComposVisitor<A> implements
 /* Module */
     public Module visit(ABS.Absyn.Modul p, A arg)
     {
-      Type type_ = p.type_.accept(this, arg);
+      QualType qualtype_ = p.qualtype_.accept(this, arg);
       ListExport listexport_ = new ListExport();
       for (Export x : p.listexport_) {
         listexport_.add(x.accept(this,arg));
@@ -73,7 +74,7 @@ public class ComposVisitor<A> implements
       }
       MaybeBlock maybeblock_ = p.maybeblock_.accept(this, arg);
 
-      return new ABS.Absyn.Modul(type_, listexport_, listimport_, listdecl_, maybeblock_);
+      return new ABS.Absyn.Modul(qualtype_, listexport_, listimport_, listdecl_, maybeblock_);
     }
 
 /* Export */
@@ -92,9 +93,9 @@ public class ComposVisitor<A> implements
       for (AnyIdent x : p.listanyident_) {
         listanyident_.add(x.accept(this,arg));
       }
-      Type type_ = p.type_.accept(this, arg);
+      QualType qualtype_ = p.qualtype_.accept(this, arg);
 
-      return new ABS.Absyn.AnyFromExport(listanyident_, type_);
+      return new ABS.Absyn.AnyFromExport(listanyident_, qualtype_);
     }
     public Export visit(ABS.Absyn.StarExport p, A arg)
     {
@@ -103,19 +104,19 @@ public class ComposVisitor<A> implements
     }
     public Export visit(ABS.Absyn.StarFromExport p, A arg)
     {
-      Type type_ = p.type_.accept(this, arg);
+      QualType qualtype_ = p.qualtype_.accept(this, arg);
 
-      return new ABS.Absyn.StarFromExport(type_);
+      return new ABS.Absyn.StarFromExport(qualtype_);
     }
 
 /* Import */
     public Import visit(ABS.Absyn.AnyImport p, A arg)
     {
       ImportType importtype_ = p.importtype_.accept(this, arg);
-      Type type_ = p.type_.accept(this, arg);
+      QualType qualtype_ = p.qualtype_.accept(this, arg);
       AnyIdent anyident_ = p.anyident_.accept(this, arg);
 
-      return new ABS.Absyn.AnyImport(importtype_, type_, anyident_);
+      return new ABS.Absyn.AnyImport(importtype_, qualtype_, anyident_);
     }
     public Import visit(ABS.Absyn.AnyFromImport p, A arg)
     {
@@ -124,16 +125,16 @@ public class ComposVisitor<A> implements
       for (AnyIdent x : p.listanyident_) {
         listanyident_.add(x.accept(this,arg));
       }
-      Type type_ = p.type_.accept(this, arg);
+      QualType qualtype_ = p.qualtype_.accept(this, arg);
 
-      return new ABS.Absyn.AnyFromImport(importtype_, listanyident_, type_);
+      return new ABS.Absyn.AnyFromImport(importtype_, listanyident_, qualtype_);
     }
     public Import visit(ABS.Absyn.StarFromImport p, A arg)
     {
       ImportType importtype_ = p.importtype_.accept(this, arg);
-      Type type_ = p.type_.accept(this, arg);
+      QualType qualtype_ = p.qualtype_.accept(this, arg);
 
-      return new ABS.Absyn.StarFromImport(importtype_, type_);
+      return new ABS.Absyn.StarFromImport(importtype_, qualtype_);
     }
 
 /* ImportType */
@@ -149,40 +150,45 @@ public class ComposVisitor<A> implements
     }
 
 /* Type */
-    public Type visit(ABS.Absyn.UnderscoreType p, A arg)
+    public Type visit(ABS.Absyn.TUnderscore p, A arg)
     {
 
-      return new ABS.Absyn.UnderscoreType();
+      return new ABS.Absyn.TUnderscore();
     }
-    public Type visit(ABS.Absyn.SimpleType p, A arg)
+    public Type visit(ABS.Absyn.TSimple p, A arg)
     {
-      ListQualTypeIdent listqualtypeident_ = new ListQualTypeIdent();
-      for (QualTypeIdent x : p.listqualtypeident_) {
-        listqualtypeident_.add(x.accept(this,arg));
-      }
+      QualType qualtype_ = p.qualtype_.accept(this, arg);
 
-      return new ABS.Absyn.SimpleType(listqualtypeident_);
+      return new ABS.Absyn.TSimple(qualtype_);
     }
-    public Type visit(ABS.Absyn.ParType p, A arg)
+    public Type visit(ABS.Absyn.TGen p, A arg)
     {
-      ListQualTypeIdent listqualtypeident_ = new ListQualTypeIdent();
-      for (QualTypeIdent x : p.listqualtypeident_) {
-        listqualtypeident_.add(x.accept(this,arg));
-      }
+      QualType qualtype_ = p.qualtype_.accept(this, arg);
       ListType listtype_ = new ListType();
       for (Type x : p.listtype_) {
         listtype_.add(x.accept(this,arg));
       }
 
-      return new ABS.Absyn.ParType(listqualtypeident_, listtype_);
+      return new ABS.Absyn.TGen(qualtype_, listtype_);
     }
 
-/* QualTypeIdent */
-    public QualTypeIdent visit(ABS.Absyn.QualTypeIden p, A arg)
+/* QualType */
+    public QualType visit(ABS.Absyn.QType p, A arg)
+    {
+      ListQualTypeSegment listqualtypesegment_ = new ListQualTypeSegment();
+      for (QualTypeSegment x : p.listqualtypesegment_) {
+        listqualtypesegment_.add(x.accept(this,arg));
+      }
+
+      return new ABS.Absyn.QType(listqualtypesegment_);
+    }
+
+/* QualTypeSegment */
+    public QualTypeSegment visit(ABS.Absyn.QTypeSegment p, A arg)
     {
       String typeident_ = p.typeident_;
 
-      return new ABS.Absyn.QualTypeIden(typeident_);
+      return new ABS.Absyn.QTypeSegment(typeident_);
     }
 
 /* Decl */
@@ -252,16 +258,16 @@ public class ComposVisitor<A> implements
     public Decl visit(ABS.Absyn.ExtendsDecl p, A arg)
     {
       String typeident_ = p.typeident_;
-      ListType listtype_ = new ListType();
-      for (Type x : p.listtype_) {
-        listtype_.add(x.accept(this,arg));
+      ListQualType listqualtype_ = new ListQualType();
+      for (QualType x : p.listqualtype_) {
+        listqualtype_.add(x.accept(this,arg));
       }
       ListMethSignat listmethsignat_ = new ListMethSignat();
       for (MethSignat x : p.listmethsignat_) {
         listmethsignat_.add(x.accept(this,arg));
       }
 
-      return new ABS.Absyn.ExtendsDecl(typeident_, listtype_, listmethsignat_);
+      return new ABS.Absyn.ExtendsDecl(typeident_, listqualtype_, listmethsignat_);
     }
     public Decl visit(ABS.Absyn.ClassDecl p, A arg)
     {
@@ -300,9 +306,9 @@ public class ComposVisitor<A> implements
     public Decl visit(ABS.Absyn.ClassImplements p, A arg)
     {
       String typeident_ = p.typeident_;
-      ListType listtype_ = new ListType();
-      for (Type x : p.listtype_) {
-        listtype_.add(x.accept(this,arg));
+      ListQualType listqualtype_ = new ListQualType();
+      for (QualType x : p.listqualtype_) {
+        listqualtype_.add(x.accept(this,arg));
       }
       ListClassBody listclassbody_1 = new ListClassBody();
       for (ClassBody x : p.listclassbody_1) {
@@ -314,7 +320,7 @@ public class ComposVisitor<A> implements
         listclassbody_2.add(x.accept(this,arg));
       }
 
-      return new ABS.Absyn.ClassImplements(typeident_, listtype_, listclassbody_1, maybeblock_, listclassbody_2);
+      return new ABS.Absyn.ClassImplements(typeident_, listqualtype_, listclassbody_1, maybeblock_, listclassbody_2);
     }
     public Decl visit(ABS.Absyn.ClassParamImplements p, A arg)
     {
@@ -323,9 +329,9 @@ public class ComposVisitor<A> implements
       for (Param x : p.listparam_) {
         listparam_.add(x.accept(this,arg));
       }
-      ListType listtype_ = new ListType();
-      for (Type x : p.listtype_) {
-        listtype_.add(x.accept(this,arg));
+      ListQualType listqualtype_ = new ListQualType();
+      for (QualType x : p.listqualtype_) {
+        listqualtype_.add(x.accept(this,arg));
       }
       ListClassBody listclassbody_1 = new ListClassBody();
       for (ClassBody x : p.listclassbody_1) {
@@ -337,7 +343,7 @@ public class ComposVisitor<A> implements
         listclassbody_2.add(x.accept(this,arg));
       }
 
-      return new ABS.Absyn.ClassParamImplements(typeident_, listparam_, listtype_, listclassbody_1, maybeblock_, listclassbody_2);
+      return new ABS.Absyn.ClassParamImplements(typeident_, listparam_, listqualtype_, listclassbody_1, maybeblock_, listclassbody_2);
     }
 
 /* ConstrIdent */
@@ -740,14 +746,14 @@ public class ComposVisitor<A> implements
     }
     public PureExp visit(ABS.Absyn.EQualFunCall p, A arg)
     {
-      Type type_ = p.type_.accept(this, arg);
+      QualType qualtype_ = p.qualtype_.accept(this, arg);
       String ident_ = p.ident_;
       ListPureExp listpureexp_ = new ListPureExp();
       for (PureExp x : p.listpureexp_) {
         listpureexp_.add(x.accept(this,arg));
       }
 
-      return new ABS.Absyn.EQualFunCall(type_, ident_, listpureexp_);
+      return new ABS.Absyn.EQualFunCall(qualtype_, ident_, listpureexp_);
     }
     public PureExp visit(ABS.Absyn.ENaryFunCall p, A arg)
     {
@@ -761,14 +767,14 @@ public class ComposVisitor<A> implements
     }
     public PureExp visit(ABS.Absyn.ENaryQualFunCall p, A arg)
     {
-      Type type_ = p.type_.accept(this, arg);
+      QualType qualtype_ = p.qualtype_.accept(this, arg);
       String ident_ = p.ident_;
       ListPureExp listpureexp_ = new ListPureExp();
       for (PureExp x : p.listpureexp_) {
         listpureexp_.add(x.accept(this,arg));
       }
 
-      return new ABS.Absyn.ENaryQualFunCall(type_, ident_, listpureexp_);
+      return new ABS.Absyn.ENaryQualFunCall(qualtype_, ident_, listpureexp_);
     }
     public PureExp visit(ABS.Absyn.EVar p, A arg)
     {
@@ -784,26 +790,26 @@ public class ComposVisitor<A> implements
     }
     public PureExp visit(ABS.Absyn.EQualVar p, A arg)
     {
-      Type type_ = p.type_.accept(this, arg);
+      QualType qualtype_ = p.qualtype_.accept(this, arg);
       String ident_ = p.ident_;
 
-      return new ABS.Absyn.EQualVar(type_, ident_);
+      return new ABS.Absyn.EQualVar(qualtype_, ident_);
     }
     public PureExp visit(ABS.Absyn.ESinglConstr p, A arg)
     {
-      Type type_ = p.type_.accept(this, arg);
+      QualType qualtype_ = p.qualtype_.accept(this, arg);
 
-      return new ABS.Absyn.ESinglConstr(type_);
+      return new ABS.Absyn.ESinglConstr(qualtype_);
     }
     public PureExp visit(ABS.Absyn.EParamConstr p, A arg)
     {
-      Type type_ = p.type_.accept(this, arg);
+      QualType qualtype_ = p.qualtype_.accept(this, arg);
       ListPureExp listpureexp_ = new ListPureExp();
       for (PureExp x : p.listpureexp_) {
         listpureexp_.add(x.accept(this,arg));
       }
 
-      return new ABS.Absyn.EParamConstr(type_, listpureexp_);
+      return new ABS.Absyn.EParamConstr(qualtype_, listpureexp_);
     }
     public PureExp visit(ABS.Absyn.ELit p, A arg)
     {
@@ -822,25 +828,25 @@ public class ComposVisitor<A> implements
     }
 
 /* Pattern */
-    public Pattern visit(ABS.Absyn.IdentPat p, A arg)
+    public Pattern visit(ABS.Absyn.PIdent p, A arg)
     {
       String ident_ = p.ident_;
 
-      return new ABS.Absyn.IdentPat(ident_);
+      return new ABS.Absyn.PIdent(ident_);
     }
-    public Pattern visit(ABS.Absyn.LitPat p, A arg)
+    public Pattern visit(ABS.Absyn.PLit p, A arg)
     {
       Literal literal_ = p.literal_.accept(this, arg);
 
-      return new ABS.Absyn.LitPat(literal_);
+      return new ABS.Absyn.PLit(literal_);
     }
-    public Pattern visit(ABS.Absyn.SinglConstrPat p, A arg)
+    public Pattern visit(ABS.Absyn.PSinglConstr p, A arg)
     {
       String typeident_ = p.typeident_;
 
-      return new ABS.Absyn.SinglConstrPat(typeident_);
+      return new ABS.Absyn.PSinglConstr(typeident_);
     }
-    public Pattern visit(ABS.Absyn.ParamConstrPat p, A arg)
+    public Pattern visit(ABS.Absyn.PParamConstr p, A arg)
     {
       String typeident_ = p.typeident_;
       ListPattern listpattern_ = new ListPattern();
@@ -848,12 +854,12 @@ public class ComposVisitor<A> implements
         listpattern_.add(x.accept(this,arg));
       }
 
-      return new ABS.Absyn.ParamConstrPat(typeident_, listpattern_);
+      return new ABS.Absyn.PParamConstr(typeident_, listpattern_);
     }
-    public Pattern visit(ABS.Absyn.UnderscorePat p, A arg)
+    public Pattern visit(ABS.Absyn.PUnderscore p, A arg)
     {
 
-      return new ABS.Absyn.UnderscorePat();
+      return new ABS.Absyn.PUnderscore();
     }
 
 /* Literal */

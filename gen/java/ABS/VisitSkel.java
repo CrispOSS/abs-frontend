@@ -48,7 +48,7 @@ public class VisitSkel
     {
       /* Code For Modul Goes Here */
 
-      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
       for (Export x : p.listexport_) {
       }
       for (Import x : p.listimport_) {
@@ -78,7 +78,7 @@ public class VisitSkel
 
       for (AnyIdent x : p.listanyident_) {
       }
-      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
 
       return null;
     }
@@ -93,7 +93,7 @@ public class VisitSkel
     {
       /* Code For StarFromExport Goes Here */
 
-      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
 
       return null;
     }
@@ -106,7 +106,7 @@ public class VisitSkel
       /* Code For AnyImport Goes Here */
 
       p.importtype_.accept(new ImportTypeVisitor<R,A>(), arg);
-      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
       p.anyident_.accept(new AnyIdentVisitor<R,A>(), arg);
 
       return null;
@@ -118,7 +118,7 @@ public class VisitSkel
       p.importtype_.accept(new ImportTypeVisitor<R,A>(), arg);
       for (AnyIdent x : p.listanyident_) {
       }
-      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
 
       return null;
     }
@@ -127,7 +127,7 @@ public class VisitSkel
       /* Code For StarFromImport Goes Here */
 
       p.importtype_.accept(new ImportTypeVisitor<R,A>(), arg);
-      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
 
       return null;
     }
@@ -153,28 +153,26 @@ public class VisitSkel
   }
   public class TypeVisitor<R,A> implements Type.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.UnderscoreType p, A arg)
+    public R visit(ABS.Absyn.TUnderscore p, A arg)
     {
-      /* Code For UnderscoreType Goes Here */
+      /* Code For TUnderscore Goes Here */
 
 
       return null;
     }
-    public R visit(ABS.Absyn.SimpleType p, A arg)
+    public R visit(ABS.Absyn.TSimple p, A arg)
     {
-      /* Code For SimpleType Goes Here */
+      /* Code For TSimple Goes Here */
 
-      for (QualTypeIdent x : p.listqualtypeident_) {
-      }
+      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
 
       return null;
     }
-    public R visit(ABS.Absyn.ParType p, A arg)
+    public R visit(ABS.Absyn.TGen p, A arg)
     {
-      /* Code For ParType Goes Here */
+      /* Code For TGen Goes Here */
 
-      for (QualTypeIdent x : p.listqualtypeident_) {
-      }
+      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
       for (Type x : p.listtype_) {
       }
 
@@ -182,11 +180,24 @@ public class VisitSkel
     }
 
   }
-  public class QualTypeIdentVisitor<R,A> implements QualTypeIdent.Visitor<R,A>
+  public class QualTypeVisitor<R,A> implements QualType.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.QualTypeIden p, A arg)
+    public R visit(ABS.Absyn.QType p, A arg)
     {
-      /* Code For QualTypeIden Goes Here */
+      /* Code For QType Goes Here */
+
+      for (QualTypeSegment x : p.listqualtypesegment_) {
+      }
+
+      return null;
+    }
+
+  }
+  public class QualTypeSegmentVisitor<R,A> implements QualTypeSegment.Visitor<R,A>
+  {
+    public R visit(ABS.Absyn.QTypeSegment p, A arg)
+    {
+      /* Code For QTypeSegment Goes Here */
 
       //p.typeident_;
 
@@ -268,7 +279,7 @@ public class VisitSkel
       /* Code For ExtendsDecl Goes Here */
 
       //p.typeident_;
-      for (Type x : p.listtype_) {
+      for (QualType x : p.listqualtype_) {
       }
       for (MethSignat x : p.listmethsignat_) {
       }
@@ -308,7 +319,7 @@ public class VisitSkel
       /* Code For ClassImplements Goes Here */
 
       //p.typeident_;
-      for (Type x : p.listtype_) {
+      for (QualType x : p.listqualtype_) {
       }
       for (ClassBody x : p.listclassbody_1) {
       }
@@ -325,7 +336,7 @@ public class VisitSkel
       //p.typeident_;
       for (Param x : p.listparam_) {
       }
-      for (Type x : p.listtype_) {
+      for (QualType x : p.listqualtype_) {
       }
       for (ClassBody x : p.listclassbody_1) {
       }
@@ -854,7 +865,7 @@ public class VisitSkel
     {
       /* Code For EQualFunCall Goes Here */
 
-      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
       //p.ident_;
       for (PureExp x : p.listpureexp_) {
       }
@@ -875,7 +886,7 @@ public class VisitSkel
     {
       /* Code For ENaryQualFunCall Goes Here */
 
-      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
       //p.ident_;
       for (PureExp x : p.listpureexp_) {
       }
@@ -902,7 +913,7 @@ public class VisitSkel
     {
       /* Code For EQualVar Goes Here */
 
-      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
       //p.ident_;
 
       return null;
@@ -911,7 +922,7 @@ public class VisitSkel
     {
       /* Code For ESinglConstr Goes Here */
 
-      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
 
       return null;
     }
@@ -919,7 +930,7 @@ public class VisitSkel
     {
       /* Code For EParamConstr Goes Here */
 
-      p.type_.accept(new TypeVisitor<R,A>(), arg);
+      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
       for (PureExp x : p.listpureexp_) {
       }
 
@@ -950,33 +961,33 @@ public class VisitSkel
   }
   public class PatternVisitor<R,A> implements Pattern.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.IdentPat p, A arg)
+    public R visit(ABS.Absyn.PIdent p, A arg)
     {
-      /* Code For IdentPat Goes Here */
+      /* Code For PIdent Goes Here */
 
       //p.ident_;
 
       return null;
     }
-    public R visit(ABS.Absyn.LitPat p, A arg)
+    public R visit(ABS.Absyn.PLit p, A arg)
     {
-      /* Code For LitPat Goes Here */
+      /* Code For PLit Goes Here */
 
       p.literal_.accept(new LiteralVisitor<R,A>(), arg);
 
       return null;
     }
-    public R visit(ABS.Absyn.SinglConstrPat p, A arg)
+    public R visit(ABS.Absyn.PSinglConstr p, A arg)
     {
-      /* Code For SinglConstrPat Goes Here */
+      /* Code For PSinglConstr Goes Here */
 
       //p.typeident_;
 
       return null;
     }
-    public R visit(ABS.Absyn.ParamConstrPat p, A arg)
+    public R visit(ABS.Absyn.PParamConstr p, A arg)
     {
-      /* Code For ParamConstrPat Goes Here */
+      /* Code For PParamConstr Goes Here */
 
       //p.typeident_;
       for (Pattern x : p.listpattern_) {
@@ -984,9 +995,9 @@ public class VisitSkel
 
       return null;
     }
-    public R visit(ABS.Absyn.UnderscorePat p, A arg)
+    public R visit(ABS.Absyn.PUnderscore p, A arg)
     {
-      /* Code For UnderscorePat Goes Here */
+      /* Code For PUnderscore Goes Here */
 
 
       return null;

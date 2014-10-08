@@ -112,14 +112,14 @@ ListModule : {- empty -} { [] }
 
 
 Module :: { Module }
-Module : 'module' Type ';' ListExport ListImport ListDecl MaybeBlock { Modul $2 (reverse $4) (reverse $5) (reverse $6) $7 } 
+Module : 'module' QualType ';' ListExport ListImport ListDecl MaybeBlock { Modul $2 (reverse $4) (reverse $5) (reverse $6) $7 } 
 
 
 Export :: { Export }
 Export : 'export' ListAnyIdent { AnyExport $2 } 
-  | 'export' ListAnyIdent 'from' Type { AnyFromExport $2 $4 }
+  | 'export' ListAnyIdent 'from' QualType { AnyFromExport $2 $4 }
   | 'export' '*' { StarExport }
-  | 'export' '*' 'from' Type { StarFromExport $4 }
+  | 'export' '*' 'from' QualType { StarFromExport $4 }
 
 
 ListExport :: { [Export] }
@@ -128,9 +128,9 @@ ListExport : {- empty -} { [] }
 
 
 Import :: { Import }
-Import : ImportType Type '.' AnyIdent { AnyImport $1 $2 $4 } 
-  | ImportType ListAnyIdent 'from' Type { AnyFromImport $1 $2 $4 }
-  | ImportType '*' 'from' Type { StarFromImport $1 $4 }
+Import : ImportType QualType '.' AnyIdent { AnyImport $1 $2 $4 } 
+  | ImportType ListAnyIdent 'from' QualType { AnyFromImport $1 $2 $4 }
+  | ImportType '*' 'from' QualType { StarFromImport $1 $4 }
 
 
 ListImport :: { [Import] }
@@ -144,9 +144,9 @@ ImportType : 'fimport' { ForeignImport }
 
 
 Type :: { Type }
-Type : '_' { UnderscoreType } 
-  | ListQualTypeIdent { SimpleType $1 }
-  | ListQualTypeIdent '<' ListType '>' { ParType $1 $3 }
+Type : '_' { TUnderscore } 
+  | QualType { TSimple $1 }
+  | QualType '<' ListType '>' { TGen $1 $3 }
 
 
 ListType :: { [Type] }
@@ -154,13 +154,22 @@ ListType : Type { (:[]) $1 }
   | Type ',' ListType { (:) $1 $3 }
 
 
-QualTypeIdent :: { QualTypeIdent }
-QualTypeIdent : TypeIdent { QualTypeIden $1 } 
+ListQualType :: { [QualType] }
+ListQualType : QualType { (:[]) $1 } 
+  | QualType ',' ListQualType { (:) $1 $3 }
 
 
-ListQualTypeIdent :: { [QualTypeIdent] }
-ListQualTypeIdent : QualTypeIdent { (:[]) $1 } 
-  | QualTypeIdent '.' ListQualTypeIdent { (:) $1 $3 }
+QualType :: { QualType }
+QualType : ListQualTypeSegment { QType $1 } 
+
+
+QualTypeSegment :: { QualTypeSegment }
+QualTypeSegment : TypeIdent { QTypeSegment $1 } 
+
+
+ListQualTypeSegment :: { [QualTypeSegment] }
+ListQualTypeSegment : QualTypeSegment { (:[]) $1 } 
+  | QualTypeSegment '.' ListQualTypeSegment { (:) $1 $3 }
 
 
 ListDecl :: { [Decl] }
@@ -175,11 +184,11 @@ Decl : 'type' TypeIdent '=' Type ';' { TypeDecl $2 $4 }
   | 'def' Type Ident '(' ListParam ')' '=' FunBody ';' { FunDecl $2 $3 $5 $8 }
   | 'def' Type Ident '<' ListTypeIdent '>' '(' ListParam ')' '=' FunBody ';' { FunParDecl $2 $3 $5 $8 $11 }
   | 'interface' TypeIdent '{' ListMethSignat '}' { InterfDecl $2 (reverse $4) }
-  | 'interface' TypeIdent 'extends' ListType '{' ListMethSignat '}' { ExtendsDecl $2 $4 (reverse $6) }
+  | 'interface' TypeIdent 'extends' ListQualType '{' ListMethSignat '}' { ExtendsDecl $2 $4 (reverse $6) }
   | 'class' TypeIdent '{' ListClassBody MaybeBlock ListClassBody '}' { ClassDecl $2 (reverse $4) $5 (reverse $6) }
   | 'class' TypeIdent '(' ListParam ')' '{' ListClassBody MaybeBlock ListClassBody '}' { ClassParamDecl $2 $4 (reverse $7) $8 (reverse $9) }
-  | 'class' TypeIdent 'implements' ListType '{' ListClassBody MaybeBlock ListClassBody '}' { ClassImplements $2 $4 (reverse $6) $7 (reverse $8) }
-  | 'class' TypeIdent '(' ListParam ')' 'implements' ListType '{' ListClassBody MaybeBlock ListClassBody '}' { ClassParamImplements $2 $4 $7 (reverse $9) $10 (reverse $11) }
+  | 'class' TypeIdent 'implements' ListQualType '{' ListClassBody MaybeBlock ListClassBody '}' { ClassImplements $2 $4 (reverse $6) $7 (reverse $8) }
+  | 'class' TypeIdent '(' ListParam ')' 'implements' ListQualType '{' ListClassBody MaybeBlock ListClassBody '}' { ClassParamImplements $2 $4 $7 (reverse $9) $10 (reverse $11) }
 
 
 ConstrIdent :: { ConstrIdent }
@@ -340,14 +349,14 @@ PureExp6 : '~' PureExp6 { ELogNeg $2 }
 
 PureExp7 :: { PureExp }
 PureExp7 : Ident '(' ListPureExp ')' { EFunCall $1 $3 } 
-  | Type '.' Ident '(' ListPureExp ')' { EQualFunCall $1 $3 $5 }
+  | QualType '.' Ident '(' ListPureExp ')' { EQualFunCall $1 $3 $5 }
   | Ident '[' ListPureExp ']' { ENaryFunCall $1 $3 }
-  | Type '.' Ident '[' ListPureExp ']' { ENaryQualFunCall $1 $3 $5 }
+  | QualType '.' Ident '[' ListPureExp ']' { ENaryQualFunCall $1 $3 $5 }
   | Ident { EVar $1 }
   | 'this' '.' Ident { EThis $3 }
-  | Type '.' Ident { EQualVar $1 $3 }
-  | Type { ESinglConstr $1 }
-  | Type '(' ListPureExp ')' { EParamConstr $1 $3 }
+  | QualType '.' Ident { EQualVar $1 $3 }
+  | QualType { ESinglConstr $1 }
+  | QualType '(' ListPureExp ')' { EParamConstr $1 $3 }
   | Literal { ELit $1 }
   | '(' PureExp ')' { $2 }
 
@@ -368,11 +377,11 @@ ListPattern : {- empty -} { [] }
 
 
 Pattern :: { Pattern }
-Pattern : Ident { IdentPat $1 } 
-  | Literal { LitPat $1 }
-  | TypeIdent { SinglConstrPat $1 }
-  | TypeIdent '(' ListPattern ')' { ParamConstrPat $1 $3 }
-  | '_' { UnderscorePat }
+Pattern : Ident { PIdent $1 } 
+  | Literal { PLit $1 }
+  | TypeIdent { PSinglConstr $1 }
+  | TypeIdent '(' ListPattern ')' { PParamConstr $1 $3 }
+  | '_' { PUnderscore }
 
 
 Literal :: { Literal }

@@ -34,8 +34,10 @@ nonterminal ABS.Absyn.ListImport ListImport;
 nonterminal ABS.Absyn.ImportType ImportType;
 nonterminal ABS.Absyn.Type Type;
 nonterminal ABS.Absyn.ListType ListType;
-nonterminal ABS.Absyn.QualTypeIdent QualTypeIdent;
-nonterminal ABS.Absyn.ListQualTypeIdent ListQualTypeIdent;
+nonterminal ABS.Absyn.ListQualType ListQualType;
+nonterminal ABS.Absyn.QualType QualType;
+nonterminal ABS.Absyn.QualTypeSegment QualTypeSegment;
+nonterminal ABS.Absyn.ListQualTypeSegment ListQualTypeSegment;
 nonterminal ABS.Absyn.ListDecl ListDecl;
 nonterminal ABS.Absyn.Decl Decl;
 nonterminal ABS.Absyn.ConstrIdent ConstrIdent;
@@ -158,19 +160,19 @@ Program ::= ListModule:p_1  {: RESULT = new ABS.Absyn.Prog(p_1); :}
 ListModule ::=  /* empty */  {: RESULT = new ABS.Absyn.ListModule(); :} 
   | ListModule:p_1 Module:p_2  {: RESULT = p_1; p_1.addLast(p_2); :}
 ;
-Module ::= _SYMB_50 Type:p_2 _SYMB_1 ListExport:p_4 ListImport:p_5 ListDecl:p_6 MaybeBlock:p_7  {: RESULT = new ABS.Absyn.Modul(p_2,p_4,p_5,p_6,p_7); :} 
+Module ::= _SYMB_50 QualType:p_2 _SYMB_1 ListExport:p_4 ListImport:p_5 ListDecl:p_6 MaybeBlock:p_7  {: RESULT = new ABS.Absyn.Modul(p_2,p_4,p_5,p_6,p_7); :} 
 ;
 Export ::= _SYMB_38 ListAnyIdent:p_2  {: RESULT = new ABS.Absyn.AnyExport(p_2); :} 
-  | _SYMB_38 ListAnyIdent:p_2 _SYMB_41 Type:p_4  {: RESULT = new ABS.Absyn.AnyFromExport(p_2,p_4); :}
+  | _SYMB_38 ListAnyIdent:p_2 _SYMB_41 QualType:p_4  {: RESULT = new ABS.Absyn.AnyFromExport(p_2,p_4); :}
   | _SYMB_38 _SYMB_2  {: RESULT = new ABS.Absyn.StarExport(); :}
-  | _SYMB_38 _SYMB_2 _SYMB_41 Type:p_4  {: RESULT = new ABS.Absyn.StarFromExport(p_4); :}
+  | _SYMB_38 _SYMB_2 _SYMB_41 QualType:p_4  {: RESULT = new ABS.Absyn.StarFromExport(p_4); :}
 ;
 ListExport ::=  /* empty */  {: RESULT = new ABS.Absyn.ListExport(); :} 
   | ListExport:p_1 Export:p_2 _SYMB_1  {: RESULT = p_1; p_1.addLast(p_2); :}
 ;
-Import ::= ImportType:p_1 Type:p_2 _SYMB_3 AnyIdent:p_4  {: RESULT = new ABS.Absyn.AnyImport(p_1,p_2,p_4); :} 
-  | ImportType:p_1 ListAnyIdent:p_2 _SYMB_41 Type:p_4  {: RESULT = new ABS.Absyn.AnyFromImport(p_1,p_2,p_4); :}
-  | ImportType:p_1 _SYMB_2 _SYMB_41 Type:p_4  {: RESULT = new ABS.Absyn.StarFromImport(p_1,p_4); :}
+Import ::= ImportType:p_1 QualType:p_2 _SYMB_3 AnyIdent:p_4  {: RESULT = new ABS.Absyn.AnyImport(p_1,p_2,p_4); :} 
+  | ImportType:p_1 ListAnyIdent:p_2 _SYMB_41 QualType:p_4  {: RESULT = new ABS.Absyn.AnyFromImport(p_1,p_2,p_4); :}
+  | ImportType:p_1 _SYMB_2 _SYMB_41 QualType:p_4  {: RESULT = new ABS.Absyn.StarFromImport(p_1,p_4); :}
 ;
 ListImport ::=  /* empty */  {: RESULT = new ABS.Absyn.ListImport(); :} 
   | ListImport:p_1 Import:p_2 _SYMB_1  {: RESULT = p_1; p_1.addLast(p_2); :}
@@ -178,17 +180,22 @@ ListImport ::=  /* empty */  {: RESULT = new ABS.Absyn.ListImport(); :}
 ImportType ::= _SYMB_40  {: RESULT = new ABS.Absyn.ForeignImport(); :} 
   | _SYMB_45  {: RESULT = new ABS.Absyn.NormalImport(); :}
 ;
-Type ::= _SYMB_4  {: RESULT = new ABS.Absyn.UnderscoreType(); :} 
-  | ListQualTypeIdent:p_1  {: RESULT = new ABS.Absyn.SimpleType(p_1); :}
-  | ListQualTypeIdent:p_1 _SYMB_5 ListType:p_3 _SYMB_6  {: RESULT = new ABS.Absyn.ParType(p_1,p_3); :}
+Type ::= _SYMB_4  {: RESULT = new ABS.Absyn.TUnderscore(); :} 
+  | QualType:p_1  {: RESULT = new ABS.Absyn.TSimple(p_1); :}
+  | QualType:p_1 _SYMB_5 ListType:p_3 _SYMB_6  {: RESULT = new ABS.Absyn.TGen(p_1,p_3); :}
 ;
 ListType ::= Type:p_1  {: RESULT = new ABS.Absyn.ListType(); RESULT.addLast(p_1); :} 
   | Type:p_1 _SYMB_0 ListType:p_3  {: RESULT = p_3; p_3.addFirst(p_1); :}
 ;
-QualTypeIdent ::= TypeIdent:p_1  {: RESULT = new ABS.Absyn.QualTypeIden(p_1); :} 
+ListQualType ::= QualType:p_1  {: RESULT = new ABS.Absyn.ListQualType(); RESULT.addLast(p_1); :} 
+  | QualType:p_1 _SYMB_0 ListQualType:p_3  {: RESULT = p_3; p_3.addFirst(p_1); :}
 ;
-ListQualTypeIdent ::= QualTypeIdent:p_1  {: RESULT = new ABS.Absyn.ListQualTypeIdent(); RESULT.addLast(p_1); :} 
-  | QualTypeIdent:p_1 _SYMB_3 ListQualTypeIdent:p_3  {: RESULT = p_3; p_3.addFirst(p_1); :}
+QualType ::= ListQualTypeSegment:p_1  {: RESULT = new ABS.Absyn.QType(p_1); :} 
+;
+QualTypeSegment ::= TypeIdent:p_1  {: RESULT = new ABS.Absyn.QTypeSegment(p_1); :} 
+;
+ListQualTypeSegment ::= QualTypeSegment:p_1  {: RESULT = new ABS.Absyn.ListQualTypeSegment(); RESULT.addLast(p_1); :} 
+  | QualTypeSegment:p_1 _SYMB_3 ListQualTypeSegment:p_3  {: RESULT = p_3; p_3.addFirst(p_1); :}
 ;
 ListDecl ::=  /* empty */  {: RESULT = new ABS.Absyn.ListDecl(); :} 
   | ListDecl:p_1 Decl:p_2  {: RESULT = p_1; p_1.addLast(p_2); :}
@@ -199,11 +206,11 @@ Decl ::= _SYMB_60 TypeIdent:p_2 _SYMB_7 Type:p_4 _SYMB_1  {: RESULT = new ABS.Ab
   | _SYMB_36 Type:p_2 _IDENT_:p_3 _SYMB_8 ListParam:p_5 _SYMB_9 _SYMB_7 FunBody:p_8 _SYMB_1  {: RESULT = new ABS.Absyn.FunDecl(p_2,p_3,p_5,p_8); :}
   | _SYMB_36 Type:p_2 _IDENT_:p_3 _SYMB_5 ListTypeIdent:p_5 _SYMB_6 _SYMB_8 ListParam:p_8 _SYMB_9 _SYMB_7 FunBody:p_11 _SYMB_1  {: RESULT = new ABS.Absyn.FunParDecl(p_2,p_3,p_5,p_8,p_11); :}
   | _SYMB_47 TypeIdent:p_2 _SYMB_11 ListMethSignat:p_4 _SYMB_12  {: RESULT = new ABS.Absyn.InterfDecl(p_2,p_4); :}
-  | _SYMB_47 TypeIdent:p_2 _SYMB_39 ListType:p_4 _SYMB_11 ListMethSignat:p_6 _SYMB_12  {: RESULT = new ABS.Absyn.ExtendsDecl(p_2,p_4,p_6); :}
+  | _SYMB_47 TypeIdent:p_2 _SYMB_39 ListQualType:p_4 _SYMB_11 ListMethSignat:p_6 _SYMB_12  {: RESULT = new ABS.Absyn.ExtendsDecl(p_2,p_4,p_6); :}
   | _SYMB_34 TypeIdent:p_2 _SYMB_11 ListClassBody:p_4 MaybeBlock:p_5 ListClassBody:p_6 _SYMB_12  {: RESULT = new ABS.Absyn.ClassDecl(p_2,p_4,p_5,p_6); :}
   | _SYMB_34 TypeIdent:p_2 _SYMB_8 ListParam:p_4 _SYMB_9 _SYMB_11 ListClassBody:p_7 MaybeBlock:p_8 ListClassBody:p_9 _SYMB_12  {: RESULT = new ABS.Absyn.ClassParamDecl(p_2,p_4,p_7,p_8,p_9); :}
-  | _SYMB_34 TypeIdent:p_2 _SYMB_44 ListType:p_4 _SYMB_11 ListClassBody:p_6 MaybeBlock:p_7 ListClassBody:p_8 _SYMB_12  {: RESULT = new ABS.Absyn.ClassImplements(p_2,p_4,p_6,p_7,p_8); :}
-  | _SYMB_34 TypeIdent:p_2 _SYMB_8 ListParam:p_4 _SYMB_9 _SYMB_44 ListType:p_7 _SYMB_11 ListClassBody:p_9 MaybeBlock:p_10 ListClassBody:p_11 _SYMB_12  {: RESULT = new ABS.Absyn.ClassParamImplements(p_2,p_4,p_7,p_9,p_10,p_11); :}
+  | _SYMB_34 TypeIdent:p_2 _SYMB_44 ListQualType:p_4 _SYMB_11 ListClassBody:p_6 MaybeBlock:p_7 ListClassBody:p_8 _SYMB_12  {: RESULT = new ABS.Absyn.ClassImplements(p_2,p_4,p_6,p_7,p_8); :}
+  | _SYMB_34 TypeIdent:p_2 _SYMB_8 ListParam:p_4 _SYMB_9 _SYMB_44 ListQualType:p_7 _SYMB_11 ListClassBody:p_9 MaybeBlock:p_10 ListClassBody:p_11 _SYMB_12  {: RESULT = new ABS.Absyn.ClassParamImplements(p_2,p_4,p_7,p_9,p_10,p_11); :}
 ;
 ConstrIdent ::= TypeIdent:p_1  {: RESULT = new ABS.Absyn.SinglConstrIdent(p_1); :} 
   | TypeIdent:p_1 _SYMB_8 ListConstrType:p_3 _SYMB_9  {: RESULT = new ABS.Absyn.ParamConstrIdent(p_1,p_3); :}
@@ -310,14 +317,14 @@ PureExp6 ::= _SYMB_25 PureExp6:p_2  {: RESULT = new ABS.Absyn.ELogNeg(p_2); :}
   | PureExp7:p_1  {: RESULT = p_1; :}
 ;
 PureExp7 ::= _IDENT_:p_1 _SYMB_8 ListPureExp:p_3 _SYMB_9  {: RESULT = new ABS.Absyn.EFunCall(p_1,p_3); :} 
-  | Type:p_1 _SYMB_3 _IDENT_:p_3 _SYMB_8 ListPureExp:p_5 _SYMB_9  {: RESULT = new ABS.Absyn.EQualFunCall(p_1,p_3,p_5); :}
+  | QualType:p_1 _SYMB_3 _IDENT_:p_3 _SYMB_8 ListPureExp:p_5 _SYMB_9  {: RESULT = new ABS.Absyn.EQualFunCall(p_1,p_3,p_5); :}
   | _IDENT_:p_1 _SYMB_26 ListPureExp:p_3 _SYMB_27  {: RESULT = new ABS.Absyn.ENaryFunCall(p_1,p_3); :}
-  | Type:p_1 _SYMB_3 _IDENT_:p_3 _SYMB_26 ListPureExp:p_5 _SYMB_27  {: RESULT = new ABS.Absyn.ENaryQualFunCall(p_1,p_3,p_5); :}
+  | QualType:p_1 _SYMB_3 _IDENT_:p_3 _SYMB_26 ListPureExp:p_5 _SYMB_27  {: RESULT = new ABS.Absyn.ENaryQualFunCall(p_1,p_3,p_5); :}
   | _IDENT_:p_1  {: RESULT = new ABS.Absyn.EVar(p_1); :}
   | _SYMB_58 _SYMB_3 _IDENT_:p_3  {: RESULT = new ABS.Absyn.EThis(p_3); :}
-  | Type:p_1 _SYMB_3 _IDENT_:p_3  {: RESULT = new ABS.Absyn.EQualVar(p_1,p_3); :}
-  | Type:p_1  {: RESULT = new ABS.Absyn.ESinglConstr(p_1); :}
-  | Type:p_1 _SYMB_8 ListPureExp:p_3 _SYMB_9  {: RESULT = new ABS.Absyn.EParamConstr(p_1,p_3); :}
+  | QualType:p_1 _SYMB_3 _IDENT_:p_3  {: RESULT = new ABS.Absyn.EQualVar(p_1,p_3); :}
+  | QualType:p_1  {: RESULT = new ABS.Absyn.ESinglConstr(p_1); :}
+  | QualType:p_1 _SYMB_8 ListPureExp:p_3 _SYMB_9  {: RESULT = new ABS.Absyn.EParamConstr(p_1,p_3); :}
   | Literal:p_1  {: RESULT = new ABS.Absyn.ELit(p_1); :}
   | _SYMB_8 PureExp:p_2 _SYMB_9  {: RESULT = p_2; :}
 ;
@@ -330,11 +337,11 @@ ListPattern ::=  /* empty */  {: RESULT = new ABS.Absyn.ListPattern(); :}
   | Pattern:p_1  {: RESULT = new ABS.Absyn.ListPattern(); RESULT.addLast(p_1); :}
   | Pattern:p_1 _SYMB_0 ListPattern:p_3  {: RESULT = p_3; p_3.addFirst(p_1); :}
 ;
-Pattern ::= _IDENT_:p_1  {: RESULT = new ABS.Absyn.IdentPat(p_1); :} 
-  | Literal:p_1  {: RESULT = new ABS.Absyn.LitPat(p_1); :}
-  | TypeIdent:p_1  {: RESULT = new ABS.Absyn.SinglConstrPat(p_1); :}
-  | TypeIdent:p_1 _SYMB_8 ListPattern:p_3 _SYMB_9  {: RESULT = new ABS.Absyn.ParamConstrPat(p_1,p_3); :}
-  | _SYMB_4  {: RESULT = new ABS.Absyn.UnderscorePat(); :}
+Pattern ::= _IDENT_:p_1  {: RESULT = new ABS.Absyn.PIdent(p_1); :} 
+  | Literal:p_1  {: RESULT = new ABS.Absyn.PLit(p_1); :}
+  | TypeIdent:p_1  {: RESULT = new ABS.Absyn.PSinglConstr(p_1); :}
+  | TypeIdent:p_1 _SYMB_8 ListPattern:p_3 _SYMB_9  {: RESULT = new ABS.Absyn.PParamConstr(p_1,p_3); :}
+  | _SYMB_4  {: RESULT = new ABS.Absyn.PUnderscore(); :}
 ;
 Literal ::= _SYMB_52  {: RESULT = new ABS.Absyn.LNull(); :} 
   | _SYMB_58  {: RESULT = new ABS.Absyn.LThis(); :}

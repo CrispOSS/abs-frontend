@@ -19,20 +19,20 @@ data Program =
   deriving (Eq,Ord,Show,Read)
 
 data Module =
-   Modul Type [Export] [Import] [Decl] MaybeBlock
+   Modul QualType [Export] [Import] [Decl] MaybeBlock
   deriving (Eq,Ord,Show,Read)
 
 data Export =
    AnyExport [AnyIdent]
- | AnyFromExport [AnyIdent] Type
+ | AnyFromExport [AnyIdent] QualType
  | StarExport
- | StarFromExport Type
+ | StarFromExport QualType
   deriving (Eq,Ord,Show,Read)
 
 data Import =
-   AnyImport ImportType Type AnyIdent
- | AnyFromImport ImportType [AnyIdent] Type
- | StarFromImport ImportType Type
+   AnyImport ImportType QualType AnyIdent
+ | AnyFromImport ImportType [AnyIdent] QualType
+ | StarFromImport ImportType QualType
   deriving (Eq,Ord,Show,Read)
 
 data ImportType =
@@ -41,13 +41,17 @@ data ImportType =
   deriving (Eq,Ord,Show,Read)
 
 data Type =
-   UnderscoreType
- | SimpleType [QualTypeIdent]
- | ParType [QualTypeIdent] [Type]
+   TUnderscore
+ | TSimple QualType
+ | TGen QualType [Type]
   deriving (Eq,Ord,Show,Read)
 
-data QualTypeIdent =
-   QualTypeIden TypeIdent
+data QualType =
+   QType [QualTypeSegment]
+  deriving (Eq,Ord,Show,Read)
+
+data QualTypeSegment =
+   QTypeSegment TypeIdent
   deriving (Eq,Ord,Show,Read)
 
 data Decl =
@@ -57,11 +61,11 @@ data Decl =
  | FunDecl Type Ident [Param] FunBody
  | FunParDecl Type Ident [TypeIdent] [Param] FunBody
  | InterfDecl TypeIdent [MethSignat]
- | ExtendsDecl TypeIdent [Type] [MethSignat]
+ | ExtendsDecl TypeIdent [QualType] [MethSignat]
  | ClassDecl TypeIdent [ClassBody] MaybeBlock [ClassBody]
  | ClassParamDecl TypeIdent [Param] [ClassBody] MaybeBlock [ClassBody]
- | ClassImplements TypeIdent [Type] [ClassBody] MaybeBlock [ClassBody]
- | ClassParamImplements TypeIdent [Param] [Type] [ClassBody] MaybeBlock [ClassBody]
+ | ClassImplements TypeIdent [QualType] [ClassBody] MaybeBlock [ClassBody]
+ | ClassParamImplements TypeIdent [Param] [QualType] [ClassBody] MaybeBlock [ClassBody]
   deriving (Eq,Ord,Show,Read)
 
 data ConstrIdent =
@@ -148,14 +152,14 @@ data PureExp =
  | ELogNeg PureExp
  | EIntNeg PureExp
  | EFunCall Ident [PureExp]
- | EQualFunCall Type Ident [PureExp]
+ | EQualFunCall QualType Ident [PureExp]
  | ENaryFunCall Ident [PureExp]
- | ENaryQualFunCall Type Ident [PureExp]
+ | ENaryQualFunCall QualType Ident [PureExp]
  | EVar Ident
  | EThis Ident
- | EQualVar Type Ident
- | ESinglConstr Type
- | EParamConstr Type [PureExp]
+ | EQualVar QualType Ident
+ | ESinglConstr QualType
+ | EParamConstr QualType [PureExp]
  | ELit Literal
  | Let Param PureExp PureExp
  | If PureExp PureExp PureExp
@@ -167,11 +171,11 @@ data CaseBranch =
   deriving (Eq,Ord,Show,Read)
 
 data Pattern =
-   IdentPat Ident
- | LitPat Literal
- | SinglConstrPat TypeIdent
- | ParamConstrPat TypeIdent [Pattern]
- | UnderscorePat
+   PIdent Ident
+ | PLit Literal
+ | PSinglConstr TypeIdent
+ | PParamConstr TypeIdent [Pattern]
+ | PUnderscore
   deriving (Eq,Ord,Show,Read)
 
 data Literal =
