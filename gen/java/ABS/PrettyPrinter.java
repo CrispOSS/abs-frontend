@@ -570,6 +570,51 @@ public class PrettyPrinter
     buf_.delete(0,buf_.length());
     return temp;
   }
+  public static String print(ABS.Absyn.CatchBranch foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(ABS.Absyn.CatchBranch foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(ABS.Absyn.ListCatchBranch foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(ABS.Absyn.ListCatchBranch foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(ABS.Absyn.MaybeFinally foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(ABS.Absyn.MaybeFinally foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
   public static String print(ABS.Absyn.Guard foo)
   {
     pp(foo, 0);
@@ -1024,6 +1069,15 @@ public class PrettyPrinter
        pp(_typedecl.typeident_, 0);
        render("=");
        pp(_typedecl.type_, 0);
+       render(";");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof ABS.Absyn.ExceptionDecl)
+    {
+       ABS.Absyn.ExceptionDecl _exceptiondecl = (ABS.Absyn.ExceptionDecl) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("exception");
+       pp(_exceptiondecl.constrident_, 0);
        render(";");
        if (_i_ > 0) render(_R_PAREN);
     }
@@ -1552,6 +1606,72 @@ public class PrettyPrinter
        render("await");
        pp(_sawait.guard_, 0);
        render(";");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof ABS.Absyn.SThrow)
+    {
+       ABS.Absyn.SThrow _sthrow = (ABS.Absyn.SThrow) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("throw");
+       pp(_sthrow.pureexp_, 0);
+       render(";");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof ABS.Absyn.STryCatchFinally)
+    {
+       ABS.Absyn.STryCatchFinally _strycatchfinally = (ABS.Absyn.STryCatchFinally) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("try");
+       pp(_strycatchfinally.stm_, 0);
+       render("catch");
+       render("{");
+       pp(_strycatchfinally.listcatchbranch_, 0);
+       render("}");
+       pp(_strycatchfinally.maybefinally_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(ABS.Absyn.CatchBranch foo, int _i_)
+  {
+    if (foo instanceof ABS.Absyn.CatchBranc)
+    {
+       ABS.Absyn.CatchBranc _catchbranc = (ABS.Absyn.CatchBranc) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_catchbranc.pattern_, 0);
+       render("=>");
+       pp(_catchbranc.stm_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(ABS.Absyn.ListCatchBranch foo, int _i_)
+  {
+     for (java.util.Iterator<CatchBranch> it = foo.iterator(); it.hasNext();)
+     {
+       pp(it.next(), 0);
+       if (it.hasNext()) {
+         render("");
+       } else {
+         render("");
+       }
+     }
+  }
+
+  private static void pp(ABS.Absyn.MaybeFinally foo, int _i_)
+  {
+    if (foo instanceof ABS.Absyn.JustFinally)
+    {
+       ABS.Absyn.JustFinally _justfinally = (ABS.Absyn.JustFinally) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("finally");
+       pp(_justfinally.stm_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+    else     if (foo instanceof ABS.Absyn.NoFinally)
+    {
+       ABS.Absyn.NoFinally _nofinally = (ABS.Absyn.NoFinally) foo;
+       if (_i_ > 0) render(_L_PAREN);
        if (_i_ > 0) render(_R_PAREN);
     }
   }
@@ -2397,6 +2517,14 @@ public class PrettyPrinter
        sh(_typedecl.type_);
        render(")");
     }
+    if (foo instanceof ABS.Absyn.ExceptionDecl)
+    {
+       ABS.Absyn.ExceptionDecl _exceptiondecl = (ABS.Absyn.ExceptionDecl) foo;
+       render("(");
+       render("ExceptionDecl");
+       sh(_exceptiondecl.constrident_);
+       render(")");
+    }
     if (foo instanceof ABS.Absyn.DataDecl)
     {
        ABS.Absyn.DataDecl _datadecl = (ABS.Absyn.DataDecl) foo;
@@ -2895,6 +3023,66 @@ public class PrettyPrinter
        render("SAwait");
        sh(_sawait.guard_);
        render(")");
+    }
+    if (foo instanceof ABS.Absyn.SThrow)
+    {
+       ABS.Absyn.SThrow _sthrow = (ABS.Absyn.SThrow) foo;
+       render("(");
+       render("SThrow");
+       sh(_sthrow.pureexp_);
+       render(")");
+    }
+    if (foo instanceof ABS.Absyn.STryCatchFinally)
+    {
+       ABS.Absyn.STryCatchFinally _strycatchfinally = (ABS.Absyn.STryCatchFinally) foo;
+       render("(");
+       render("STryCatchFinally");
+       sh(_strycatchfinally.stm_);
+       render("[");
+       sh(_strycatchfinally.listcatchbranch_);
+       render("]");
+       sh(_strycatchfinally.maybefinally_);
+       render(")");
+    }
+  }
+
+  private static void sh(ABS.Absyn.CatchBranch foo)
+  {
+    if (foo instanceof ABS.Absyn.CatchBranc)
+    {
+       ABS.Absyn.CatchBranc _catchbranc = (ABS.Absyn.CatchBranc) foo;
+       render("(");
+       render("CatchBranc");
+       sh(_catchbranc.pattern_);
+       sh(_catchbranc.stm_);
+       render(")");
+    }
+  }
+
+  private static void sh(ABS.Absyn.ListCatchBranch foo)
+  {
+     for (java.util.Iterator<CatchBranch> it = foo.iterator(); it.hasNext();)
+     {
+       sh(it.next());
+       if (it.hasNext())
+         render(",");
+     }
+  }
+
+  private static void sh(ABS.Absyn.MaybeFinally foo)
+  {
+    if (foo instanceof ABS.Absyn.JustFinally)
+    {
+       ABS.Absyn.JustFinally _justfinally = (ABS.Absyn.JustFinally) foo;
+       render("(");
+       render("JustFinally");
+       sh(_justfinally.stm_);
+       render(")");
+    }
+    if (foo instanceof ABS.Absyn.NoFinally)
+    {
+       ABS.Absyn.NoFinally _nofinally = (ABS.Absyn.NoFinally) foo;
+       render("NoFinally");
     }
   }
 

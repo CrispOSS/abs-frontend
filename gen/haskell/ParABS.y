@@ -44,39 +44,44 @@ import ErrM
  'await' { PT _ (TS _ 27) }
  'builtin' { PT _ (TS _ 28) }
  'case' { PT _ (TS _ 29) }
- 'class' { PT _ (TS _ 30) }
- 'data' { PT _ (TS _ 31) }
- 'def' { PT _ (TS _ 32) }
- 'else' { PT _ (TS _ 33) }
- 'export' { PT _ (TS _ 34) }
- 'extends' { PT _ (TS _ 35) }
- 'fimport' { PT _ (TS _ 36) }
- 'from' { PT _ (TS _ 37) }
- 'get' { PT _ (TS _ 38) }
- 'if' { PT _ (TS _ 39) }
- 'implements' { PT _ (TS _ 40) }
- 'import' { PT _ (TS _ 41) }
- 'in' { PT _ (TS _ 42) }
- 'interface' { PT _ (TS _ 43) }
- 'let' { PT _ (TS _ 44) }
- 'local' { PT _ (TS _ 45) }
- 'module' { PT _ (TS _ 46) }
- 'new' { PT _ (TS _ 47) }
- 'null' { PT _ (TS _ 48) }
- 'return' { PT _ (TS _ 49) }
- 'skip' { PT _ (TS _ 50) }
- 'spawns' { PT _ (TS _ 51) }
- 'suspend' { PT _ (TS _ 52) }
- 'then' { PT _ (TS _ 53) }
- 'this' { PT _ (TS _ 54) }
- 'thisDC' { PT _ (TS _ 55) }
- 'type' { PT _ (TS _ 56) }
- 'while' { PT _ (TS _ 57) }
- '{' { PT _ (TS _ 58) }
- '|' { PT _ (TS _ 59) }
- '||' { PT _ (TS _ 60) }
- '}' { PT _ (TS _ 61) }
- '~' { PT _ (TS _ 62) }
+ 'catch' { PT _ (TS _ 30) }
+ 'class' { PT _ (TS _ 31) }
+ 'data' { PT _ (TS _ 32) }
+ 'def' { PT _ (TS _ 33) }
+ 'else' { PT _ (TS _ 34) }
+ 'exception' { PT _ (TS _ 35) }
+ 'export' { PT _ (TS _ 36) }
+ 'extends' { PT _ (TS _ 37) }
+ 'fimport' { PT _ (TS _ 38) }
+ 'finally' { PT _ (TS _ 39) }
+ 'from' { PT _ (TS _ 40) }
+ 'get' { PT _ (TS _ 41) }
+ 'if' { PT _ (TS _ 42) }
+ 'implements' { PT _ (TS _ 43) }
+ 'import' { PT _ (TS _ 44) }
+ 'in' { PT _ (TS _ 45) }
+ 'interface' { PT _ (TS _ 46) }
+ 'let' { PT _ (TS _ 47) }
+ 'local' { PT _ (TS _ 48) }
+ 'module' { PT _ (TS _ 49) }
+ 'new' { PT _ (TS _ 50) }
+ 'null' { PT _ (TS _ 51) }
+ 'return' { PT _ (TS _ 52) }
+ 'skip' { PT _ (TS _ 53) }
+ 'spawns' { PT _ (TS _ 54) }
+ 'suspend' { PT _ (TS _ 55) }
+ 'then' { PT _ (TS _ 56) }
+ 'this' { PT _ (TS _ 57) }
+ 'thisDC' { PT _ (TS _ 58) }
+ 'throw' { PT _ (TS _ 59) }
+ 'try' { PT _ (TS _ 60) }
+ 'type' { PT _ (TS _ 61) }
+ 'while' { PT _ (TS _ 62) }
+ '{' { PT _ (TS _ 63) }
+ '|' { PT _ (TS _ 64) }
+ '||' { PT _ (TS _ 65) }
+ '}' { PT _ (TS _ 66) }
+ '~' { PT _ (TS _ 67) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -179,6 +184,7 @@ ListDecl : {- empty -} { [] }
 
 Decl :: { Decl }
 Decl : 'type' TypeIdent '=' Type ';' { TypeDecl $2 $4 } 
+  | 'exception' ConstrIdent ';' { ExceptionDecl $2 }
   | 'data' TypeIdent '=' ListConstrIdent ';' { DataDecl $2 $4 }
   | 'data' TypeIdent '<' ListTypeIdent '>' '=' ListConstrIdent ';' { DataParDecl $2 $4 $7 }
   | 'def' Type Ident '(' ListParam ')' '=' FunBody ';' { FunDecl $2 $3 $5 $8 }
@@ -281,6 +287,22 @@ Stm : Exp ';' { SExp $1 }
   | 'skip' ';' { SSkip }
   | 'assert' PureExp ';' { SAssert $2 }
   | 'await' Guard ';' { SAwait $2 }
+  | 'throw' PureExp ';' { SThrow $2 }
+  | 'try' Stm 'catch' '{' ListCatchBranch '}' MaybeFinally { STryCatchFinally $2 (reverse $5) $7 }
+
+
+CatchBranch :: { CatchBranch }
+CatchBranch : Pattern '=>' Stm { CatchBranc $1 $3 } 
+
+
+ListCatchBranch :: { [CatchBranch] }
+ListCatchBranch : {- empty -} { [] } 
+  | ListCatchBranch CatchBranch { flip (:) $1 $2 }
+
+
+MaybeFinally :: { MaybeFinally }
+MaybeFinally : 'finally' Stm { JustFinally $2 } 
+  | {- empty -} { NoFinally }
 
 
 Guard :: { Guard }

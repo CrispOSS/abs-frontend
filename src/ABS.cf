@@ -45,6 +45,7 @@ separator nonempty QualTypeSegment "." ;
 -- Declarations (ADT)
 terminator Decl "" ;
 TypeDecl. Decl ::= "type" TypeIdent "=" Type ";" ;
+ExceptionDecl. Decl ::= "exception" ConstrIdent ";" ; -- single constructor
 DataDecl. Decl ::= "data" TypeIdent "=" [ConstrIdent] ";" ;
 DataParDecl. Decl ::= "data" TypeIdent "<" [TypeIdent] ">" "=" [ConstrIdent] ";" ;
 SinglConstrIdent. ConstrIdent ::= TypeIdent ;
@@ -102,11 +103,17 @@ SSuspend. Stm ::= "suspend" ";" ;
 SSkip. Stm ::= "skip" ";" ;
 SAssert. Stm ::= "assert" PureExp ";" ;
 SAwait.  Stm ::= "await" Guard ";" ;
+SThrow. Stm ::= "throw" PureExp ";" ;
+STryCatchFinally. Stm ::= "try" Stm "catch" "{" [CatchBranch] "}" MaybeFinally ;
+CatchBranc. CatchBranch ::= Pattern "=>" Stm ;
+terminator CatchBranch "" ; -- can be empty, and does not have to be terminated by ";"
+JustFinally. MaybeFinally ::= "finally" Stm ;
+NoFinally. MaybeFinally ::= ;
 
 -- Await Guards
 VarGuard. Guard ::= Ident "?" ;
 FieldGuard. Guard ::= "this" "." Ident "?" ;
-ExpGuard. Guard ::= PureExp ;
+ExpGuard. Guard ::= PureExp ; -- this should be disabled, because it has ABS semantics/pragmatic problems.
 AndGuard. Guard ::= Guard "&" Guard ;
 
 -- Expressions
@@ -183,3 +190,4 @@ Spawns. EffExp ::= PureExp "spawns" Type "(" [PureExp] ")" ;
 --there are more places where annotations can be put
 
 --TODO: Deltas
+

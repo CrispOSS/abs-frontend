@@ -146,6 +146,11 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
       r = combine(p.type_.accept(this, arg), r, arg);
       return r;
     }
+    public R visit(ABS.Absyn.ExceptionDecl p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.constrident_.accept(this, arg), r, arg);
+      return r;
+    }
     public R visit(ABS.Absyn.DataDecl p, A arg) {
       R r = leaf(arg);
       for (ConstrIdent x : p.listconstrident_) {
@@ -421,6 +426,39 @@ public abstract class FoldVisitor<R,A> implements AllVisitor<R,A> {
     public R visit(ABS.Absyn.SAwait p, A arg) {
       R r = leaf(arg);
       r = combine(p.guard_.accept(this, arg), r, arg);
+      return r;
+    }
+    public R visit(ABS.Absyn.SThrow p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.pureexp_.accept(this, arg), r, arg);
+      return r;
+    }
+    public R visit(ABS.Absyn.STryCatchFinally p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.stm_.accept(this, arg), r, arg);
+      for (CatchBranch x : p.listcatchbranch_) {
+        r = combine(x.accept(this,arg), r, arg);
+      }
+      r = combine(p.maybefinally_.accept(this, arg), r, arg);
+      return r;
+    }
+
+/* CatchBranch */
+    public R visit(ABS.Absyn.CatchBranc p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.pattern_.accept(this, arg), r, arg);
+      r = combine(p.stm_.accept(this, arg), r, arg);
+      return r;
+    }
+
+/* MaybeFinally */
+    public R visit(ABS.Absyn.JustFinally p, A arg) {
+      R r = leaf(arg);
+      r = combine(p.stm_.accept(this, arg), r, arg);
+      return r;
+    }
+    public R visit(ABS.Absyn.NoFinally p, A arg) {
+      R r = leaf(arg);
       return r;
     }
 

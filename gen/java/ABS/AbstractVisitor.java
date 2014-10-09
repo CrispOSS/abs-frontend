@@ -58,6 +58,7 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
     }
 /* Decl */
     public R visit(ABS.Absyn.TypeDecl p, A arg) { return visitDefault(p, arg); }
+    public R visit(ABS.Absyn.ExceptionDecl p, A arg) { return visitDefault(p, arg); }
     public R visit(ABS.Absyn.DataDecl p, A arg) { return visitDefault(p, arg); }
     public R visit(ABS.Absyn.DataParDecl p, A arg) { return visitDefault(p, arg); }
     public R visit(ABS.Absyn.FunDecl p, A arg) { return visitDefault(p, arg); }
@@ -132,7 +133,20 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
     public R visit(ABS.Absyn.SSkip p, A arg) { return visitDefault(p, arg); }
     public R visit(ABS.Absyn.SAssert p, A arg) { return visitDefault(p, arg); }
     public R visit(ABS.Absyn.SAwait p, A arg) { return visitDefault(p, arg); }
+    public R visit(ABS.Absyn.SThrow p, A arg) { return visitDefault(p, arg); }
+    public R visit(ABS.Absyn.STryCatchFinally p, A arg) { return visitDefault(p, arg); }
     public R visitDefault(ABS.Absyn.Stm p, A arg) {
+      throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
+    }
+/* CatchBranch */
+    public R visit(ABS.Absyn.CatchBranc p, A arg) { return visitDefault(p, arg); }
+    public R visitDefault(ABS.Absyn.CatchBranch p, A arg) {
+      throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
+    }
+/* MaybeFinally */
+    public R visit(ABS.Absyn.JustFinally p, A arg) { return visitDefault(p, arg); }
+    public R visit(ABS.Absyn.NoFinally p, A arg) { return visitDefault(p, arg); }
+    public R visitDefault(ABS.Absyn.MaybeFinally p, A arg) {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
 /* Guard */

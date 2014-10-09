@@ -216,6 +216,14 @@ public class VisitSkel
 
       return null;
     }
+    public R visit(ABS.Absyn.ExceptionDecl p, A arg)
+    {
+      /* Code For ExceptionDecl Goes Here */
+
+      p.constrident_.accept(new ConstrIdentVisitor<R,A>(), arg);
+
+      return null;
+    }
     public R visit(ABS.Absyn.DataDecl p, A arg)
     {
       /* Code For DataDecl Goes Here */
@@ -624,6 +632,57 @@ public class VisitSkel
       /* Code For SAwait Goes Here */
 
       p.guard_.accept(new GuardVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.SThrow p, A arg)
+    {
+      /* Code For SThrow Goes Here */
+
+      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.STryCatchFinally p, A arg)
+    {
+      /* Code For STryCatchFinally Goes Here */
+
+      p.stm_.accept(new StmVisitor<R,A>(), arg);
+      for (CatchBranch x : p.listcatchbranch_) {
+      }
+      p.maybefinally_.accept(new MaybeFinallyVisitor<R,A>(), arg);
+
+      return null;
+    }
+
+  }
+  public class CatchBranchVisitor<R,A> implements CatchBranch.Visitor<R,A>
+  {
+    public R visit(ABS.Absyn.CatchBranc p, A arg)
+    {
+      /* Code For CatchBranc Goes Here */
+
+      p.pattern_.accept(new PatternVisitor<R,A>(), arg);
+      p.stm_.accept(new StmVisitor<R,A>(), arg);
+
+      return null;
+    }
+
+  }
+  public class MaybeFinallyVisitor<R,A> implements MaybeFinally.Visitor<R,A>
+  {
+    public R visit(ABS.Absyn.JustFinally p, A arg)
+    {
+      /* Code For JustFinally Goes Here */
+
+      p.stm_.accept(new StmVisitor<R,A>(), arg);
+
+      return null;
+    }
+    public R visit(ABS.Absyn.NoFinally p, A arg)
+    {
+      /* Code For NoFinally Goes Here */
+
 
       return null;
     }

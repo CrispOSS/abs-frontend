@@ -23,6 +23,8 @@ public class ComposVisitor<A> implements
   ABS.Absyn.MaybeBlock.Visitor<ABS.Absyn.MaybeBlock,A>,
   ABS.Absyn.Param.Visitor<ABS.Absyn.Param,A>,
   ABS.Absyn.Stm.Visitor<ABS.Absyn.Stm,A>,
+  ABS.Absyn.CatchBranch.Visitor<ABS.Absyn.CatchBranch,A>,
+  ABS.Absyn.MaybeFinally.Visitor<ABS.Absyn.MaybeFinally,A>,
   ABS.Absyn.Guard.Visitor<ABS.Absyn.Guard,A>,
   ABS.Absyn.Exp.Visitor<ABS.Absyn.Exp,A>,
   ABS.Absyn.PureExp.Visitor<ABS.Absyn.PureExp,A>,
@@ -198,6 +200,12 @@ public class ComposVisitor<A> implements
       Type type_ = p.type_.accept(this, arg);
 
       return new ABS.Absyn.TypeDecl(typeident_, type_);
+    }
+    public Decl visit(ABS.Absyn.ExceptionDecl p, A arg)
+    {
+      ConstrIdent constrident_ = p.constrident_.accept(this, arg);
+
+      return new ABS.Absyn.ExceptionDecl(constrident_);
     }
     public Decl visit(ABS.Absyn.DataDecl p, A arg)
     {
@@ -561,6 +569,45 @@ public class ComposVisitor<A> implements
       Guard guard_ = p.guard_.accept(this, arg);
 
       return new ABS.Absyn.SAwait(guard_);
+    }
+    public Stm visit(ABS.Absyn.SThrow p, A arg)
+    {
+      PureExp pureexp_ = p.pureexp_.accept(this, arg);
+
+      return new ABS.Absyn.SThrow(pureexp_);
+    }
+    public Stm visit(ABS.Absyn.STryCatchFinally p, A arg)
+    {
+      Stm stm_ = p.stm_.accept(this, arg);
+      ListCatchBranch listcatchbranch_ = new ListCatchBranch();
+      for (CatchBranch x : p.listcatchbranch_) {
+        listcatchbranch_.add(x.accept(this,arg));
+      }
+      MaybeFinally maybefinally_ = p.maybefinally_.accept(this, arg);
+
+      return new ABS.Absyn.STryCatchFinally(stm_, listcatchbranch_, maybefinally_);
+    }
+
+/* CatchBranch */
+    public CatchBranch visit(ABS.Absyn.CatchBranc p, A arg)
+    {
+      Pattern pattern_ = p.pattern_.accept(this, arg);
+      Stm stm_ = p.stm_.accept(this, arg);
+
+      return new ABS.Absyn.CatchBranc(pattern_, stm_);
+    }
+
+/* MaybeFinally */
+    public MaybeFinally visit(ABS.Absyn.JustFinally p, A arg)
+    {
+      Stm stm_ = p.stm_.accept(this, arg);
+
+      return new ABS.Absyn.JustFinally(stm_);
+    }
+    public MaybeFinally visit(ABS.Absyn.NoFinally p, A arg)
+    {
+
+      return new ABS.Absyn.NoFinally();
     }
 
 /* Guard */

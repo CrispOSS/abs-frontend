@@ -23,6 +23,8 @@ public interface AllVisitor<R,A> extends
   ABS.Absyn.MaybeBlock.Visitor<R,A>,
   ABS.Absyn.Param.Visitor<R,A>,
   ABS.Absyn.Stm.Visitor<R,A>,
+  ABS.Absyn.CatchBranch.Visitor<R,A>,
+  ABS.Absyn.MaybeFinally.Visitor<R,A>,
   ABS.Absyn.Guard.Visitor<R,A>,
   ABS.Absyn.Exp.Visitor<R,A>,
   ABS.Absyn.PureExp.Visitor<R,A>,
