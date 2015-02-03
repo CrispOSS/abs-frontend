@@ -654,6 +654,14 @@ public class VisitSkel
 
       return null;
     }
+    public R visit(ABS.Absyn.SPrint p, A arg)
+    {
+      /* Code For SPrint Goes Here */
+
+      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
+
+      return null;
+    }
 
   }
   public class CatchBranchVisitor<R,A> implements CatchBranch.Visitor<R,A>

@@ -1630,6 +1630,15 @@ public class PrettyPrinter
        pp(_strycatchfinally.maybefinally_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
+    else     if (foo instanceof ABS.Absyn.SPrint)
+    {
+       ABS.Absyn.SPrint _sprint = (ABS.Absyn.SPrint) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("println");
+       pp(_sprint.pureexp_, 0);
+       render(";");
+       if (_i_ > 0) render(_R_PAREN);
+    }
   }
 
   private static void pp(ABS.Absyn.CatchBranch foo, int _i_)
@@ -3042,6 +3051,14 @@ public class PrettyPrinter
        sh(_strycatchfinally.listcatchbranch_);
        render("]");
        sh(_strycatchfinally.maybefinally_);
+       render(")");
+    }
+    if (foo instanceof ABS.Absyn.SPrint)
+    {
+       ABS.Absyn.SPrint _sprint = (ABS.Absyn.SPrint) foo;
+       render("(");
+       render("SPrint");
+       sh(_sprint.pureexp_);
        render(")");
     }
   }

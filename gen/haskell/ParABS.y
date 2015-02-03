@@ -66,22 +66,23 @@ import ErrM
  'module' { PT _ (TS _ 49) }
  'new' { PT _ (TS _ 50) }
  'null' { PT _ (TS _ 51) }
- 'return' { PT _ (TS _ 52) }
- 'skip' { PT _ (TS _ 53) }
- 'spawns' { PT _ (TS _ 54) }
- 'suspend' { PT _ (TS _ 55) }
- 'then' { PT _ (TS _ 56) }
- 'this' { PT _ (TS _ 57) }
- 'thisDC' { PT _ (TS _ 58) }
- 'throw' { PT _ (TS _ 59) }
- 'try' { PT _ (TS _ 60) }
- 'type' { PT _ (TS _ 61) }
- 'while' { PT _ (TS _ 62) }
- '{' { PT _ (TS _ 63) }
- '|' { PT _ (TS _ 64) }
- '||' { PT _ (TS _ 65) }
- '}' { PT _ (TS _ 66) }
- '~' { PT _ (TS _ 67) }
+ 'println' { PT _ (TS _ 52) }
+ 'return' { PT _ (TS _ 53) }
+ 'skip' { PT _ (TS _ 54) }
+ 'spawns' { PT _ (TS _ 55) }
+ 'suspend' { PT _ (TS _ 56) }
+ 'then' { PT _ (TS _ 57) }
+ 'this' { PT _ (TS _ 58) }
+ 'thisDC' { PT _ (TS _ 59) }
+ 'throw' { PT _ (TS _ 60) }
+ 'try' { PT _ (TS _ 61) }
+ 'type' { PT _ (TS _ 62) }
+ 'while' { PT _ (TS _ 63) }
+ '{' { PT _ (TS _ 64) }
+ '|' { PT _ (TS _ 65) }
+ '||' { PT _ (TS _ 66) }
+ '}' { PT _ (TS _ 67) }
+ '~' { PT _ (TS _ 68) }
 
 L_ident  { PT _ (TV $$) }
 L_quoted { PT _ (TL $$) }
@@ -289,6 +290,7 @@ Stm : Exp ';' { SExp $1 }
   | 'await' Guard ';' { SAwait $2 }
   | 'throw' PureExp ';' { SThrow $2 }
   | 'try' Stm 'catch' '{' ListCatchBranch '}' MaybeFinally { STryCatchFinally $2 (reverse $5) $7 }
+  | 'println' PureExp ';' { SPrint $2 }
 
 
 CatchBranch :: { CatchBranch }

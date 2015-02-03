@@ -109,6 +109,7 @@ CatchBranc. CatchBranch ::= Pattern "=>" Stm ;
 terminator CatchBranch "" ; -- can be empty, and does not have to be terminated by ";"
 JustFinally. MaybeFinally ::= "finally" Stm ;
 NoFinally. MaybeFinally ::= ;
+SPrint. Stm ::= "println" PureExp ";" ;
 
 -- Await Guards
 VarGuard. Guard ::= Ident "?" ;

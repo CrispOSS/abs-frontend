@@ -80,17 +80,18 @@ IDENT = ({LETTER}|{DIGIT}|['_])
 <YYINITIAL>module { return new Symbol(sym._SYMB_53); }
 <YYINITIAL>new { return new Symbol(sym._SYMB_54); }
 <YYINITIAL>null { return new Symbol(sym._SYMB_55); }
-<YYINITIAL>return { return new Symbol(sym._SYMB_56); }
-<YYINITIAL>skip { return new Symbol(sym._SYMB_57); }
-<YYINITIAL>spawns { return new Symbol(sym._SYMB_58); }
-<YYINITIAL>suspend { return new Symbol(sym._SYMB_59); }
-<YYINITIAL>then { return new Symbol(sym._SYMB_60); }
-<YYINITIAL>this { return new Symbol(sym._SYMB_61); }
-<YYINITIAL>thisDC { return new Symbol(sym._SYMB_62); }
-<YYINITIAL>throw { return new Symbol(sym._SYMB_63); }
-<YYINITIAL>try { return new Symbol(sym._SYMB_64); }
-<YYINITIAL>type { return new Symbol(sym._SYMB_65); }
-<YYINITIAL>while { return new Symbol(sym._SYMB_66); }
+<YYINITIAL>println { return new Symbol(sym._SYMB_56); }
+<YYINITIAL>return { return new Symbol(sym._SYMB_57); }
+<YYINITIAL>skip { return new Symbol(sym._SYMB_58); }
+<YYINITIAL>spawns { return new Symbol(sym._SYMB_59); }
+<YYINITIAL>suspend { return new Symbol(sym._SYMB_60); }
+<YYINITIAL>then { return new Symbol(sym._SYMB_61); }
+<YYINITIAL>this { return new Symbol(sym._SYMB_62); }
+<YYINITIAL>thisDC { return new Symbol(sym._SYMB_63); }
+<YYINITIAL>throw { return new Symbol(sym._SYMB_64); }
+<YYINITIAL>try { return new Symbol(sym._SYMB_65); }
+<YYINITIAL>type { return new Symbol(sym._SYMB_66); }
+<YYINITIAL>while { return new Symbol(sym._SYMB_67); }
 <YYINITIAL>"//"[^\n]*\n { /* BNFC single-line comment */ }
 <YYINITIAL>"/*" { yybegin(COMMENT); }
 <COMMENT>"*/" { yybegin(YYINITIAL); }

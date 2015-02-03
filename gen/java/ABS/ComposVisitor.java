@@ -587,6 +587,12 @@ public class ComposVisitor<A> implements
 
       return new ABS.Absyn.STryCatchFinally(stm_, listcatchbranch_, maybefinally_);
     }
+    public Stm visit(ABS.Absyn.SPrint p, A arg)
+    {
+      PureExp pureexp_ = p.pureexp_.accept(this, arg);
+
+      return new ABS.Absyn.SPrint(pureexp_);
+    }
 
 /* CatchBranch */
     public CatchBranch visit(ABS.Absyn.CatchBranc p, A arg)

@@ -135,6 +135,7 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
     public R visit(ABS.Absyn.SAwait p, A arg) { return visitDefault(p, arg); }
     public R visit(ABS.Absyn.SThrow p, A arg) { return visitDefault(p, arg); }
     public R visit(ABS.Absyn.STryCatchFinally p, A arg) { return visitDefault(p, arg); }
+    public R visit(ABS.Absyn.SPrint p, A arg) { return visitDefault(p, arg); }
     public R visitDefault(ABS.Absyn.Stm p, A arg) {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
