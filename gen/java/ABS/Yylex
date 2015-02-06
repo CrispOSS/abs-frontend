@@ -27,10 +27,10 @@ IDENT = ({LETTER}|{DIGIT}|['_])
 <YYINITIAL>, { return new Symbol(sym._SYMB_0); }
 <YYINITIAL>; { return new Symbol(sym._SYMB_1); }
 <YYINITIAL>\* { return new Symbol(sym._SYMB_2); }
-<YYINITIAL>\. { return new Symbol(sym._SYMB_3); }
-<YYINITIAL>_ { return new Symbol(sym._SYMB_4); }
-<YYINITIAL>< { return new Symbol(sym._SYMB_5); }
-<YYINITIAL>> { return new Symbol(sym._SYMB_6); }
+<YYINITIAL>_ { return new Symbol(sym._SYMB_3); }
+<YYINITIAL>< { return new Symbol(sym._SYMB_4); }
+<YYINITIAL>> { return new Symbol(sym._SYMB_5); }
+<YYINITIAL>\. { return new Symbol(sym._SYMB_6); }
 <YYINITIAL>= { return new Symbol(sym._SYMB_7); }
 <YYINITIAL>\( { return new Symbol(sym._SYMB_8); }
 <YYINITIAL>\) { return new Symbol(sym._SYMB_9); }
@@ -99,7 +99,8 @@ IDENT = ({LETTER}|{DIGIT}|['_])
 <COMMENT>[\n] { }
 
 
-<YYINITIAL>{CAPITAL}({LETTER}|{DIGIT}|_|')* { return new Symbol(sym.TypeIdent, yytext().intern()); }
+<YYINITIAL>{CAPITAL}({LETTER}|{DIGIT}|_|')* { return new Symbol(sym.UIdent, yytext().intern()); }
+<YYINITIAL>{SMALL}({LETTER}|{DIGIT}|_|')* { return new Symbol(sym.LIdent, yytext().intern()); }
 
 <YYINITIAL>"\"" { yybegin(STRING); }
 <STRING>\\ { yybegin(ESCAPED); }
@@ -114,5 +115,5 @@ IDENT = ({LETTER}|{DIGIT}|['_])
 
 
 <YYINITIAL>{DIGIT}+ { return new Symbol(sym._INTEGER_, new Integer(yytext())); }
-<YYINITIAL>{LETTER}{IDENT}* { return new Symbol(sym._IDENT_, yytext().intern()); }
+
 <YYINITIAL>[ \t\r\n\f] { /* ignore white space. */ }

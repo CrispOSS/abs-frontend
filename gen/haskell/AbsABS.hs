@@ -7,10 +7,10 @@ module AbsABS where
 
 
 
-newtype Ident = Ident String deriving (Eq,Ord,Show,Read)
 newtype TypeIdent = TypeIdent String deriving (Eq,Ord,Show,Read)
+newtype LIdent = LIdent String deriving (Eq,Ord,Show,Read)
 data AnyIdent =
-   AnyIden Ident
+   AnyIden LIdent
  | AnyTyIden TypeIdent
   deriving (Eq,Ord,Show,Read)
 
@@ -19,20 +19,20 @@ data Program =
   deriving (Eq,Ord,Show,Read)
 
 data Module =
-   Modul QualType [Export] [Import] [Decl] MaybeBlock
+   Modul QType [Export] [Import] [Decl] MaybeBlock
   deriving (Eq,Ord,Show,Read)
 
 data Export =
    AnyExport [AnyIdent]
- | AnyFromExport [AnyIdent] QualType
+ | AnyFromExport [AnyIdent] QType
  | StarExport
- | StarFromExport QualType
+ | StarFromExport QType
   deriving (Eq,Ord,Show,Read)
 
 data Import =
-   AnyImport ImportType QualType AnyIdent
- | AnyFromImport ImportType [AnyIdent] QualType
- | StarFromImport ImportType QualType
+   AnyImport ImportType TType AnyIdent
+ | AnyFromImport ImportType [AnyIdent] QType
+ | StarFromImport ImportType QType
   deriving (Eq,Ord,Show,Read)
 
 data ImportType =
@@ -42,16 +42,24 @@ data ImportType =
 
 data Type =
    TUnderscore
- | TSimple QualType
- | TGen QualType [Type]
+ | TSimple QType
+ | TGen QType [Type]
   deriving (Eq,Ord,Show,Read)
 
-data QualType =
-   QType [QualTypeSegment]
+data QType =
+   QTyp [QTypeSegment]
   deriving (Eq,Ord,Show,Read)
 
-data QualTypeSegment =
-   QTypeSegment TypeIdent
+data QTypeSegment =
+   QTypeSegmen TypeIdent
+  deriving (Eq,Ord,Show,Read)
+
+data TType =
+   TTyp [TTypeSegment]
+  deriving (Eq,Ord,Show,Read)
+
+data TTypeSegment =
+   TTypeSegmen TypeIdent
   deriving (Eq,Ord,Show,Read)
 
 data Decl =
@@ -59,14 +67,14 @@ data Decl =
  | ExceptionDecl ConstrIdent
  | DataDecl TypeIdent [ConstrIdent]
  | DataParDecl TypeIdent [TypeIdent] [ConstrIdent]
- | FunDecl Type Ident [Param] FunBody
- | FunParDecl Type Ident [TypeIdent] [Param] FunBody
+ | FunDecl Type LIdent [Param] FunBody
+ | FunParDecl Type LIdent [TypeIdent] [Param] FunBody
  | InterfDecl TypeIdent [MethSignat]
- | ExtendsDecl TypeIdent [QualType] [MethSignat]
+ | ExtendsDecl TypeIdent [QType] [MethSignat]
  | ClassDecl TypeIdent [ClassBody] MaybeBlock [ClassBody]
  | ClassParamDecl TypeIdent [Param] [ClassBody] MaybeBlock [ClassBody]
- | ClassImplements TypeIdent [QualType] [ClassBody] MaybeBlock [ClassBody]
- | ClassParamImplements TypeIdent [Param] [QualType] [ClassBody] MaybeBlock [ClassBody]
+ | ClassImplements TypeIdent [QType] [ClassBody] MaybeBlock [ClassBody]
+ | ClassParamImplements TypeIdent [Param] [QType] [ClassBody] MaybeBlock [ClassBody]
   deriving (Eq,Ord,Show,Read)
 
 data ConstrIdent =
@@ -76,7 +84,7 @@ data ConstrIdent =
 
 data ConstrType =
    EmptyConstrType Type
- | RecordConstrType Type Ident
+ | RecordConstrType Type LIdent
   deriving (Eq,Ord,Show,Read)
 
 data FunBody =
@@ -85,13 +93,13 @@ data FunBody =
   deriving (Eq,Ord,Show,Read)
 
 data MethSignat =
-   MethSig Type Ident [Param]
+   MethSig Type LIdent [Param]
   deriving (Eq,Ord,Show,Read)
 
 data ClassBody =
-   FieldClassBody Type Ident
- | FieldAssignClassBody Type Ident PureExp
- | MethClassBody Type Ident [Param] Block
+   FieldClassBody Type LIdent
+ | FieldAssignClassBody Type LIdent PureExp
+ | MethClassBody Type LIdent [Param] Block
   deriving (Eq,Ord,Show,Read)
 
 data Block =
@@ -104,7 +112,7 @@ data MaybeBlock =
   deriving (Eq,Ord,Show,Read)
 
 data Param =
-   Par Type Ident
+   Par Type LIdent
   deriving (Eq,Ord,Show,Read)
 
 data Stm =
@@ -112,10 +120,10 @@ data Stm =
  | SBlock [Stm]
  | SWhile PureExp Stm
  | SReturn Exp
- | SAss Ident Exp
- | SFieldAss Ident Exp
- | SDec Type Ident
- | SDecAss Type Ident Exp
+ | SAss LIdent Exp
+ | SFieldAss LIdent Exp
+ | SDec Type LIdent
+ | SDecAss Type LIdent Exp
  | SIf PureExp Stm
  | SIfElse PureExp Stm Stm
  | SSuspend
@@ -137,8 +145,8 @@ data MaybeFinally =
   deriving (Eq,Ord,Show,Read)
 
 data Guard =
-   VarGuard Ident
- | FieldGuard Ident
+   VarGuard LIdent
+ | FieldGuard LIdent
  | ExpGuard PureExp
  | AndGuard Guard Guard
   deriving (Eq,Ord,Show,Read)
@@ -164,15 +172,15 @@ data PureExp =
  | EMod PureExp PureExp
  | ELogNeg PureExp
  | EIntNeg PureExp
- | EFunCall Ident [PureExp]
- | EQualFunCall QualType Ident [PureExp]
- | ENaryFunCall Ident [PureExp]
- | ENaryQualFunCall QualType Ident [PureExp]
- | EVar Ident
- | EThis Ident
- | EQualVar QualType Ident
- | ESinglConstr QualType
- | EParamConstr QualType [PureExp]
+ | EFunCall LIdent [PureExp]
+ | EQualFunCall TType LIdent [PureExp]
+ | ENaryFunCall LIdent [PureExp]
+ | ENaryQualFunCall TType LIdent [PureExp]
+ | EVar LIdent
+ | EThis LIdent
+ | EQualVar TType LIdent
+ | ESinglConstr QType
+ | EParamConstr QType [PureExp]
  | ELit Literal
  | Let Param PureExp PureExp
  | If PureExp PureExp PureExp
@@ -184,7 +192,7 @@ data CaseBranch =
   deriving (Eq,Ord,Show,Read)
 
 data Pattern =
-   PIdent Ident
+   PIdent LIdent
  | PLit Literal
  | PSinglConstr TypeIdent
  | PParamConstr TypeIdent [Pattern]
@@ -202,11 +210,23 @@ data Literal =
 data EffExp =
    New Type [PureExp]
  | NewLocal Type [PureExp]
- | SyncMethCall PureExp Ident [PureExp]
- | ThisSyncMethCall Ident [PureExp]
- | AsyncMethCall PureExp Ident [PureExp]
- | ThisAsyncMethCall Ident [PureExp]
+ | SyncMethCall PureExp LIdent [PureExp]
+ | ThisSyncMethCall LIdent [PureExp]
+ | AsyncMethCall PureExp LIdent [PureExp]
+ | ThisAsyncMethCall LIdent [PureExp]
  | Get PureExp
  | Spawns PureExp Type [PureExp]
+  deriving (Eq,Ord,Show,Read)
+
+data Ann =
+   SimpleAnn PureExp
+  deriving (Eq,Ord,Show,Read)
+
+data AnnDecl =
+   AnnDec [Ann] Decl
+  deriving (Eq,Ord,Show,Read)
+
+data AnnType =
+   AnnTyp [Ann] Type
   deriving (Eq,Ord,Show,Read)
 

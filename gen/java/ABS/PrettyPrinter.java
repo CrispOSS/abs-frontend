@@ -240,7 +240,7 @@ public class PrettyPrinter
     buf_.delete(0,buf_.length());
     return temp;
   }
-  public static String print(ABS.Absyn.ListQualType foo)
+  public static String print(ABS.Absyn.ListQType foo)
   {
     pp(foo, 0);
     trim();
@@ -248,14 +248,14 @@ public class PrettyPrinter
     buf_.delete(0,buf_.length());
     return temp;
   }
-  public static String show(ABS.Absyn.ListQualType foo)
+  public static String show(ABS.Absyn.ListQType foo)
   {
     sh(foo);
     String temp = buf_.toString();
     buf_.delete(0,buf_.length());
     return temp;
   }
-  public static String print(ABS.Absyn.QualType foo)
+  public static String print(ABS.Absyn.QType foo)
   {
     pp(foo, 0);
     trim();
@@ -263,14 +263,14 @@ public class PrettyPrinter
     buf_.delete(0,buf_.length());
     return temp;
   }
-  public static String show(ABS.Absyn.QualType foo)
+  public static String show(ABS.Absyn.QType foo)
   {
     sh(foo);
     String temp = buf_.toString();
     buf_.delete(0,buf_.length());
     return temp;
   }
-  public static String print(ABS.Absyn.QualTypeSegment foo)
+  public static String print(ABS.Absyn.QTypeSegment foo)
   {
     pp(foo, 0);
     trim();
@@ -278,14 +278,14 @@ public class PrettyPrinter
     buf_.delete(0,buf_.length());
     return temp;
   }
-  public static String show(ABS.Absyn.QualTypeSegment foo)
+  public static String show(ABS.Absyn.QTypeSegment foo)
   {
     sh(foo);
     String temp = buf_.toString();
     buf_.delete(0,buf_.length());
     return temp;
   }
-  public static String print(ABS.Absyn.ListQualTypeSegment foo)
+  public static String print(ABS.Absyn.ListQTypeSegment foo)
   {
     pp(foo, 0);
     trim();
@@ -293,7 +293,52 @@ public class PrettyPrinter
     buf_.delete(0,buf_.length());
     return temp;
   }
-  public static String show(ABS.Absyn.ListQualTypeSegment foo)
+  public static String show(ABS.Absyn.ListQTypeSegment foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(ABS.Absyn.TType foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(ABS.Absyn.TType foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(ABS.Absyn.TTypeSegment foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(ABS.Absyn.TTypeSegment foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(ABS.Absyn.ListTTypeSegment foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(ABS.Absyn.ListTTypeSegment foo)
   {
     sh(foo);
     String temp = buf_.toString();
@@ -375,7 +420,7 @@ public class PrettyPrinter
     buf_.delete(0,buf_.length());
     return temp;
   }
-  public static String print(ABS.Absyn.ListTypeIdent foo)
+  public static String print(ABS.Absyn.ListUIdent foo)
   {
     pp(foo, 0);
     trim();
@@ -383,7 +428,7 @@ public class PrettyPrinter
     buf_.delete(0,buf_.length());
     return temp;
   }
-  public static String show(ABS.Absyn.ListTypeIdent foo)
+  public static String show(ABS.Absyn.ListUIdent foo)
   {
     sh(foo);
     String temp = buf_.toString();
@@ -765,6 +810,96 @@ public class PrettyPrinter
     buf_.delete(0,buf_.length());
     return temp;
   }
+  public static String print(ABS.Absyn.Ann foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(ABS.Absyn.Ann foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(ABS.Absyn.ListAnn foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(ABS.Absyn.ListAnn foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(ABS.Absyn.AnnDecl foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(ABS.Absyn.AnnDecl foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(ABS.Absyn.ListAnnDecl foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(ABS.Absyn.ListAnnDecl foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(ABS.Absyn.AnnType foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(ABS.Absyn.AnnType foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String print(ABS.Absyn.ListAnnType foo)
+  {
+    pp(foo, 0);
+    trim();
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
+  public static String show(ABS.Absyn.ListAnnType foo)
+  {
+    sh(foo);
+    String temp = buf_.toString();
+    buf_.delete(0,buf_.length());
+    return temp;
+  }
   /***   You shouldn't need to change anything beyond this point.   ***/
 
   private static void pp(ABS.Absyn.AnyIdent foo, int _i_)
@@ -773,14 +908,14 @@ public class PrettyPrinter
     {
        ABS.Absyn.AnyIden _anyiden = (ABS.Absyn.AnyIden) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_anyiden.ident_, 0);
+       pp(_anyiden.lident_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
     else     if (foo instanceof ABS.Absyn.AnyTyIden)
     {
        ABS.Absyn.AnyTyIden _anytyiden = (ABS.Absyn.AnyTyIden) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_anytyiden.typeident_, 0);
+       pp(_anytyiden.uident_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
   }
@@ -829,7 +964,7 @@ public class PrettyPrinter
        ABS.Absyn.Modul _modul = (ABS.Absyn.Modul) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("module");
-       pp(_modul.qualtype_, 0);
+       pp(_modul.qtype_, 0);
        render(";");
        pp(_modul.listexport_, 0);
        pp(_modul.listimport_, 0);
@@ -856,7 +991,7 @@ public class PrettyPrinter
        render("export");
        pp(_anyfromexport.listanyident_, 0);
        render("from");
-       pp(_anyfromexport.qualtype_, 0);
+       pp(_anyfromexport.qtype_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
     else     if (foo instanceof ABS.Absyn.StarExport)
@@ -874,7 +1009,7 @@ public class PrettyPrinter
        render("export");
        render("*");
        render("from");
-       pp(_starfromexport.qualtype_, 0);
+       pp(_starfromexport.qtype_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
   }
@@ -899,8 +1034,7 @@ public class PrettyPrinter
        ABS.Absyn.AnyImport _anyimport = (ABS.Absyn.AnyImport) foo;
        if (_i_ > 0) render(_L_PAREN);
        pp(_anyimport.importtype_, 0);
-       pp(_anyimport.qualtype_, 0);
-       render(".");
+       pp(_anyimport.ttype_, 0);
        pp(_anyimport.anyident_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
@@ -911,7 +1045,7 @@ public class PrettyPrinter
        pp(_anyfromimport.importtype_, 0);
        pp(_anyfromimport.listanyident_, 0);
        render("from");
-       pp(_anyfromimport.qualtype_, 0);
+       pp(_anyfromimport.qtype_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
     else     if (foo instanceof ABS.Absyn.StarFromImport)
@@ -921,7 +1055,7 @@ public class PrettyPrinter
        pp(_starfromimport.importtype_, 0);
        render("*");
        render("from");
-       pp(_starfromimport.qualtype_, 0);
+       pp(_starfromimport.qtype_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
   }
@@ -970,14 +1104,14 @@ public class PrettyPrinter
     {
        ABS.Absyn.TSimple _tsimple = (ABS.Absyn.TSimple) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_tsimple.qualtype_, 0);
+       pp(_tsimple.qtype_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
     else     if (foo instanceof ABS.Absyn.TGen)
     {
        ABS.Absyn.TGen _tgen = (ABS.Absyn.TGen) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_tgen.qualtype_, 0);
+       pp(_tgen.qtype_, 0);
        render("<");
        pp(_tgen.listtype_, 0);
        render(">");
@@ -998,9 +1132,9 @@ public class PrettyPrinter
      }
   }
 
-  private static void pp(ABS.Absyn.ListQualType foo, int _i_)
+  private static void pp(ABS.Absyn.ListQType foo, int _i_)
   {
-     for (java.util.Iterator<QualType> it = foo.iterator(); it.hasNext();)
+     for (java.util.Iterator<QType> it = foo.iterator(); it.hasNext();)
      {
        pp(it.next(), 0);
        if (it.hasNext()) {
@@ -1011,31 +1145,66 @@ public class PrettyPrinter
      }
   }
 
-  private static void pp(ABS.Absyn.QualType foo, int _i_)
+  private static void pp(ABS.Absyn.QType foo, int _i_)
   {
-    if (foo instanceof ABS.Absyn.QType)
+    if (foo instanceof ABS.Absyn.QTyp)
     {
-       ABS.Absyn.QType _qtype = (ABS.Absyn.QType) foo;
+       ABS.Absyn.QTyp _qtyp = (ABS.Absyn.QTyp) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_qtype.listqualtypesegment_, 0);
+       pp(_qtyp.listqtypesegment_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
   }
 
-  private static void pp(ABS.Absyn.QualTypeSegment foo, int _i_)
+  private static void pp(ABS.Absyn.QTypeSegment foo, int _i_)
   {
-    if (foo instanceof ABS.Absyn.QTypeSegment)
+    if (foo instanceof ABS.Absyn.QTypeSegmen)
     {
-       ABS.Absyn.QTypeSegment _qtypesegment = (ABS.Absyn.QTypeSegment) foo;
+       ABS.Absyn.QTypeSegmen _qtypesegmen = (ABS.Absyn.QTypeSegmen) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_qtypesegment.typeident_, 0);
+       pp(_qtypesegmen.uident_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
   }
 
-  private static void pp(ABS.Absyn.ListQualTypeSegment foo, int _i_)
+  private static void pp(ABS.Absyn.ListQTypeSegment foo, int _i_)
   {
-     for (java.util.Iterator<QualTypeSegment> it = foo.iterator(); it.hasNext();)
+     for (java.util.Iterator<QTypeSegment> it = foo.iterator(); it.hasNext();)
+     {
+       pp(it.next(), 0);
+       if (it.hasNext()) {
+         render(".");
+       } else {
+         render("");
+       }
+     }
+  }
+
+  private static void pp(ABS.Absyn.TType foo, int _i_)
+  {
+    if (foo instanceof ABS.Absyn.TTyp)
+    {
+       ABS.Absyn.TTyp _ttyp = (ABS.Absyn.TTyp) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_ttyp.listttypesegment_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(ABS.Absyn.TTypeSegment foo, int _i_)
+  {
+    if (foo instanceof ABS.Absyn.TTypeSegmen)
+    {
+       ABS.Absyn.TTypeSegmen _ttypesegmen = (ABS.Absyn.TTypeSegmen) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_ttypesegmen.uident_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(ABS.Absyn.ListTTypeSegment foo, int _i_)
+  {
+     for (java.util.Iterator<TTypeSegment> it = foo.iterator(); it.hasNext();)
      {
        pp(it.next(), 0);
        if (it.hasNext()) {
@@ -1066,7 +1235,7 @@ public class PrettyPrinter
        ABS.Absyn.TypeDecl _typedecl = (ABS.Absyn.TypeDecl) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("type");
-       pp(_typedecl.typeident_, 0);
+       pp(_typedecl.uident_, 0);
        render("=");
        pp(_typedecl.type_, 0);
        render(";");
@@ -1086,7 +1255,7 @@ public class PrettyPrinter
        ABS.Absyn.DataDecl _datadecl = (ABS.Absyn.DataDecl) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("data");
-       pp(_datadecl.typeident_, 0);
+       pp(_datadecl.uident_, 0);
        render("=");
        pp(_datadecl.listconstrident_, 0);
        render(";");
@@ -1097,9 +1266,9 @@ public class PrettyPrinter
        ABS.Absyn.DataParDecl _datapardecl = (ABS.Absyn.DataParDecl) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("data");
-       pp(_datapardecl.typeident_, 0);
+       pp(_datapardecl.uident_, 0);
        render("<");
-       pp(_datapardecl.listtypeident_, 0);
+       pp(_datapardecl.listuident_, 0);
        render(">");
        render("=");
        pp(_datapardecl.listconstrident_, 0);
@@ -1112,7 +1281,7 @@ public class PrettyPrinter
        if (_i_ > 0) render(_L_PAREN);
        render("def");
        pp(_fundecl.type_, 0);
-       pp(_fundecl.ident_, 0);
+       pp(_fundecl.lident_, 0);
        render("(");
        pp(_fundecl.listparam_, 0);
        render(")");
@@ -1127,9 +1296,9 @@ public class PrettyPrinter
        if (_i_ > 0) render(_L_PAREN);
        render("def");
        pp(_funpardecl.type_, 0);
-       pp(_funpardecl.ident_, 0);
+       pp(_funpardecl.lident_, 0);
        render("<");
-       pp(_funpardecl.listtypeident_, 0);
+       pp(_funpardecl.listuident_, 0);
        render(">");
        render("(");
        pp(_funpardecl.listparam_, 0);
@@ -1144,7 +1313,7 @@ public class PrettyPrinter
        ABS.Absyn.InterfDecl _interfdecl = (ABS.Absyn.InterfDecl) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("interface");
-       pp(_interfdecl.typeident_, 0);
+       pp(_interfdecl.uident_, 0);
        render("{");
        pp(_interfdecl.listmethsignat_, 0);
        render("}");
@@ -1155,9 +1324,9 @@ public class PrettyPrinter
        ABS.Absyn.ExtendsDecl _extendsdecl = (ABS.Absyn.ExtendsDecl) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("interface");
-       pp(_extendsdecl.typeident_, 0);
+       pp(_extendsdecl.uident_, 0);
        render("extends");
-       pp(_extendsdecl.listqualtype_, 0);
+       pp(_extendsdecl.listqtype_, 0);
        render("{");
        pp(_extendsdecl.listmethsignat_, 0);
        render("}");
@@ -1168,7 +1337,7 @@ public class PrettyPrinter
        ABS.Absyn.ClassDecl _classdecl = (ABS.Absyn.ClassDecl) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("class");
-       pp(_classdecl.typeident_, 0);
+       pp(_classdecl.uident_, 0);
        render("{");
        pp(_classdecl.listclassbody_1, 0);
        pp(_classdecl.maybeblock_, 0);
@@ -1181,7 +1350,7 @@ public class PrettyPrinter
        ABS.Absyn.ClassParamDecl _classparamdecl = (ABS.Absyn.ClassParamDecl) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("class");
-       pp(_classparamdecl.typeident_, 0);
+       pp(_classparamdecl.uident_, 0);
        render("(");
        pp(_classparamdecl.listparam_, 0);
        render(")");
@@ -1197,9 +1366,9 @@ public class PrettyPrinter
        ABS.Absyn.ClassImplements _classimplements = (ABS.Absyn.ClassImplements) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("class");
-       pp(_classimplements.typeident_, 0);
+       pp(_classimplements.uident_, 0);
        render("implements");
-       pp(_classimplements.listqualtype_, 0);
+       pp(_classimplements.listqtype_, 0);
        render("{");
        pp(_classimplements.listclassbody_1, 0);
        pp(_classimplements.maybeblock_, 0);
@@ -1212,12 +1381,12 @@ public class PrettyPrinter
        ABS.Absyn.ClassParamImplements _classparamimplements = (ABS.Absyn.ClassParamImplements) foo;
        if (_i_ > 0) render(_L_PAREN);
        render("class");
-       pp(_classparamimplements.typeident_, 0);
+       pp(_classparamimplements.uident_, 0);
        render("(");
        pp(_classparamimplements.listparam_, 0);
        render(")");
        render("implements");
-       pp(_classparamimplements.listqualtype_, 0);
+       pp(_classparamimplements.listqtype_, 0);
        render("{");
        pp(_classparamimplements.listclassbody_1, 0);
        pp(_classparamimplements.maybeblock_, 0);
@@ -1233,14 +1402,14 @@ public class PrettyPrinter
     {
        ABS.Absyn.SinglConstrIdent _singlconstrident = (ABS.Absyn.SinglConstrIdent) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_singlconstrident.typeident_, 0);
+       pp(_singlconstrident.uident_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
     else     if (foo instanceof ABS.Absyn.ParamConstrIdent)
     {
        ABS.Absyn.ParamConstrIdent _paramconstrident = (ABS.Absyn.ParamConstrIdent) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_paramconstrident.typeident_, 0);
+       pp(_paramconstrident.uident_, 0);
        render("(");
        pp(_paramconstrident.listconstrtype_, 0);
        render(")");
@@ -1262,7 +1431,7 @@ public class PrettyPrinter
        ABS.Absyn.RecordConstrType _recordconstrtype = (ABS.Absyn.RecordConstrType) foo;
        if (_i_ > 0) render(_L_PAREN);
        pp(_recordconstrtype.type_, 0);
-       pp(_recordconstrtype.ident_, 0);
+       pp(_recordconstrtype.lident_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
   }
@@ -1280,7 +1449,7 @@ public class PrettyPrinter
      }
   }
 
-  private static void pp(ABS.Absyn.ListTypeIdent foo, int _i_)
+  private static void pp(ABS.Absyn.ListUIdent foo, int _i_)
   {
      for (java.util.Iterator<String> it = foo.iterator(); it.hasNext();)
      {
@@ -1331,7 +1500,7 @@ public class PrettyPrinter
        ABS.Absyn.MethSig _methsig = (ABS.Absyn.MethSig) foo;
        if (_i_ > 0) render(_L_PAREN);
        pp(_methsig.type_, 0);
-       pp(_methsig.ident_, 0);
+       pp(_methsig.lident_, 0);
        render("(");
        pp(_methsig.listparam_, 0);
        render(")");
@@ -1359,7 +1528,7 @@ public class PrettyPrinter
        ABS.Absyn.FieldClassBody _fieldclassbody = (ABS.Absyn.FieldClassBody) foo;
        if (_i_ > 0) render(_L_PAREN);
        pp(_fieldclassbody.type_, 0);
-       pp(_fieldclassbody.ident_, 0);
+       pp(_fieldclassbody.lident_, 0);
        render(";");
        if (_i_ > 0) render(_R_PAREN);
     }
@@ -1368,7 +1537,7 @@ public class PrettyPrinter
        ABS.Absyn.FieldAssignClassBody _fieldassignclassbody = (ABS.Absyn.FieldAssignClassBody) foo;
        if (_i_ > 0) render(_L_PAREN);
        pp(_fieldassignclassbody.type_, 0);
-       pp(_fieldassignclassbody.ident_, 0);
+       pp(_fieldassignclassbody.lident_, 0);
        render("=");
        pp(_fieldassignclassbody.pureexp_, 0);
        render(";");
@@ -1379,7 +1548,7 @@ public class PrettyPrinter
        ABS.Absyn.MethClassBody _methclassbody = (ABS.Absyn.MethClassBody) foo;
        if (_i_ > 0) render(_L_PAREN);
        pp(_methclassbody.type_, 0);
-       pp(_methclassbody.ident_, 0);
+       pp(_methclassbody.lident_, 0);
        render("(");
        pp(_methclassbody.listparam_, 0);
        render(")");
@@ -1451,7 +1620,7 @@ public class PrettyPrinter
        ABS.Absyn.Par _par = (ABS.Absyn.Par) foo;
        if (_i_ > 0) render(_L_PAREN);
        pp(_par.type_, 0);
-       pp(_par.ident_, 0);
+       pp(_par.lident_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
   }
@@ -1512,7 +1681,7 @@ public class PrettyPrinter
     {
        ABS.Absyn.SAss _sass = (ABS.Absyn.SAss) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_sass.ident_, 0);
+       pp(_sass.lident_, 0);
        render("=");
        pp(_sass.exp_, 0);
        render(";");
@@ -1524,7 +1693,7 @@ public class PrettyPrinter
        if (_i_ > 0) render(_L_PAREN);
        render("this");
        render(".");
-       pp(_sfieldass.ident_, 0);
+       pp(_sfieldass.lident_, 0);
        render("=");
        pp(_sfieldass.exp_, 0);
        render(";");
@@ -1535,7 +1704,7 @@ public class PrettyPrinter
        ABS.Absyn.SDec _sdec = (ABS.Absyn.SDec) foo;
        if (_i_ > 0) render(_L_PAREN);
        pp(_sdec.type_, 0);
-       pp(_sdec.ident_, 0);
+       pp(_sdec.lident_, 0);
        render(";");
        if (_i_ > 0) render(_R_PAREN);
     }
@@ -1544,7 +1713,7 @@ public class PrettyPrinter
        ABS.Absyn.SDecAss _sdecass = (ABS.Absyn.SDecAss) foo;
        if (_i_ > 0) render(_L_PAREN);
        pp(_sdecass.type_, 0);
-       pp(_sdecass.ident_, 0);
+       pp(_sdecass.lident_, 0);
        render("=");
        pp(_sdecass.exp_, 0);
        render(";");
@@ -1691,7 +1860,7 @@ public class PrettyPrinter
     {
        ABS.Absyn.VarGuard _varguard = (ABS.Absyn.VarGuard) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_varguard.ident_, 0);
+       pp(_varguard.lident_, 0);
        render("?");
        if (_i_ > 0) render(_R_PAREN);
     }
@@ -1701,7 +1870,7 @@ public class PrettyPrinter
        if (_i_ > 0) render(_L_PAREN);
        render("this");
        render(".");
-       pp(_fieldguard.ident_, 0);
+       pp(_fieldguard.lident_, 0);
        render("?");
        if (_i_ > 0) render(_R_PAREN);
     }
@@ -1930,7 +2099,7 @@ public class PrettyPrinter
     {
        ABS.Absyn.EFunCall _efuncall = (ABS.Absyn.EFunCall) foo;
        if (_i_ > 7) render(_L_PAREN);
-       pp(_efuncall.ident_, 0);
+       pp(_efuncall.lident_, 0);
        render("(");
        pp(_efuncall.listpureexp_, 0);
        render(")");
@@ -1940,9 +2109,8 @@ public class PrettyPrinter
     {
        ABS.Absyn.EQualFunCall _equalfuncall = (ABS.Absyn.EQualFunCall) foo;
        if (_i_ > 7) render(_L_PAREN);
-       pp(_equalfuncall.qualtype_, 0);
-       render(".");
-       pp(_equalfuncall.ident_, 0);
+       pp(_equalfuncall.ttype_, 0);
+       pp(_equalfuncall.lident_, 0);
        render("(");
        pp(_equalfuncall.listpureexp_, 0);
        render(")");
@@ -1952,7 +2120,7 @@ public class PrettyPrinter
     {
        ABS.Absyn.ENaryFunCall _enaryfuncall = (ABS.Absyn.ENaryFunCall) foo;
        if (_i_ > 7) render(_L_PAREN);
-       pp(_enaryfuncall.ident_, 0);
+       pp(_enaryfuncall.lident_, 0);
        render("[");
        pp(_enaryfuncall.listpureexp_, 0);
        render("]");
@@ -1962,9 +2130,8 @@ public class PrettyPrinter
     {
        ABS.Absyn.ENaryQualFunCall _enaryqualfuncall = (ABS.Absyn.ENaryQualFunCall) foo;
        if (_i_ > 7) render(_L_PAREN);
-       pp(_enaryqualfuncall.qualtype_, 0);
-       render(".");
-       pp(_enaryqualfuncall.ident_, 0);
+       pp(_enaryqualfuncall.ttype_, 0);
+       pp(_enaryqualfuncall.lident_, 0);
        render("[");
        pp(_enaryqualfuncall.listpureexp_, 0);
        render("]");
@@ -1974,7 +2141,7 @@ public class PrettyPrinter
     {
        ABS.Absyn.EVar _evar = (ABS.Absyn.EVar) foo;
        if (_i_ > 7) render(_L_PAREN);
-       pp(_evar.ident_, 0);
+       pp(_evar.lident_, 0);
        if (_i_ > 7) render(_R_PAREN);
     }
     else     if (foo instanceof ABS.Absyn.EThis)
@@ -1983,30 +2150,29 @@ public class PrettyPrinter
        if (_i_ > 7) render(_L_PAREN);
        render("this");
        render(".");
-       pp(_ethis.ident_, 0);
+       pp(_ethis.lident_, 0);
        if (_i_ > 7) render(_R_PAREN);
     }
     else     if (foo instanceof ABS.Absyn.EQualVar)
     {
        ABS.Absyn.EQualVar _equalvar = (ABS.Absyn.EQualVar) foo;
        if (_i_ > 7) render(_L_PAREN);
-       pp(_equalvar.qualtype_, 0);
-       render(".");
-       pp(_equalvar.ident_, 0);
+       pp(_equalvar.ttype_, 0);
+       pp(_equalvar.lident_, 0);
        if (_i_ > 7) render(_R_PAREN);
     }
     else     if (foo instanceof ABS.Absyn.ESinglConstr)
     {
        ABS.Absyn.ESinglConstr _esinglconstr = (ABS.Absyn.ESinglConstr) foo;
        if (_i_ > 7) render(_L_PAREN);
-       pp(_esinglconstr.qualtype_, 0);
+       pp(_esinglconstr.qtype_, 0);
        if (_i_ > 7) render(_R_PAREN);
     }
     else     if (foo instanceof ABS.Absyn.EParamConstr)
     {
        ABS.Absyn.EParamConstr _eparamconstr = (ABS.Absyn.EParamConstr) foo;
        if (_i_ > 7) render(_L_PAREN);
-       pp(_eparamconstr.qualtype_, 0);
+       pp(_eparamconstr.qtype_, 0);
        render("(");
        pp(_eparamconstr.listpureexp_, 0);
        render(")");
@@ -2066,7 +2232,7 @@ public class PrettyPrinter
     {
        ABS.Absyn.PIdent _pident = (ABS.Absyn.PIdent) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_pident.ident_, 0);
+       pp(_pident.lident_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
     else     if (foo instanceof ABS.Absyn.PLit)
@@ -2080,14 +2246,14 @@ public class PrettyPrinter
     {
        ABS.Absyn.PSinglConstr _psinglconstr = (ABS.Absyn.PSinglConstr) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_psinglconstr.typeident_, 0);
+       pp(_psinglconstr.uident_, 0);
        if (_i_ > 0) render(_R_PAREN);
     }
     else     if (foo instanceof ABS.Absyn.PParamConstr)
     {
        ABS.Absyn.PParamConstr _pparamconstr = (ABS.Absyn.PParamConstr) foo;
        if (_i_ > 0) render(_L_PAREN);
-       pp(_pparamconstr.typeident_, 0);
+       pp(_pparamconstr.uident_, 0);
        render("(");
        pp(_pparamconstr.listpattern_, 0);
        render(")");
@@ -2172,7 +2338,7 @@ public class PrettyPrinter
        if (_i_ > 0) render(_L_PAREN);
        pp(_syncmethcall.pureexp_, 0);
        render(".");
-       pp(_syncmethcall.ident_, 0);
+       pp(_syncmethcall.lident_, 0);
        render("(");
        pp(_syncmethcall.listpureexp_, 0);
        render(")");
@@ -2184,7 +2350,7 @@ public class PrettyPrinter
        if (_i_ > 0) render(_L_PAREN);
        render("this");
        render(".");
-       pp(_thissyncmethcall.ident_, 0);
+       pp(_thissyncmethcall.lident_, 0);
        render("(");
        pp(_thissyncmethcall.listpureexp_, 0);
        render(")");
@@ -2196,7 +2362,7 @@ public class PrettyPrinter
        if (_i_ > 0) render(_L_PAREN);
        pp(_asyncmethcall.pureexp_, 0);
        render("!");
-       pp(_asyncmethcall.ident_, 0);
+       pp(_asyncmethcall.lident_, 0);
        render("(");
        pp(_asyncmethcall.listpureexp_, 0);
        render(")");
@@ -2208,7 +2374,7 @@ public class PrettyPrinter
        if (_i_ > 0) render(_L_PAREN);
        render("this");
        render("!");
-       pp(_thisasyncmethcall.ident_, 0);
+       pp(_thisasyncmethcall.lident_, 0);
        render("(");
        pp(_thisasyncmethcall.listpureexp_, 0);
        render(")");
@@ -2237,6 +2403,82 @@ public class PrettyPrinter
     }
   }
 
+  private static void pp(ABS.Absyn.Ann foo, int _i_)
+  {
+    if (foo instanceof ABS.Absyn.SimpleAnn)
+    {
+       ABS.Absyn.SimpleAnn _simpleann = (ABS.Absyn.SimpleAnn) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("[");
+       pp(_simpleann.pureexp_, 0);
+       render("]");
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(ABS.Absyn.ListAnn foo, int _i_)
+  {
+     for (java.util.Iterator<Ann> it = foo.iterator(); it.hasNext();)
+     {
+       pp(it.next(), 0);
+       if (it.hasNext()) {
+         render("");
+       } else {
+         render("");
+       }
+     }
+  }
+
+  private static void pp(ABS.Absyn.AnnDecl foo, int _i_)
+  {
+    if (foo instanceof ABS.Absyn.AnnDec)
+    {
+       ABS.Absyn.AnnDec _anndec = (ABS.Absyn.AnnDec) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_anndec.listann_, 0);
+       pp(_anndec.decl_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(ABS.Absyn.ListAnnDecl foo, int _i_)
+  {
+     for (java.util.Iterator<AnnDecl> it = foo.iterator(); it.hasNext();)
+     {
+       pp(it.next(), 0);
+       if (it.hasNext()) {
+         render("");
+       } else {
+         render("");
+       }
+     }
+  }
+
+  private static void pp(ABS.Absyn.AnnType foo, int _i_)
+  {
+    if (foo instanceof ABS.Absyn.AnnTyp)
+    {
+       ABS.Absyn.AnnTyp _anntyp = (ABS.Absyn.AnnTyp) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       pp(_anntyp.listann_, 0);
+       pp(_anntyp.type_, 0);
+       if (_i_ > 0) render(_R_PAREN);
+    }
+  }
+
+  private static void pp(ABS.Absyn.ListAnnType foo, int _i_)
+  {
+     for (java.util.Iterator<AnnType> it = foo.iterator(); it.hasNext();)
+     {
+       pp(it.next(), 0);
+       if (it.hasNext()) {
+         render(",");
+       } else {
+         render("");
+       }
+     }
+  }
+
 
   private static void sh(ABS.Absyn.AnyIdent foo)
   {
@@ -2245,7 +2487,7 @@ public class PrettyPrinter
        ABS.Absyn.AnyIden _anyiden = (ABS.Absyn.AnyIden) foo;
        render("(");
        render("AnyIden");
-       sh(_anyiden.ident_);
+       sh(_anyiden.lident_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.AnyTyIden)
@@ -2253,7 +2495,7 @@ public class PrettyPrinter
        ABS.Absyn.AnyTyIden _anytyiden = (ABS.Absyn.AnyTyIden) foo;
        render("(");
        render("AnyTyIden");
-       sh(_anytyiden.typeident_);
+       sh(_anytyiden.uident_);
        render(")");
     }
   }
@@ -2299,7 +2541,7 @@ public class PrettyPrinter
        ABS.Absyn.Modul _modul = (ABS.Absyn.Modul) foo;
        render("(");
        render("Modul");
-       sh(_modul.qualtype_);
+       sh(_modul.qtype_);
        render("[");
        sh(_modul.listexport_);
        render("]");
@@ -2334,7 +2576,7 @@ public class PrettyPrinter
        render("[");
        sh(_anyfromexport.listanyident_);
        render("]");
-       sh(_anyfromexport.qualtype_);
+       sh(_anyfromexport.qtype_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.StarExport)
@@ -2347,7 +2589,7 @@ public class PrettyPrinter
        ABS.Absyn.StarFromExport _starfromexport = (ABS.Absyn.StarFromExport) foo;
        render("(");
        render("StarFromExport");
-       sh(_starfromexport.qualtype_);
+       sh(_starfromexport.qtype_);
        render(")");
     }
   }
@@ -2370,7 +2612,7 @@ public class PrettyPrinter
        render("(");
        render("AnyImport");
        sh(_anyimport.importtype_);
-       sh(_anyimport.qualtype_);
+       sh(_anyimport.ttype_);
        sh(_anyimport.anyident_);
        render(")");
     }
@@ -2383,7 +2625,7 @@ public class PrettyPrinter
        render("[");
        sh(_anyfromimport.listanyident_);
        render("]");
-       sh(_anyfromimport.qualtype_);
+       sh(_anyfromimport.qtype_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.StarFromImport)
@@ -2392,7 +2634,7 @@ public class PrettyPrinter
        render("(");
        render("StarFromImport");
        sh(_starfromimport.importtype_);
-       sh(_starfromimport.qualtype_);
+       sh(_starfromimport.qtype_);
        render(")");
     }
   }
@@ -2433,7 +2675,7 @@ public class PrettyPrinter
        ABS.Absyn.TSimple _tsimple = (ABS.Absyn.TSimple) foo;
        render("(");
        render("TSimple");
-       sh(_tsimple.qualtype_);
+       sh(_tsimple.qtype_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.TGen)
@@ -2441,7 +2683,7 @@ public class PrettyPrinter
        ABS.Absyn.TGen _tgen = (ABS.Absyn.TGen) foo;
        render("(");
        render("TGen");
-       sh(_tgen.qualtype_);
+       sh(_tgen.qtype_);
        render("[");
        sh(_tgen.listtype_);
        render("]");
@@ -2459,9 +2701,9 @@ public class PrettyPrinter
      }
   }
 
-  private static void sh(ABS.Absyn.ListQualType foo)
+  private static void sh(ABS.Absyn.ListQType foo)
   {
-     for (java.util.Iterator<QualType> it = foo.iterator(); it.hasNext();)
+     for (java.util.Iterator<QType> it = foo.iterator(); it.hasNext();)
      {
        sh(it.next());
        if (it.hasNext())
@@ -2469,35 +2711,71 @@ public class PrettyPrinter
      }
   }
 
-  private static void sh(ABS.Absyn.QualType foo)
+  private static void sh(ABS.Absyn.QType foo)
   {
-    if (foo instanceof ABS.Absyn.QType)
+    if (foo instanceof ABS.Absyn.QTyp)
     {
-       ABS.Absyn.QType _qtype = (ABS.Absyn.QType) foo;
+       ABS.Absyn.QTyp _qtyp = (ABS.Absyn.QTyp) foo;
        render("(");
-       render("QType");
+       render("QTyp");
        render("[");
-       sh(_qtype.listqualtypesegment_);
+       sh(_qtyp.listqtypesegment_);
        render("]");
        render(")");
     }
   }
 
-  private static void sh(ABS.Absyn.QualTypeSegment foo)
+  private static void sh(ABS.Absyn.QTypeSegment foo)
   {
-    if (foo instanceof ABS.Absyn.QTypeSegment)
+    if (foo instanceof ABS.Absyn.QTypeSegmen)
     {
-       ABS.Absyn.QTypeSegment _qtypesegment = (ABS.Absyn.QTypeSegment) foo;
+       ABS.Absyn.QTypeSegmen _qtypesegmen = (ABS.Absyn.QTypeSegmen) foo;
        render("(");
-       render("QTypeSegment");
-       sh(_qtypesegment.typeident_);
+       render("QTypeSegmen");
+       sh(_qtypesegmen.uident_);
        render(")");
     }
   }
 
-  private static void sh(ABS.Absyn.ListQualTypeSegment foo)
+  private static void sh(ABS.Absyn.ListQTypeSegment foo)
   {
-     for (java.util.Iterator<QualTypeSegment> it = foo.iterator(); it.hasNext();)
+     for (java.util.Iterator<QTypeSegment> it = foo.iterator(); it.hasNext();)
+     {
+       sh(it.next());
+       if (it.hasNext())
+         render(",");
+     }
+  }
+
+  private static void sh(ABS.Absyn.TType foo)
+  {
+    if (foo instanceof ABS.Absyn.TTyp)
+    {
+       ABS.Absyn.TTyp _ttyp = (ABS.Absyn.TTyp) foo;
+       render("(");
+       render("TTyp");
+       render("[");
+       sh(_ttyp.listttypesegment_);
+       render("]");
+       render(")");
+    }
+  }
+
+  private static void sh(ABS.Absyn.TTypeSegment foo)
+  {
+    if (foo instanceof ABS.Absyn.TTypeSegmen)
+    {
+       ABS.Absyn.TTypeSegmen _ttypesegmen = (ABS.Absyn.TTypeSegmen) foo;
+       render("(");
+       render("TTypeSegmen");
+       sh(_ttypesegmen.uident_);
+       render(")");
+    }
+  }
+
+  private static void sh(ABS.Absyn.ListTTypeSegment foo)
+  {
+     for (java.util.Iterator<TTypeSegment> it = foo.iterator(); it.hasNext();)
      {
        sh(it.next());
        if (it.hasNext())
@@ -2522,7 +2800,7 @@ public class PrettyPrinter
        ABS.Absyn.TypeDecl _typedecl = (ABS.Absyn.TypeDecl) foo;
        render("(");
        render("TypeDecl");
-       sh(_typedecl.typeident_);
+       sh(_typedecl.uident_);
        sh(_typedecl.type_);
        render(")");
     }
@@ -2539,7 +2817,7 @@ public class PrettyPrinter
        ABS.Absyn.DataDecl _datadecl = (ABS.Absyn.DataDecl) foo;
        render("(");
        render("DataDecl");
-       sh(_datadecl.typeident_);
+       sh(_datadecl.uident_);
        render("[");
        sh(_datadecl.listconstrident_);
        render("]");
@@ -2550,9 +2828,9 @@ public class PrettyPrinter
        ABS.Absyn.DataParDecl _datapardecl = (ABS.Absyn.DataParDecl) foo;
        render("(");
        render("DataParDecl");
-       sh(_datapardecl.typeident_);
+       sh(_datapardecl.uident_);
        render("[");
-       sh(_datapardecl.listtypeident_);
+       sh(_datapardecl.listuident_);
        render("]");
        render("[");
        sh(_datapardecl.listconstrident_);
@@ -2565,7 +2843,7 @@ public class PrettyPrinter
        render("(");
        render("FunDecl");
        sh(_fundecl.type_);
-       sh(_fundecl.ident_);
+       sh(_fundecl.lident_);
        render("[");
        sh(_fundecl.listparam_);
        render("]");
@@ -2578,9 +2856,9 @@ public class PrettyPrinter
        render("(");
        render("FunParDecl");
        sh(_funpardecl.type_);
-       sh(_funpardecl.ident_);
+       sh(_funpardecl.lident_);
        render("[");
-       sh(_funpardecl.listtypeident_);
+       sh(_funpardecl.listuident_);
        render("]");
        render("[");
        sh(_funpardecl.listparam_);
@@ -2593,7 +2871,7 @@ public class PrettyPrinter
        ABS.Absyn.InterfDecl _interfdecl = (ABS.Absyn.InterfDecl) foo;
        render("(");
        render("InterfDecl");
-       sh(_interfdecl.typeident_);
+       sh(_interfdecl.uident_);
        render("[");
        sh(_interfdecl.listmethsignat_);
        render("]");
@@ -2604,9 +2882,9 @@ public class PrettyPrinter
        ABS.Absyn.ExtendsDecl _extendsdecl = (ABS.Absyn.ExtendsDecl) foo;
        render("(");
        render("ExtendsDecl");
-       sh(_extendsdecl.typeident_);
+       sh(_extendsdecl.uident_);
        render("[");
-       sh(_extendsdecl.listqualtype_);
+       sh(_extendsdecl.listqtype_);
        render("]");
        render("[");
        sh(_extendsdecl.listmethsignat_);
@@ -2618,7 +2896,7 @@ public class PrettyPrinter
        ABS.Absyn.ClassDecl _classdecl = (ABS.Absyn.ClassDecl) foo;
        render("(");
        render("ClassDecl");
-       sh(_classdecl.typeident_);
+       sh(_classdecl.uident_);
        render("[");
        sh(_classdecl.listclassbody_1);
        render("]");
@@ -2633,7 +2911,7 @@ public class PrettyPrinter
        ABS.Absyn.ClassParamDecl _classparamdecl = (ABS.Absyn.ClassParamDecl) foo;
        render("(");
        render("ClassParamDecl");
-       sh(_classparamdecl.typeident_);
+       sh(_classparamdecl.uident_);
        render("[");
        sh(_classparamdecl.listparam_);
        render("]");
@@ -2651,9 +2929,9 @@ public class PrettyPrinter
        ABS.Absyn.ClassImplements _classimplements = (ABS.Absyn.ClassImplements) foo;
        render("(");
        render("ClassImplements");
-       sh(_classimplements.typeident_);
+       sh(_classimplements.uident_);
        render("[");
-       sh(_classimplements.listqualtype_);
+       sh(_classimplements.listqtype_);
        render("]");
        render("[");
        sh(_classimplements.listclassbody_1);
@@ -2669,12 +2947,12 @@ public class PrettyPrinter
        ABS.Absyn.ClassParamImplements _classparamimplements = (ABS.Absyn.ClassParamImplements) foo;
        render("(");
        render("ClassParamImplements");
-       sh(_classparamimplements.typeident_);
+       sh(_classparamimplements.uident_);
        render("[");
        sh(_classparamimplements.listparam_);
        render("]");
        render("[");
-       sh(_classparamimplements.listqualtype_);
+       sh(_classparamimplements.listqtype_);
        render("]");
        render("[");
        sh(_classparamimplements.listclassbody_1);
@@ -2694,7 +2972,7 @@ public class PrettyPrinter
        ABS.Absyn.SinglConstrIdent _singlconstrident = (ABS.Absyn.SinglConstrIdent) foo;
        render("(");
        render("SinglConstrIdent");
-       sh(_singlconstrident.typeident_);
+       sh(_singlconstrident.uident_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.ParamConstrIdent)
@@ -2702,7 +2980,7 @@ public class PrettyPrinter
        ABS.Absyn.ParamConstrIdent _paramconstrident = (ABS.Absyn.ParamConstrIdent) foo;
        render("(");
        render("ParamConstrIdent");
-       sh(_paramconstrident.typeident_);
+       sh(_paramconstrident.uident_);
        render("[");
        sh(_paramconstrident.listconstrtype_);
        render("]");
@@ -2726,7 +3004,7 @@ public class PrettyPrinter
        render("(");
        render("RecordConstrType");
        sh(_recordconstrtype.type_);
-       sh(_recordconstrtype.ident_);
+       sh(_recordconstrtype.lident_);
        render(")");
     }
   }
@@ -2741,7 +3019,7 @@ public class PrettyPrinter
      }
   }
 
-  private static void sh(ABS.Absyn.ListTypeIdent foo)
+  private static void sh(ABS.Absyn.ListUIdent foo)
   {
      for (java.util.Iterator<String> it = foo.iterator(); it.hasNext();)
      {
@@ -2786,7 +3064,7 @@ public class PrettyPrinter
        render("(");
        render("MethSig");
        sh(_methsig.type_);
-       sh(_methsig.ident_);
+       sh(_methsig.lident_);
        render("[");
        sh(_methsig.listparam_);
        render("]");
@@ -2812,7 +3090,7 @@ public class PrettyPrinter
        render("(");
        render("FieldClassBody");
        sh(_fieldclassbody.type_);
-       sh(_fieldclassbody.ident_);
+       sh(_fieldclassbody.lident_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.FieldAssignClassBody)
@@ -2821,7 +3099,7 @@ public class PrettyPrinter
        render("(");
        render("FieldAssignClassBody");
        sh(_fieldassignclassbody.type_);
-       sh(_fieldassignclassbody.ident_);
+       sh(_fieldassignclassbody.lident_);
        sh(_fieldassignclassbody.pureexp_);
        render(")");
     }
@@ -2831,7 +3109,7 @@ public class PrettyPrinter
        render("(");
        render("MethClassBody");
        sh(_methclassbody.type_);
-       sh(_methclassbody.ident_);
+       sh(_methclassbody.lident_);
        render("[");
        sh(_methclassbody.listparam_);
        render("]");
@@ -2899,7 +3177,7 @@ public class PrettyPrinter
        render("(");
        render("Par");
        sh(_par.type_);
-       sh(_par.ident_);
+       sh(_par.lident_);
        render(")");
     }
   }
@@ -2956,7 +3234,7 @@ public class PrettyPrinter
        ABS.Absyn.SAss _sass = (ABS.Absyn.SAss) foo;
        render("(");
        render("SAss");
-       sh(_sass.ident_);
+       sh(_sass.lident_);
        sh(_sass.exp_);
        render(")");
     }
@@ -2965,7 +3243,7 @@ public class PrettyPrinter
        ABS.Absyn.SFieldAss _sfieldass = (ABS.Absyn.SFieldAss) foo;
        render("(");
        render("SFieldAss");
-       sh(_sfieldass.ident_);
+       sh(_sfieldass.lident_);
        sh(_sfieldass.exp_);
        render(")");
     }
@@ -2975,7 +3253,7 @@ public class PrettyPrinter
        render("(");
        render("SDec");
        sh(_sdec.type_);
-       sh(_sdec.ident_);
+       sh(_sdec.lident_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.SDecAss)
@@ -2984,7 +3262,7 @@ public class PrettyPrinter
        render("(");
        render("SDecAss");
        sh(_sdecass.type_);
-       sh(_sdecass.ident_);
+       sh(_sdecass.lident_);
        sh(_sdecass.exp_);
        render(")");
     }
@@ -3110,7 +3388,7 @@ public class PrettyPrinter
        ABS.Absyn.VarGuard _varguard = (ABS.Absyn.VarGuard) foo;
        render("(");
        render("VarGuard");
-       sh(_varguard.ident_);
+       sh(_varguard.lident_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.FieldGuard)
@@ -3118,7 +3396,7 @@ public class PrettyPrinter
        ABS.Absyn.FieldGuard _fieldguard = (ABS.Absyn.FieldGuard) foo;
        render("(");
        render("FieldGuard");
-       sh(_fieldguard.ident_);
+       sh(_fieldguard.lident_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.ExpGuard)
@@ -3341,7 +3619,7 @@ public class PrettyPrinter
        ABS.Absyn.EFunCall _efuncall = (ABS.Absyn.EFunCall) foo;
        render("(");
        render("EFunCall");
-       sh(_efuncall.ident_);
+       sh(_efuncall.lident_);
        render("[");
        sh(_efuncall.listpureexp_);
        render("]");
@@ -3352,8 +3630,8 @@ public class PrettyPrinter
        ABS.Absyn.EQualFunCall _equalfuncall = (ABS.Absyn.EQualFunCall) foo;
        render("(");
        render("EQualFunCall");
-       sh(_equalfuncall.qualtype_);
-       sh(_equalfuncall.ident_);
+       sh(_equalfuncall.ttype_);
+       sh(_equalfuncall.lident_);
        render("[");
        sh(_equalfuncall.listpureexp_);
        render("]");
@@ -3364,7 +3642,7 @@ public class PrettyPrinter
        ABS.Absyn.ENaryFunCall _enaryfuncall = (ABS.Absyn.ENaryFunCall) foo;
        render("(");
        render("ENaryFunCall");
-       sh(_enaryfuncall.ident_);
+       sh(_enaryfuncall.lident_);
        render("[");
        sh(_enaryfuncall.listpureexp_);
        render("]");
@@ -3375,8 +3653,8 @@ public class PrettyPrinter
        ABS.Absyn.ENaryQualFunCall _enaryqualfuncall = (ABS.Absyn.ENaryQualFunCall) foo;
        render("(");
        render("ENaryQualFunCall");
-       sh(_enaryqualfuncall.qualtype_);
-       sh(_enaryqualfuncall.ident_);
+       sh(_enaryqualfuncall.ttype_);
+       sh(_enaryqualfuncall.lident_);
        render("[");
        sh(_enaryqualfuncall.listpureexp_);
        render("]");
@@ -3387,7 +3665,7 @@ public class PrettyPrinter
        ABS.Absyn.EVar _evar = (ABS.Absyn.EVar) foo;
        render("(");
        render("EVar");
-       sh(_evar.ident_);
+       sh(_evar.lident_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.EThis)
@@ -3395,7 +3673,7 @@ public class PrettyPrinter
        ABS.Absyn.EThis _ethis = (ABS.Absyn.EThis) foo;
        render("(");
        render("EThis");
-       sh(_ethis.ident_);
+       sh(_ethis.lident_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.EQualVar)
@@ -3403,8 +3681,8 @@ public class PrettyPrinter
        ABS.Absyn.EQualVar _equalvar = (ABS.Absyn.EQualVar) foo;
        render("(");
        render("EQualVar");
-       sh(_equalvar.qualtype_);
-       sh(_equalvar.ident_);
+       sh(_equalvar.ttype_);
+       sh(_equalvar.lident_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.ESinglConstr)
@@ -3412,7 +3690,7 @@ public class PrettyPrinter
        ABS.Absyn.ESinglConstr _esinglconstr = (ABS.Absyn.ESinglConstr) foo;
        render("(");
        render("ESinglConstr");
-       sh(_esinglconstr.qualtype_);
+       sh(_esinglconstr.qtype_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.EParamConstr)
@@ -3420,7 +3698,7 @@ public class PrettyPrinter
        ABS.Absyn.EParamConstr _eparamconstr = (ABS.Absyn.EParamConstr) foo;
        render("(");
        render("EParamConstr");
-       sh(_eparamconstr.qualtype_);
+       sh(_eparamconstr.qtype_);
        render("[");
        sh(_eparamconstr.listpureexp_);
        render("]");
@@ -3476,7 +3754,7 @@ public class PrettyPrinter
        ABS.Absyn.PIdent _pident = (ABS.Absyn.PIdent) foo;
        render("(");
        render("PIdent");
-       sh(_pident.ident_);
+       sh(_pident.lident_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.PLit)
@@ -3492,7 +3770,7 @@ public class PrettyPrinter
        ABS.Absyn.PSinglConstr _psinglconstr = (ABS.Absyn.PSinglConstr) foo;
        render("(");
        render("PSinglConstr");
-       sh(_psinglconstr.typeident_);
+       sh(_psinglconstr.uident_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.PParamConstr)
@@ -3500,7 +3778,7 @@ public class PrettyPrinter
        ABS.Absyn.PParamConstr _pparamconstr = (ABS.Absyn.PParamConstr) foo;
        render("(");
        render("PParamConstr");
-       sh(_pparamconstr.typeident_);
+       sh(_pparamconstr.uident_);
        render("[");
        sh(_pparamconstr.listpattern_);
        render("]");
@@ -3578,7 +3856,7 @@ public class PrettyPrinter
        render("(");
        render("SyncMethCall");
        sh(_syncmethcall.pureexp_);
-       sh(_syncmethcall.ident_);
+       sh(_syncmethcall.lident_);
        render("[");
        sh(_syncmethcall.listpureexp_);
        render("]");
@@ -3589,7 +3867,7 @@ public class PrettyPrinter
        ABS.Absyn.ThisSyncMethCall _thissyncmethcall = (ABS.Absyn.ThisSyncMethCall) foo;
        render("(");
        render("ThisSyncMethCall");
-       sh(_thissyncmethcall.ident_);
+       sh(_thissyncmethcall.lident_);
        render("[");
        sh(_thissyncmethcall.listpureexp_);
        render("]");
@@ -3601,7 +3879,7 @@ public class PrettyPrinter
        render("(");
        render("AsyncMethCall");
        sh(_asyncmethcall.pureexp_);
-       sh(_asyncmethcall.ident_);
+       sh(_asyncmethcall.lident_);
        render("[");
        sh(_asyncmethcall.listpureexp_);
        render("]");
@@ -3612,7 +3890,7 @@ public class PrettyPrinter
        ABS.Absyn.ThisAsyncMethCall _thisasyncmethcall = (ABS.Absyn.ThisAsyncMethCall) foo;
        render("(");
        render("ThisAsyncMethCall");
-       sh(_thisasyncmethcall.ident_);
+       sh(_thisasyncmethcall.lident_);
        render("[");
        sh(_thisasyncmethcall.listpureexp_);
        render("]");
@@ -3638,6 +3916,78 @@ public class PrettyPrinter
        render("]");
        render(")");
     }
+  }
+
+  private static void sh(ABS.Absyn.Ann foo)
+  {
+    if (foo instanceof ABS.Absyn.SimpleAnn)
+    {
+       ABS.Absyn.SimpleAnn _simpleann = (ABS.Absyn.SimpleAnn) foo;
+       render("(");
+       render("SimpleAnn");
+       sh(_simpleann.pureexp_);
+       render(")");
+    }
+  }
+
+  private static void sh(ABS.Absyn.ListAnn foo)
+  {
+     for (java.util.Iterator<Ann> it = foo.iterator(); it.hasNext();)
+     {
+       sh(it.next());
+       if (it.hasNext())
+         render(",");
+     }
+  }
+
+  private static void sh(ABS.Absyn.AnnDecl foo)
+  {
+    if (foo instanceof ABS.Absyn.AnnDec)
+    {
+       ABS.Absyn.AnnDec _anndec = (ABS.Absyn.AnnDec) foo;
+       render("(");
+       render("AnnDec");
+       render("[");
+       sh(_anndec.listann_);
+       render("]");
+       sh(_anndec.decl_);
+       render(")");
+    }
+  }
+
+  private static void sh(ABS.Absyn.ListAnnDecl foo)
+  {
+     for (java.util.Iterator<AnnDecl> it = foo.iterator(); it.hasNext();)
+     {
+       sh(it.next());
+       if (it.hasNext())
+         render(",");
+     }
+  }
+
+  private static void sh(ABS.Absyn.AnnType foo)
+  {
+    if (foo instanceof ABS.Absyn.AnnTyp)
+    {
+       ABS.Absyn.AnnTyp _anntyp = (ABS.Absyn.AnnTyp) foo;
+       render("(");
+       render("AnnTyp");
+       render("[");
+       sh(_anntyp.listann_);
+       render("]");
+       sh(_anntyp.type_);
+       render(")");
+    }
+  }
+
+  private static void sh(ABS.Absyn.ListAnnType foo)
+  {
+     for (java.util.Iterator<AnnType> it = foo.iterator(); it.hasNext();)
+     {
+       sh(it.next());
+       if (it.hasNext())
+         render(",");
+     }
   }
 
 

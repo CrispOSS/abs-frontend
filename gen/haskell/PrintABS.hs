@@ -78,9 +78,6 @@ instance Print Double where
   prt _ x = doc (shows x)
 
 
-instance Print Ident where
-  prt _ (Ident i) = doc (showString ( i))
-
 
 instance Print TypeIdent where
   prt _ (TypeIdent i) = doc (showString ( i))
@@ -89,10 +86,14 @@ instance Print TypeIdent where
    x:xs -> (concatD [prt 0 x , doc (showString ",") , prt 0 xs])
 
 
+instance Print LIdent where
+  prt _ (LIdent i) = doc (showString ( i))
+
+
 
 instance Print AnyIdent where
   prt i e = case e of
-   AnyIden id -> prPrec i 0 (concatD [prt 0 id])
+   AnyIden lident -> prPrec i 0 (concatD [prt 0 lident])
    AnyTyIden typeident -> prPrec i 0 (concatD [prt 0 typeident])
 
   prtList es = case es of
@@ -106,7 +107,7 @@ instance Print Program where
 
 instance Print Module where
   prt i e = case e of
-   Modul qualtype exports imports decls maybeblock -> prPrec i 0 (concatD [doc (showString "module") , prt 0 qualtype , doc (showString ";") , prt 0 exports , prt 0 imports , prt 0 decls , prt 0 maybeblock])
+   Modul qtype exports imports decls maybeblock -> prPrec i 0 (concatD [doc (showString "module") , prt 0 qtype , doc (showString ";") , prt 0 exports , prt 0 imports , prt 0 decls , prt 0 maybeblock])
 
   prtList es = case es of
    [] -> (concatD [])
@@ -115,9 +116,9 @@ instance Print Module where
 instance Print Export where
   prt i e = case e of
    AnyExport anyidents -> prPrec i 0 (concatD [doc (showString "export") , prt 0 anyidents])
-   AnyFromExport anyidents qualtype -> prPrec i 0 (concatD [doc (showString "export") , prt 0 anyidents , doc (showString "from") , prt 0 qualtype])
+   AnyFromExport anyidents qtype -> prPrec i 0 (concatD [doc (showString "export") , prt 0 anyidents , doc (showString "from") , prt 0 qtype])
    StarExport  -> prPrec i 0 (concatD [doc (showString "export") , doc (showString "*")])
-   StarFromExport qualtype -> prPrec i 0 (concatD [doc (showString "export") , doc (showString "*") , doc (showString "from") , prt 0 qualtype])
+   StarFromExport qtype -> prPrec i 0 (concatD [doc (showString "export") , doc (showString "*") , doc (showString "from") , prt 0 qtype])
 
   prtList es = case es of
    [] -> (concatD [])
@@ -125,9 +126,9 @@ instance Print Export where
 
 instance Print Import where
   prt i e = case e of
-   AnyImport importtype qualtype anyident -> prPrec i 0 (concatD [prt 0 importtype , prt 0 qualtype , doc (showString ".") , prt 0 anyident])
-   AnyFromImport importtype anyidents qualtype -> prPrec i 0 (concatD [prt 0 importtype , prt 0 anyidents , doc (showString "from") , prt 0 qualtype])
-   StarFromImport importtype qualtype -> prPrec i 0 (concatD [prt 0 importtype , doc (showString "*") , doc (showString "from") , prt 0 qualtype])
+   AnyImport importtype ttype anyident -> prPrec i 0 (concatD [prt 0 importtype , prt 0 ttype , prt 0 anyident])
+   AnyFromImport importtype anyidents qtype -> prPrec i 0 (concatD [prt 0 importtype , prt 0 anyidents , doc (showString "from") , prt 0 qtype])
+   StarFromImport importtype qtype -> prPrec i 0 (concatD [prt 0 importtype , doc (showString "*") , doc (showString "from") , prt 0 qtype])
 
   prtList es = case es of
    [] -> (concatD [])
@@ -142,27 +143,40 @@ instance Print ImportType where
 instance Print Type where
   prt i e = case e of
    TUnderscore  -> prPrec i 0 (concatD [doc (showString "_")])
-   TSimple qualtype -> prPrec i 0 (concatD [prt 0 qualtype])
-   TGen qualtype types -> prPrec i 0 (concatD [prt 0 qualtype , doc (showString "<") , prt 0 types , doc (showString ">")])
+   TSimple qtype -> prPrec i 0 (concatD [prt 0 qtype])
+   TGen qtype types -> prPrec i 0 (concatD [prt 0 qtype , doc (showString "<") , prt 0 types , doc (showString ">")])
 
   prtList es = case es of
    [x] -> (concatD [prt 0 x])
    x:xs -> (concatD [prt 0 x , doc (showString ",") , prt 0 xs])
 
-instance Print QualType where
+instance Print QType where
   prt i e = case e of
-   QType qualtypesegments -> prPrec i 0 (concatD [prt 0 qualtypesegments])
+   QTyp qtypesegments -> prPrec i 0 (concatD [prt 0 qtypesegments])
 
   prtList es = case es of
    [x] -> (concatD [prt 0 x])
    x:xs -> (concatD [prt 0 x , doc (showString ",") , prt 0 xs])
 
-instance Print QualTypeSegment where
+instance Print QTypeSegment where
   prt i e = case e of
-   QTypeSegment typeident -> prPrec i 0 (concatD [prt 0 typeident])
+   QTypeSegmen typeident -> prPrec i 0 (concatD [prt 0 typeident])
 
   prtList es = case es of
    [x] -> (concatD [prt 0 x])
+   x:xs -> (concatD [prt 0 x , doc (showString ".") , prt 0 xs])
+
+instance Print TType where
+  prt i e = case e of
+   TTyp ttypesegments -> prPrec i 0 (concatD [prt 0 ttypesegments])
+
+
+instance Print TTypeSegment where
+  prt i e = case e of
+   TTypeSegmen typeident -> prPrec i 0 (concatD [prt 0 typeident])
+
+  prtList es = case es of
+   [x] -> (concatD [prt 0 x , doc (showString ".")])
    x:xs -> (concatD [prt 0 x , doc (showString ".") , prt 0 xs])
 
 instance Print Decl where
@@ -171,14 +185,14 @@ instance Print Decl where
    ExceptionDecl constrident -> prPrec i 0 (concatD [doc (showString "exception") , prt 0 constrident , doc (showString ";")])
    DataDecl typeident constridents -> prPrec i 0 (concatD [doc (showString "data") , prt 0 typeident , doc (showString "=") , prt 0 constridents , doc (showString ";")])
    DataParDecl typeident typeidents constridents -> prPrec i 0 (concatD [doc (showString "data") , prt 0 typeident , doc (showString "<") , prt 0 typeidents , doc (showString ">") , doc (showString "=") , prt 0 constridents , doc (showString ";")])
-   FunDecl type' id params funbody -> prPrec i 0 (concatD [doc (showString "def") , prt 0 type' , prt 0 id , doc (showString "(") , prt 0 params , doc (showString ")") , doc (showString "=") , prt 0 funbody , doc (showString ";")])
-   FunParDecl type' id typeidents params funbody -> prPrec i 0 (concatD [doc (showString "def") , prt 0 type' , prt 0 id , doc (showString "<") , prt 0 typeidents , doc (showString ">") , doc (showString "(") , prt 0 params , doc (showString ")") , doc (showString "=") , prt 0 funbody , doc (showString ";")])
+   FunDecl type' lident params funbody -> prPrec i 0 (concatD [doc (showString "def") , prt 0 type' , prt 0 lident , doc (showString "(") , prt 0 params , doc (showString ")") , doc (showString "=") , prt 0 funbody , doc (showString ";")])
+   FunParDecl type' lident typeidents params funbody -> prPrec i 0 (concatD [doc (showString "def") , prt 0 type' , prt 0 lident , doc (showString "<") , prt 0 typeidents , doc (showString ">") , doc (showString "(") , prt 0 params , doc (showString ")") , doc (showString "=") , prt 0 funbody , doc (showString ";")])
    InterfDecl typeident methsignats -> prPrec i 0 (concatD [doc (showString "interface") , prt 0 typeident , doc (showString "{") , prt 0 methsignats , doc (showString "}")])
-   ExtendsDecl typeident qualtypes methsignats -> prPrec i 0 (concatD [doc (showString "interface") , prt 0 typeident , doc (showString "extends") , prt 0 qualtypes , doc (showString "{") , prt 0 methsignats , doc (showString "}")])
+   ExtendsDecl typeident qtypes methsignats -> prPrec i 0 (concatD [doc (showString "interface") , prt 0 typeident , doc (showString "extends") , prt 0 qtypes , doc (showString "{") , prt 0 methsignats , doc (showString "}")])
    ClassDecl typeident classbodys0 maybeblock classbodys -> prPrec i 0 (concatD [doc (showString "class") , prt 0 typeident , doc (showString "{") , prt 0 classbodys0 , prt 0 maybeblock , prt 0 classbodys , doc (showString "}")])
    ClassParamDecl typeident params classbodys0 maybeblock classbodys -> prPrec i 0 (concatD [doc (showString "class") , prt 0 typeident , doc (showString "(") , prt 0 params , doc (showString ")") , doc (showString "{") , prt 0 classbodys0 , prt 0 maybeblock , prt 0 classbodys , doc (showString "}")])
-   ClassImplements typeident qualtypes classbodys0 maybeblock classbodys -> prPrec i 0 (concatD [doc (showString "class") , prt 0 typeident , doc (showString "implements") , prt 0 qualtypes , doc (showString "{") , prt 0 classbodys0 , prt 0 maybeblock , prt 0 classbodys , doc (showString "}")])
-   ClassParamImplements typeident params qualtypes classbodys0 maybeblock classbodys -> prPrec i 0 (concatD [doc (showString "class") , prt 0 typeident , doc (showString "(") , prt 0 params , doc (showString ")") , doc (showString "implements") , prt 0 qualtypes , doc (showString "{") , prt 0 classbodys0 , prt 0 maybeblock , prt 0 classbodys , doc (showString "}")])
+   ClassImplements typeident qtypes classbodys0 maybeblock classbodys -> prPrec i 0 (concatD [doc (showString "class") , prt 0 typeident , doc (showString "implements") , prt 0 qtypes , doc (showString "{") , prt 0 classbodys0 , prt 0 maybeblock , prt 0 classbodys , doc (showString "}")])
+   ClassParamImplements typeident params qtypes classbodys0 maybeblock classbodys -> prPrec i 0 (concatD [doc (showString "class") , prt 0 typeident , doc (showString "(") , prt 0 params , doc (showString ")") , doc (showString "implements") , prt 0 qtypes , doc (showString "{") , prt 0 classbodys0 , prt 0 maybeblock , prt 0 classbodys , doc (showString "}")])
 
   prtList es = case es of
    [] -> (concatD [])
@@ -196,7 +210,7 @@ instance Print ConstrIdent where
 instance Print ConstrType where
   prt i e = case e of
    EmptyConstrType type' -> prPrec i 0 (concatD [prt 0 type'])
-   RecordConstrType type' id -> prPrec i 0 (concatD [prt 0 type' , prt 0 id])
+   RecordConstrType type' lident -> prPrec i 0 (concatD [prt 0 type' , prt 0 lident])
 
   prtList es = case es of
    [] -> (concatD [])
@@ -211,7 +225,7 @@ instance Print FunBody where
 
 instance Print MethSignat where
   prt i e = case e of
-   MethSig type' id params -> prPrec i 0 (concatD [prt 0 type' , prt 0 id , doc (showString "(") , prt 0 params , doc (showString ")")])
+   MethSig type' lident params -> prPrec i 0 (concatD [prt 0 type' , prt 0 lident , doc (showString "(") , prt 0 params , doc (showString ")")])
 
   prtList es = case es of
    [] -> (concatD [])
@@ -219,9 +233,9 @@ instance Print MethSignat where
 
 instance Print ClassBody where
   prt i e = case e of
-   FieldClassBody type' id -> prPrec i 0 (concatD [prt 0 type' , prt 0 id , doc (showString ";")])
-   FieldAssignClassBody type' id pureexp -> prPrec i 0 (concatD [prt 0 type' , prt 0 id , doc (showString "=") , prt 0 pureexp , doc (showString ";")])
-   MethClassBody type' id params block -> prPrec i 0 (concatD [prt 0 type' , prt 0 id , doc (showString "(") , prt 0 params , doc (showString ")") , prt 0 block])
+   FieldClassBody type' lident -> prPrec i 0 (concatD [prt 0 type' , prt 0 lident , doc (showString ";")])
+   FieldAssignClassBody type' lident pureexp -> prPrec i 0 (concatD [prt 0 type' , prt 0 lident , doc (showString "=") , prt 0 pureexp , doc (showString ";")])
+   MethClassBody type' lident params block -> prPrec i 0 (concatD [prt 0 type' , prt 0 lident , doc (showString "(") , prt 0 params , doc (showString ")") , prt 0 block])
 
   prtList es = case es of
    [] -> (concatD [])
@@ -240,7 +254,7 @@ instance Print MaybeBlock where
 
 instance Print Param where
   prt i e = case e of
-   Par type' id -> prPrec i 0 (concatD [prt 0 type' , prt 0 id])
+   Par type' lident -> prPrec i 0 (concatD [prt 0 type' , prt 0 lident])
 
   prtList es = case es of
    [] -> (concatD [])
@@ -253,10 +267,10 @@ instance Print Stm where
    SBlock stms -> prPrec i 0 (concatD [doc (showString "{") , prt 0 stms , doc (showString "}")])
    SWhile pureexp stm -> prPrec i 0 (concatD [doc (showString "while") , doc (showString "(") , prt 0 pureexp , doc (showString ")") , prt 0 stm])
    SReturn exp -> prPrec i 0 (concatD [doc (showString "return") , prt 0 exp , doc (showString ";")])
-   SAss id exp -> prPrec i 0 (concatD [prt 0 id , doc (showString "=") , prt 0 exp , doc (showString ";")])
-   SFieldAss id exp -> prPrec i 0 (concatD [doc (showString "this") , doc (showString ".") , prt 0 id , doc (showString "=") , prt 0 exp , doc (showString ";")])
-   SDec type' id -> prPrec i 0 (concatD [prt 0 type' , prt 0 id , doc (showString ";")])
-   SDecAss type' id exp -> prPrec i 0 (concatD [prt 0 type' , prt 0 id , doc (showString "=") , prt 0 exp , doc (showString ";")])
+   SAss lident exp -> prPrec i 0 (concatD [prt 0 lident , doc (showString "=") , prt 0 exp , doc (showString ";")])
+   SFieldAss lident exp -> prPrec i 0 (concatD [doc (showString "this") , doc (showString ".") , prt 0 lident , doc (showString "=") , prt 0 exp , doc (showString ";")])
+   SDec type' lident -> prPrec i 0 (concatD [prt 0 type' , prt 0 lident , doc (showString ";")])
+   SDecAss type' lident exp -> prPrec i 0 (concatD [prt 0 type' , prt 0 lident , doc (showString "=") , prt 0 exp , doc (showString ";")])
    SIf pureexp stm -> prPrec i 0 (concatD [doc (showString "if") , doc (showString "(") , prt 0 pureexp , doc (showString ")") , prt 0 stm])
    SIfElse pureexp stm0 stm -> prPrec i 0 (concatD [doc (showString "if") , doc (showString "(") , prt 0 pureexp , doc (showString ")") , prt 0 stm0 , doc (showString "else") , prt 0 stm])
    SSuspend  -> prPrec i 0 (concatD [doc (showString "suspend") , doc (showString ";")])
@@ -287,8 +301,8 @@ instance Print MaybeFinally where
 
 instance Print Guard where
   prt i e = case e of
-   VarGuard id -> prPrec i 0 (concatD [prt 0 id , doc (showString "?")])
-   FieldGuard id -> prPrec i 0 (concatD [doc (showString "this") , doc (showString ".") , prt 0 id , doc (showString "?")])
+   VarGuard lident -> prPrec i 0 (concatD [prt 0 lident , doc (showString "?")])
+   FieldGuard lident -> prPrec i 0 (concatD [doc (showString "this") , doc (showString ".") , prt 0 lident , doc (showString "?")])
    ExpGuard pureexp -> prPrec i 0 (concatD [prt 0 pureexp])
    AndGuard guard0 guard -> prPrec i 0 (concatD [prt 0 guard0 , doc (showString "&") , prt 0 guard])
 
@@ -316,15 +330,15 @@ instance Print PureExp where
    EMod pureexp0 pureexp -> prPrec i 5 (concatD [prt 5 pureexp0 , doc (showString "%") , prt 6 pureexp])
    ELogNeg pureexp -> prPrec i 6 (concatD [doc (showString "~") , prt 6 pureexp])
    EIntNeg pureexp -> prPrec i 6 (concatD [doc (showString "-") , prt 6 pureexp])
-   EFunCall id pureexps -> prPrec i 7 (concatD [prt 0 id , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
-   EQualFunCall qualtype id pureexps -> prPrec i 7 (concatD [prt 0 qualtype , doc (showString ".") , prt 0 id , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
-   ENaryFunCall id pureexps -> prPrec i 7 (concatD [prt 0 id , doc (showString "[") , prt 0 pureexps , doc (showString "]")])
-   ENaryQualFunCall qualtype id pureexps -> prPrec i 7 (concatD [prt 0 qualtype , doc (showString ".") , prt 0 id , doc (showString "[") , prt 0 pureexps , doc (showString "]")])
-   EVar id -> prPrec i 7 (concatD [prt 0 id])
-   EThis id -> prPrec i 7 (concatD [doc (showString "this") , doc (showString ".") , prt 0 id])
-   EQualVar qualtype id -> prPrec i 7 (concatD [prt 0 qualtype , doc (showString ".") , prt 0 id])
-   ESinglConstr qualtype -> prPrec i 7 (concatD [prt 0 qualtype])
-   EParamConstr qualtype pureexps -> prPrec i 7 (concatD [prt 0 qualtype , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
+   EFunCall lident pureexps -> prPrec i 7 (concatD [prt 0 lident , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
+   EQualFunCall ttype lident pureexps -> prPrec i 7 (concatD [prt 0 ttype , prt 0 lident , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
+   ENaryFunCall lident pureexps -> prPrec i 7 (concatD [prt 0 lident , doc (showString "[") , prt 0 pureexps , doc (showString "]")])
+   ENaryQualFunCall ttype lident pureexps -> prPrec i 7 (concatD [prt 0 ttype , prt 0 lident , doc (showString "[") , prt 0 pureexps , doc (showString "]")])
+   EVar lident -> prPrec i 7 (concatD [prt 0 lident])
+   EThis lident -> prPrec i 7 (concatD [doc (showString "this") , doc (showString ".") , prt 0 lident])
+   EQualVar ttype lident -> prPrec i 7 (concatD [prt 0 ttype , prt 0 lident])
+   ESinglConstr qtype -> prPrec i 7 (concatD [prt 0 qtype])
+   EParamConstr qtype pureexps -> prPrec i 7 (concatD [prt 0 qtype , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
    ELit literal -> prPrec i 7 (concatD [prt 0 literal])
    Let param pureexp0 pureexp -> prPrec i 0 (concatD [doc (showString "let") , doc (showString "(") , prt 0 param , doc (showString ")") , doc (showString "=") , prt 0 pureexp0 , doc (showString "in") , prt 0 pureexp])
    If pureexp0 pureexp1 pureexp -> prPrec i 0 (concatD [doc (showString "if") , prt 0 pureexp0 , doc (showString "then") , prt 0 pureexp1 , doc (showString "else") , prt 0 pureexp])
@@ -345,7 +359,7 @@ instance Print CaseBranch where
 
 instance Print Pattern where
   prt i e = case e of
-   PIdent id -> prPrec i 0 (concatD [prt 0 id])
+   PIdent lident -> prPrec i 0 (concatD [prt 0 lident])
    PLit literal -> prPrec i 0 (concatD [prt 0 literal])
    PSinglConstr typeident -> prPrec i 0 (concatD [prt 0 typeident])
    PParamConstr typeident patterns -> prPrec i 0 (concatD [prt 0 typeident , doc (showString "(") , prt 0 patterns , doc (showString ")")])
@@ -369,12 +383,37 @@ instance Print EffExp where
   prt i e = case e of
    New type' pureexps -> prPrec i 0 (concatD [doc (showString "new") , prt 0 type' , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
    NewLocal type' pureexps -> prPrec i 0 (concatD [doc (showString "new") , doc (showString "local") , prt 0 type' , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
-   SyncMethCall pureexp id pureexps -> prPrec i 0 (concatD [prt 0 pureexp , doc (showString ".") , prt 0 id , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
-   ThisSyncMethCall id pureexps -> prPrec i 0 (concatD [doc (showString "this") , doc (showString ".") , prt 0 id , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
-   AsyncMethCall pureexp id pureexps -> prPrec i 0 (concatD [prt 0 pureexp , doc (showString "!") , prt 0 id , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
-   ThisAsyncMethCall id pureexps -> prPrec i 0 (concatD [doc (showString "this") , doc (showString "!") , prt 0 id , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
+   SyncMethCall pureexp lident pureexps -> prPrec i 0 (concatD [prt 0 pureexp , doc (showString ".") , prt 0 lident , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
+   ThisSyncMethCall lident pureexps -> prPrec i 0 (concatD [doc (showString "this") , doc (showString ".") , prt 0 lident , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
+   AsyncMethCall pureexp lident pureexps -> prPrec i 0 (concatD [prt 0 pureexp , doc (showString "!") , prt 0 lident , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
+   ThisAsyncMethCall lident pureexps -> prPrec i 0 (concatD [doc (showString "this") , doc (showString "!") , prt 0 lident , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
    Get pureexp -> prPrec i 0 (concatD [prt 0 pureexp , doc (showString ".") , doc (showString "get")])
    Spawns pureexp type' pureexps -> prPrec i 0 (concatD [prt 0 pureexp , doc (showString "spawns") , prt 0 type' , doc (showString "(") , prt 0 pureexps , doc (showString ")")])
 
+
+instance Print Ann where
+  prt i e = case e of
+   SimpleAnn pureexp -> prPrec i 0 (concatD [doc (showString "[") , prt 0 pureexp , doc (showString "]")])
+
+  prtList es = case es of
+   [] -> (concatD [])
+   x:xs -> (concatD [prt 0 x , prt 0 xs])
+
+instance Print AnnDecl where
+  prt i e = case e of
+   AnnDec anns decl -> prPrec i 0 (concatD [prt 0 anns , prt 0 decl])
+
+  prtList es = case es of
+   [] -> (concatD [])
+   x:xs -> (concatD [prt 0 x , prt 0 xs])
+
+instance Print AnnType where
+  prt i e = case e of
+   AnnTyp anns type' -> prPrec i 0 (concatD [prt 0 anns , prt 0 type'])
+
+  prtList es = case es of
+   [] -> (concatD [])
+   [x] -> (concatD [prt 0 x])
+   x:xs -> (concatD [prt 0 x , doc (showString ",") , prt 0 xs])
 
 

@@ -40,8 +40,8 @@ alex_check = AlexA# "\xff\xff\x09\x00\x0a\x00\x0b\x00\x0c\x00\x0d\x00\x3d\x00\x7
 alex_deflt :: AlexAddr
 alex_deflt = AlexA# "\xff\xff\x0b\x00\xff\xff\xff\xff\x0b\x00\x0b\x00\x0c\x00\x0c\x00\x0e\x00\xff\xff\x0e\x00\x0b\x00\x14\x00\x14\x00\xff\xff\xff\xff\xff\xff\xff\xff\x15\x00\x15\x00\x15\x00\x15\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff\xff"#
 
-alex_accept = listArray (0::Int,33) [AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccSkip,AlexAccSkip,AlexAccSkip,AlexAcc (alex_action_3),AlexAcc (alex_action_3),AlexAcc (alex_action_3),AlexAcc (alex_action_3),AlexAcc (alex_action_3),AlexAcc (alex_action_3),AlexAcc (alex_action_4),AlexAcc (alex_action_5),AlexAcc (alex_action_6),AlexAcc (alex_action_7)]
-{-# LINE 39 "LexABS.x" #-}
+alex_accept = listArray (0::Int,33) [AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccNone,AlexAccSkip,AlexAccSkip,AlexAccSkip,AlexAcc (alex_action_3),AlexAcc (alex_action_3),AlexAcc (alex_action_3),AlexAcc (alex_action_3),AlexAcc (alex_action_3),AlexAcc (alex_action_3),AlexAcc (alex_action_4),AlexAcc (alex_action_5),AlexAcc (alex_action_7),AlexAcc (alex_action_8)]
+{-# LINE 40 "LexABS.x" #-}
 
 
 tok f p s = f p s
@@ -57,6 +57,7 @@ data Tok =
  | TD !String         -- double precision float literals
  | TC !String         -- character literals
  | T_TypeIdent !String
+ | T_LIdent !String
 
  deriving (Eq,Show,Ord)
 
@@ -83,6 +84,7 @@ prToken t = case t of
   PT _ (TD s)   -> s
   PT _ (TC s)   -> s
   PT _ (T_TypeIdent s) -> s
+  PT _ (T_LIdent s) -> s
 
 
 data BTree = N | B String Tok BTree BTree deriving (Show)
@@ -179,9 +181,10 @@ utf8Encode = map fromIntegral . go . ord
 
 alex_action_3 =  tok (\p s -> PT p (eitherResIdent (TV . share) s)) 
 alex_action_4 =  tok (\p s -> PT p (eitherResIdent (T_TypeIdent . share) s)) 
-alex_action_5 =  tok (\p s -> PT p (eitherResIdent (TV . share) s)) 
-alex_action_6 =  tok (\p s -> PT p (TL $ share $ unescapeInitTail s)) 
-alex_action_7 =  tok (\p s -> PT p (TI $ share s))    
+alex_action_5 =  tok (\p s -> PT p (eitherResIdent (T_LIdent . share) s)) 
+alex_action_6 =  tok (\p s -> PT p (eitherResIdent (TV . share) s)) 
+alex_action_7 =  tok (\p s -> PT p (TL $ share $ unescapeInitTail s)) 
+alex_action_8 =  tok (\p s -> PT p (TI $ share s))    
 {-# LINE 1 "templates/GenericTemplate.hs" #-}
 {-# LINE 1 "templates/GenericTemplate.hs" #-}
 {-# LINE 1 "<built-in>" #-}

@@ -15,7 +15,7 @@ public class VisitSkel
     {
       /* Code For AnyIden Goes Here */
 
-      //p.ident_;
+      //p.lident_;
 
       return null;
     }
@@ -23,7 +23,7 @@ public class VisitSkel
     {
       /* Code For AnyTyIden Goes Here */
 
-      //p.typeident_;
+      //p.uident_;
 
       return null;
     }
@@ -48,7 +48,7 @@ public class VisitSkel
     {
       /* Code For Modul Goes Here */
 
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.qtype_.accept(new QTypeVisitor<R,A>(), arg);
       for (Export x : p.listexport_) {
       }
       for (Import x : p.listimport_) {
@@ -78,7 +78,7 @@ public class VisitSkel
 
       for (AnyIdent x : p.listanyident_) {
       }
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.qtype_.accept(new QTypeVisitor<R,A>(), arg);
 
       return null;
     }
@@ -93,7 +93,7 @@ public class VisitSkel
     {
       /* Code For StarFromExport Goes Here */
 
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.qtype_.accept(new QTypeVisitor<R,A>(), arg);
 
       return null;
     }
@@ -106,7 +106,7 @@ public class VisitSkel
       /* Code For AnyImport Goes Here */
 
       p.importtype_.accept(new ImportTypeVisitor<R,A>(), arg);
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.ttype_.accept(new TTypeVisitor<R,A>(), arg);
       p.anyident_.accept(new AnyIdentVisitor<R,A>(), arg);
 
       return null;
@@ -118,7 +118,7 @@ public class VisitSkel
       p.importtype_.accept(new ImportTypeVisitor<R,A>(), arg);
       for (AnyIdent x : p.listanyident_) {
       }
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.qtype_.accept(new QTypeVisitor<R,A>(), arg);
 
       return null;
     }
@@ -127,7 +127,7 @@ public class VisitSkel
       /* Code For StarFromImport Goes Here */
 
       p.importtype_.accept(new ImportTypeVisitor<R,A>(), arg);
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.qtype_.accept(new QTypeVisitor<R,A>(), arg);
 
       return null;
     }
@@ -164,7 +164,7 @@ public class VisitSkel
     {
       /* Code For TSimple Goes Here */
 
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.qtype_.accept(new QTypeVisitor<R,A>(), arg);
 
       return null;
     }
@@ -172,7 +172,7 @@ public class VisitSkel
     {
       /* Code For TGen Goes Here */
 
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.qtype_.accept(new QTypeVisitor<R,A>(), arg);
       for (Type x : p.listtype_) {
       }
 
@@ -180,26 +180,51 @@ public class VisitSkel
     }
 
   }
-  public class QualTypeVisitor<R,A> implements QualType.Visitor<R,A>
+  public class QTypeVisitor<R,A> implements QType.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.QType p, A arg)
+    public R visit(ABS.Absyn.QTyp p, A arg)
     {
-      /* Code For QType Goes Here */
+      /* Code For QTyp Goes Here */
 
-      for (QualTypeSegment x : p.listqualtypesegment_) {
+      for (QTypeSegment x : p.listqtypesegment_) {
       }
 
       return null;
     }
 
   }
-  public class QualTypeSegmentVisitor<R,A> implements QualTypeSegment.Visitor<R,A>
+  public class QTypeSegmentVisitor<R,A> implements QTypeSegment.Visitor<R,A>
   {
-    public R visit(ABS.Absyn.QTypeSegment p, A arg)
+    public R visit(ABS.Absyn.QTypeSegmen p, A arg)
     {
-      /* Code For QTypeSegment Goes Here */
+      /* Code For QTypeSegmen Goes Here */
 
-      //p.typeident_;
+      //p.uident_;
+
+      return null;
+    }
+
+  }
+  public class TTypeVisitor<R,A> implements TType.Visitor<R,A>
+  {
+    public R visit(ABS.Absyn.TTyp p, A arg)
+    {
+      /* Code For TTyp Goes Here */
+
+      for (TTypeSegment x : p.listttypesegment_) {
+      }
+
+      return null;
+    }
+
+  }
+  public class TTypeSegmentVisitor<R,A> implements TTypeSegment.Visitor<R,A>
+  {
+    public R visit(ABS.Absyn.TTypeSegmen p, A arg)
+    {
+      /* Code For TTypeSegmen Goes Here */
+
+      //p.uident_;
 
       return null;
     }
@@ -211,7 +236,7 @@ public class VisitSkel
     {
       /* Code For TypeDecl Goes Here */
 
-      //p.typeident_;
+      //p.uident_;
       p.type_.accept(new TypeVisitor<R,A>(), arg);
 
       return null;
@@ -228,7 +253,7 @@ public class VisitSkel
     {
       /* Code For DataDecl Goes Here */
 
-      //p.typeident_;
+      //p.uident_;
       for (ConstrIdent x : p.listconstrident_) {
       }
 
@@ -238,8 +263,8 @@ public class VisitSkel
     {
       /* Code For DataParDecl Goes Here */
 
-      //p.typeident_;
-      for (String x : p.listtypeident_) {
+      //p.uident_;
+      for (String x : p.listuident_) {
       }
       for (ConstrIdent x : p.listconstrident_) {
       }
@@ -251,7 +276,7 @@ public class VisitSkel
       /* Code For FunDecl Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
-      //p.ident_;
+      //p.lident_;
       for (Param x : p.listparam_) {
       }
       p.funbody_.accept(new FunBodyVisitor<R,A>(), arg);
@@ -263,8 +288,8 @@ public class VisitSkel
       /* Code For FunParDecl Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
-      //p.ident_;
-      for (String x : p.listtypeident_) {
+      //p.lident_;
+      for (String x : p.listuident_) {
       }
       for (Param x : p.listparam_) {
       }
@@ -276,7 +301,7 @@ public class VisitSkel
     {
       /* Code For InterfDecl Goes Here */
 
-      //p.typeident_;
+      //p.uident_;
       for (MethSignat x : p.listmethsignat_) {
       }
 
@@ -286,8 +311,8 @@ public class VisitSkel
     {
       /* Code For ExtendsDecl Goes Here */
 
-      //p.typeident_;
-      for (QualType x : p.listqualtype_) {
+      //p.uident_;
+      for (QType x : p.listqtype_) {
       }
       for (MethSignat x : p.listmethsignat_) {
       }
@@ -298,7 +323,7 @@ public class VisitSkel
     {
       /* Code For ClassDecl Goes Here */
 
-      //p.typeident_;
+      //p.uident_;
       for (ClassBody x : p.listclassbody_1) {
       }
       p.maybeblock_.accept(new MaybeBlockVisitor<R,A>(), arg);
@@ -311,7 +336,7 @@ public class VisitSkel
     {
       /* Code For ClassParamDecl Goes Here */
 
-      //p.typeident_;
+      //p.uident_;
       for (Param x : p.listparam_) {
       }
       for (ClassBody x : p.listclassbody_1) {
@@ -326,8 +351,8 @@ public class VisitSkel
     {
       /* Code For ClassImplements Goes Here */
 
-      //p.typeident_;
-      for (QualType x : p.listqualtype_) {
+      //p.uident_;
+      for (QType x : p.listqtype_) {
       }
       for (ClassBody x : p.listclassbody_1) {
       }
@@ -341,10 +366,10 @@ public class VisitSkel
     {
       /* Code For ClassParamImplements Goes Here */
 
-      //p.typeident_;
+      //p.uident_;
       for (Param x : p.listparam_) {
       }
-      for (QualType x : p.listqualtype_) {
+      for (QType x : p.listqtype_) {
       }
       for (ClassBody x : p.listclassbody_1) {
       }
@@ -362,7 +387,7 @@ public class VisitSkel
     {
       /* Code For SinglConstrIdent Goes Here */
 
-      //p.typeident_;
+      //p.uident_;
 
       return null;
     }
@@ -370,7 +395,7 @@ public class VisitSkel
     {
       /* Code For ParamConstrIdent Goes Here */
 
-      //p.typeident_;
+      //p.uident_;
       for (ConstrType x : p.listconstrtype_) {
       }
 
@@ -393,7 +418,7 @@ public class VisitSkel
       /* Code For RecordConstrType Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
-      //p.ident_;
+      //p.lident_;
 
       return null;
     }
@@ -425,7 +450,7 @@ public class VisitSkel
       /* Code For MethSig Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
-      //p.ident_;
+      //p.lident_;
       for (Param x : p.listparam_) {
       }
 
@@ -440,7 +465,7 @@ public class VisitSkel
       /* Code For FieldClassBody Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
-      //p.ident_;
+      //p.lident_;
 
       return null;
     }
@@ -449,7 +474,7 @@ public class VisitSkel
       /* Code For FieldAssignClassBody Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
-      //p.ident_;
+      //p.lident_;
       p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
 
       return null;
@@ -459,7 +484,7 @@ public class VisitSkel
       /* Code For MethClassBody Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
-      //p.ident_;
+      //p.lident_;
       for (Param x : p.listparam_) {
       }
       p.block_.accept(new BlockVisitor<R,A>(), arg);
@@ -507,7 +532,7 @@ public class VisitSkel
       /* Code For Par Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
-      //p.ident_;
+      //p.lident_;
 
       return null;
     }
@@ -553,7 +578,7 @@ public class VisitSkel
     {
       /* Code For SAss Goes Here */
 
-      //p.ident_;
+      //p.lident_;
       p.exp_.accept(new ExpVisitor<R,A>(), arg);
 
       return null;
@@ -562,7 +587,7 @@ public class VisitSkel
     {
       /* Code For SFieldAss Goes Here */
 
-      //p.ident_;
+      //p.lident_;
       p.exp_.accept(new ExpVisitor<R,A>(), arg);
 
       return null;
@@ -572,7 +597,7 @@ public class VisitSkel
       /* Code For SDec Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
-      //p.ident_;
+      //p.lident_;
 
       return null;
     }
@@ -581,7 +606,7 @@ public class VisitSkel
       /* Code For SDecAss Goes Here */
 
       p.type_.accept(new TypeVisitor<R,A>(), arg);
-      //p.ident_;
+      //p.lident_;
       p.exp_.accept(new ExpVisitor<R,A>(), arg);
 
       return null;
@@ -702,7 +727,7 @@ public class VisitSkel
     {
       /* Code For VarGuard Goes Here */
 
-      //p.ident_;
+      //p.lident_;
 
       return null;
     }
@@ -710,7 +735,7 @@ public class VisitSkel
     {
       /* Code For FieldGuard Goes Here */
 
-      //p.ident_;
+      //p.lident_;
 
       return null;
     }
@@ -922,7 +947,7 @@ public class VisitSkel
     {
       /* Code For EFunCall Goes Here */
 
-      //p.ident_;
+      //p.lident_;
       for (PureExp x : p.listpureexp_) {
       }
 
@@ -932,8 +957,8 @@ public class VisitSkel
     {
       /* Code For EQualFunCall Goes Here */
 
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
-      //p.ident_;
+      p.ttype_.accept(new TTypeVisitor<R,A>(), arg);
+      //p.lident_;
       for (PureExp x : p.listpureexp_) {
       }
 
@@ -943,7 +968,7 @@ public class VisitSkel
     {
       /* Code For ENaryFunCall Goes Here */
 
-      //p.ident_;
+      //p.lident_;
       for (PureExp x : p.listpureexp_) {
       }
 
@@ -953,8 +978,8 @@ public class VisitSkel
     {
       /* Code For ENaryQualFunCall Goes Here */
 
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
-      //p.ident_;
+      p.ttype_.accept(new TTypeVisitor<R,A>(), arg);
+      //p.lident_;
       for (PureExp x : p.listpureexp_) {
       }
 
@@ -964,7 +989,7 @@ public class VisitSkel
     {
       /* Code For EVar Goes Here */
 
-      //p.ident_;
+      //p.lident_;
 
       return null;
     }
@@ -972,7 +997,7 @@ public class VisitSkel
     {
       /* Code For EThis Goes Here */
 
-      //p.ident_;
+      //p.lident_;
 
       return null;
     }
@@ -980,8 +1005,8 @@ public class VisitSkel
     {
       /* Code For EQualVar Goes Here */
 
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
-      //p.ident_;
+      p.ttype_.accept(new TTypeVisitor<R,A>(), arg);
+      //p.lident_;
 
       return null;
     }
@@ -989,7 +1014,7 @@ public class VisitSkel
     {
       /* Code For ESinglConstr Goes Here */
 
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.qtype_.accept(new QTypeVisitor<R,A>(), arg);
 
       return null;
     }
@@ -997,7 +1022,7 @@ public class VisitSkel
     {
       /* Code For EParamConstr Goes Here */
 
-      p.qualtype_.accept(new QualTypeVisitor<R,A>(), arg);
+      p.qtype_.accept(new QTypeVisitor<R,A>(), arg);
       for (PureExp x : p.listpureexp_) {
       }
 
@@ -1032,7 +1057,7 @@ public class VisitSkel
     {
       /* Code For PIdent Goes Here */
 
-      //p.ident_;
+      //p.lident_;
 
       return null;
     }
@@ -1048,7 +1073,7 @@ public class VisitSkel
     {
       /* Code For PSinglConstr Goes Here */
 
-      //p.typeident_;
+      //p.uident_;
 
       return null;
     }
@@ -1056,7 +1081,7 @@ public class VisitSkel
     {
       /* Code For PParamConstr Goes Here */
 
-      //p.typeident_;
+      //p.uident_;
       for (Pattern x : p.listpattern_) {
       }
 
@@ -1139,7 +1164,7 @@ public class VisitSkel
       /* Code For SyncMethCall Goes Here */
 
       p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
-      //p.ident_;
+      //p.lident_;
       for (PureExp x : p.listpureexp_) {
       }
 
@@ -1149,7 +1174,7 @@ public class VisitSkel
     {
       /* Code For ThisSyncMethCall Goes Here */
 
-      //p.ident_;
+      //p.lident_;
       for (PureExp x : p.listpureexp_) {
       }
 
@@ -1160,7 +1185,7 @@ public class VisitSkel
       /* Code For AsyncMethCall Goes Here */
 
       p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
-      //p.ident_;
+      //p.lident_;
       for (PureExp x : p.listpureexp_) {
       }
 
@@ -1170,7 +1195,7 @@ public class VisitSkel
     {
       /* Code For ThisAsyncMethCall Goes Here */
 
-      //p.ident_;
+      //p.lident_;
       for (PureExp x : p.listpureexp_) {
       }
 
@@ -1192,6 +1217,46 @@ public class VisitSkel
       p.type_.accept(new TypeVisitor<R,A>(), arg);
       for (PureExp x : p.listpureexp_) {
       }
+
+      return null;
+    }
+
+  }
+  public class AnnVisitor<R,A> implements Ann.Visitor<R,A>
+  {
+    public R visit(ABS.Absyn.SimpleAnn p, A arg)
+    {
+      /* Code For SimpleAnn Goes Here */
+
+      p.pureexp_.accept(new PureExpVisitor<R,A>(), arg);
+
+      return null;
+    }
+
+  }
+  public class AnnDeclVisitor<R,A> implements AnnDecl.Visitor<R,A>
+  {
+    public R visit(ABS.Absyn.AnnDec p, A arg)
+    {
+      /* Code For AnnDec Goes Here */
+
+      for (Ann x : p.listann_) {
+      }
+      p.decl_.accept(new DeclVisitor<R,A>(), arg);
+
+      return null;
+    }
+
+  }
+  public class AnnTypeVisitor<R,A> implements AnnType.Visitor<R,A>
+  {
+    public R visit(ABS.Absyn.AnnTyp p, A arg)
+    {
+      /* Code For AnnTyp Goes Here */
+
+      for (Ann x : p.listann_) {
+      }
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
 
       return null;
     }

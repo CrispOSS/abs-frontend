@@ -20,7 +20,7 @@ $i = [$l $d _ ']          -- identifier character
 $u = [\0-\255]          -- universal: any character
 
 @rsyms =    -- symbols and non-identifier-like reserved words
-   \, | \; | \* | \. | \_ | \< | \> | \= | \( | \) | \| | \{ | \} | \= \> | \? | \& | \| \| | \& \& | \= \= | \! \= | \< \= | \> \= | \+ | \- | \/ | \% | \~ | \[ | \] | \!
+   \, | \; | \* | \_ | \< | \> | \. | \= | \( | \) | \| | \{ | \} | \= \> | \? | \& | \| \| | \& \& | \= \= | \! \= | \< \= | \> \= | \+ | \- | \/ | \% | \~ | \[ | \] | \!
 
 :-
 "//" [.]* ; -- Toss single line comments
@@ -29,6 +29,7 @@ $u = [\0-\255]          -- universal: any character
 $white+ ;
 @rsyms { tok (\p s -> PT p (eitherResIdent (TV . share) s)) }
 $c ($l | $d | \_ | \')* { tok (\p s -> PT p (eitherResIdent (T_TypeIdent . share) s)) }
+$s ($l | $d | \_ | \')* { tok (\p s -> PT p (eitherResIdent (T_LIdent . share) s)) }
 
 $l $i*   { tok (\p s -> PT p (eitherResIdent (TV . share) s)) }
 \" ([$u # [\" \\ \n]] | (\\ (\" | \\ | \' | n | t)))* \"{ tok (\p s -> PT p (TL $ share $ unescapeInitTail s)) }
@@ -51,6 +52,7 @@ data Tok =
  | TD !String         -- double precision float literals
  | TC !String         -- character literals
  | T_TypeIdent !String
+ | T_LIdent !String
 
  deriving (Eq,Show,Ord)
 
@@ -77,6 +79,7 @@ prToken t = case t of
   PT _ (TD s)   -> s
   PT _ (TC s)   -> s
   PT _ (T_TypeIdent s) -> s
+  PT _ (T_LIdent s) -> s
 
 
 data BTree = N | B String Tok BTree BTree deriving (Show)

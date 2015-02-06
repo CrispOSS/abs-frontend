@@ -1,11 +1,12 @@
-{- position -} token TypeIdent (upper (letter | digit | '_' | '\'')*) ;
+token UIdent (upper (letter | digit | '_' | '\'')*) ;
+token LIdent (lower (letter | digit | '_' | '\'')*) ;
 
 comment "//" ;
 comment "/*" "*/" ;
  
 -- Identifiers (variables and types)
-AnyIden. AnyIdent ::= Ident ;
-AnyTyIden. AnyIdent ::= TypeIdent ;
+AnyIden. AnyIdent ::= LIdent ;
+AnyTyIden. AnyIdent ::= UIdent ;
 separator nonempty AnyIdent "," ;
 
 entrypoints Program ;
@@ -39,48 +40,48 @@ separator nonempty QType ",";
 
 -- list wrapper to TypeIndent to separate with dots "."
 QTyp. QType ::= [QTypeSegment];
-QTypeSegmen. QTypeSegment ::= TypeIdent ;
+QTypeSegmen. QTypeSegment ::= UIdent ;
 separator nonempty QTypeSegment "." ;
 
 -- list wrapper to TypeIndent to separate with dots "."
 TTyp. TType ::= [TTypeSegment];
-TTypeSegmen. TTypeSegment ::= TypeIdent ;
+TTypeSegmen. TTypeSegment ::= UIdent ;
 terminator nonempty TTypeSegment "." ;
 
 -- Declarations (ADT)
 terminator Decl "" ;
-TypeDecl. Decl ::= "type" TypeIdent "=" Type ";" ;
+TypeDecl. Decl ::= "type" UIdent "=" Type ";" ;
 ExceptionDecl. Decl ::= "exception" ConstrIdent ";" ; -- single constructor
-DataDecl. Decl ::= "data" TypeIdent "=" [ConstrIdent] ";" ;
-DataParDecl. Decl ::= "data" TypeIdent "<" [TypeIdent] ">" "=" [ConstrIdent] ";" ;
-SinglConstrIdent. ConstrIdent ::= TypeIdent ;
-ParamConstrIdent. ConstrIdent ::= TypeIdent "(" [ConstrType] ")" ;
+DataDecl. Decl ::= "data" UIdent "=" [ConstrIdent] ";" ;
+DataParDecl. Decl ::= "data" UIdent "<" [UIdent] ">" "=" [ConstrIdent] ";" ;
+SinglConstrIdent. ConstrIdent ::= UIdent ;
+ParamConstrIdent. ConstrIdent ::= UIdent "(" [ConstrType] ")" ;
 EmptyConstrType. ConstrType ::= Type ;
-RecordConstrType. ConstrType ::= Type Ident ;
+RecordConstrType. ConstrType ::= Type LIdent ;
 separator ConstrType "," ;
-separator nonempty TypeIdent "," ;
+separator nonempty UIdent "," ;
 separator nonempty ConstrIdent "|" ;
 
 -- Declarations (Functions)
-FunDecl.  Decl ::= "def" Type Ident "(" [Param] ")" "=" FunBody ";" ;
-FunParDecl. Decl ::= "def" Type Ident "<" [TypeIdent] ">" "(" [Param] ")" "=" FunBody ";" ;
+FunDecl.  Decl ::= "def" Type LIdent "(" [Param] ")" "=" FunBody ";" ;
+FunParDecl. Decl ::= "def" Type LIdent "<" [UIdent] ">" "(" [Param] ")" "=" FunBody ";" ;
 BuiltinFunBody. FunBody ::= "builtin" ;
 NormalFunBody. FunBody ::= PureExp ;
 
 -- Declarations (Interface)
-InterfDecl. Decl ::= "interface" TypeIdent "{" [MethSignat] "}" ;
-ExtendsDecl. Decl ::= "interface" TypeIdent "extends" [QType] "{" [MethSignat] "}" ;
-MethSig. MethSignat ::= Type Ident "(" [Param] ")" ;
+InterfDecl. Decl ::= "interface" UIdent "{" [MethSignat] "}" ;
+ExtendsDecl. Decl ::= "interface" UIdent "extends" [QType] "{" [MethSignat] "}" ;
+MethSig. MethSignat ::= Type LIdent "(" [Param] ")" ;
 terminator MethSignat ";" ;
 
 -- Declarations (Class)
-ClassDecl. Decl ::= "class" TypeIdent "{" [ClassBody] MaybeBlock [ClassBody] "}" ;
-ClassParamDecl. Decl ::= "class" TypeIdent "(" [Param] ")" "{" [ClassBody] MaybeBlock [ClassBody]  "}" ;
-ClassImplements. Decl ::= "class" TypeIdent "implements" [QType] "{" [ClassBody] MaybeBlock [ClassBody]  "}" ;
-ClassParamImplements. Decl ::= "class" TypeIdent "(" [Param] ")" "implements" [QType]  "{" [ClassBody] MaybeBlock [ClassBody]  "}" ;
-FieldClassBody. ClassBody ::= Type Ident ";" ;
-FieldAssignClassBody. ClassBody ::= Type Ident "=" PureExp ";" ;
-MethClassBody. ClassBody ::= Type Ident "(" [Param] ")" Block ;
+ClassDecl. Decl ::= "class" UIdent "{" [ClassBody] MaybeBlock [ClassBody] "}" ;
+ClassParamDecl. Decl ::= "class" UIdent "(" [Param] ")" "{" [ClassBody] MaybeBlock [ClassBody]  "}" ;
+ClassImplements. Decl ::= "class" UIdent "implements" [QType] "{" [ClassBody] MaybeBlock [ClassBody]  "}" ;
+ClassParamImplements. Decl ::= "class" UIdent "(" [Param] ")" "implements" [QType]  "{" [ClassBody] MaybeBlock [ClassBody]  "}" ;
+FieldClassBody. ClassBody ::= Type LIdent ";" ;
+FieldAssignClassBody. ClassBody ::= Type LIdent "=" PureExp ";" ;
+MethClassBody. ClassBody ::= Type LIdent "(" [Param] ")" Block ;
 separator ClassBody "" ;
 
 -- Blocks
@@ -90,7 +91,7 @@ NoBlock.   MaybeBlock ::=  ;
 
 -- Formal parameters to function/interface/method declarations
 separator Param "," ;
-Par. Param ::= Type Ident;
+Par. Param ::= Type LIdent;
 
 -- Statements
 terminator Stm "" ;
@@ -98,10 +99,10 @@ SExp.    Stm ::= Exp ";" ;
 SBlock.  Stm ::= "{" [Stm] "}" ;
 SWhile.  Stm ::= "while" "(" PureExp ")" Stm ;
 SReturn. Stm ::= "return" Exp  ";" ;
-SAss.    Stm ::= Ident "=" Exp ";" ;
-SFieldAss. Stm ::= "this" "." Ident "=" Exp ";" ;
-SDec.    Stm ::= Type Ident ";" ;
-SDecAss. Stm ::= Type Ident "=" Exp ";" ;
+SAss.    Stm ::= LIdent "=" Exp ";" ;
+SFieldAss. Stm ::= "this" "." LIdent "=" Exp ";" ;
+SDec.    Stm ::= Type LIdent ";" ;
+SDecAss. Stm ::= Type LIdent "=" Exp ";" ;
 SIf.     Stm ::= "if" "(" PureExp ")" Stm ;
 SIfElse. Stm ::= "if" "(" PureExp ")" Stm "else" Stm ;
 SSuspend. Stm ::= "suspend" ";" ;
@@ -117,8 +118,8 @@ NoFinally. MaybeFinally ::= ;
 SPrint. Stm ::= "println" PureExp ";" ;
 
 -- Await Guards
-VarGuard. Guard ::= Ident "?" ;
-FieldGuard. Guard ::= "this" "." Ident "?" ;
+VarGuard. Guard ::= LIdent "?" ;
+FieldGuard. Guard ::= "this" "." LIdent "?" ;
 ExpGuard. Guard ::= PureExp ; -- this should be disabled, because it has ABS semantics/pragmatic problems.
 AndGuard. Guard ::= Guard "&" Guard ;
 
@@ -143,13 +144,13 @@ EDiv.    PureExp5 ::= PureExp5 "/" PureExp6 ;
 EMod.    PureExp5 ::= PureExp5 "%" PureExp6 ;
 ELogNeg. PureExp6 ::= "~" PureExp6 ;
 EIntNeg. PureExp6 ::= "-" PureExp6 ;
-EFunCall.    PureExp7 ::= Ident "(" [PureExp] ")" ;
-EQualFunCall. PureExp7 ::= TType Ident "(" [PureExp] ")" ; -- maybe ambiguous, but no such claim by bnfc
-ENaryFunCall. PureExp7 ::= Ident "[" [PureExp] "]" ;
-ENaryQualFunCall. PureExp7 ::= TType Ident "[" [PureExp] "]" ; -- maybe ambiguous, but no such claim by bnfc
-EVar.    PureExp7 ::= Ident ;
-EThis.   PureExp7 ::= "this" "." Ident ; 
-EQualVar. PureExp7 ::= TType Ident ;
+EFunCall.    PureExp7 ::= LIdent "(" [PureExp] ")" ;
+EQualFunCall. PureExp7 ::= TType LIdent "(" [PureExp] ")" ; -- maybe ambiguous, but no such claim by bnfc
+ENaryFunCall. PureExp7 ::= LIdent "[" [PureExp] "]" ;
+ENaryQualFunCall. PureExp7 ::= TType LIdent "[" [PureExp] "]" ; -- maybe ambiguous, but no such claim by bnfc
+EVar.    PureExp7 ::= LIdent ;
+EThis.   PureExp7 ::= "this" "." LIdent ; 
+EQualVar. PureExp7 ::= TType LIdent ;
 ESinglConstr.   PureExp7 ::= QType ;
 EParamConstr. PureExp7 ::= QType "(" [PureExp] ")" ;
 ELit.    PureExp7 ::= Literal ;
@@ -163,10 +164,10 @@ terminator nonempty CaseBranch ";" ;
 
 -- Pattern Matching
 separator Pattern "," ;
-PIdent. Pattern ::= Ident ;
+PIdent. Pattern ::= LIdent ;
 PLit. Pattern ::= Literal ;
-PSinglConstr. Pattern ::= TypeIdent ;
-PParamConstr. Pattern ::= TypeIdent "(" [Pattern] ")" ;
+PSinglConstr. Pattern ::= UIdent ;
+PParamConstr. Pattern ::= UIdent "(" [Pattern] ")" ;
 PUnderscore. Pattern ::= "_" ;
 
 -- Literals
@@ -179,19 +180,19 @@ LInt.    Literal ::= Integer ;
 -- Effectful Expressions
 New. EffExp ::= "new" Type "(" [PureExp] ")" ;
 NewLocal. EffExp ::= "new" "local" Type "(" [PureExp] ")" ;
-SyncMethCall. EffExp ::= PureExp "." Ident "(" [PureExp] ")" ;
-ThisSyncMethCall. EffExp ::= "this" "." Ident "(" [PureExp] ")" ;
-AsyncMethCall. EffExp ::= PureExp "!" Ident "(" [PureExp] ")" ;
-ThisAsyncMethCall. EffExp ::= "this" "!" Ident "(" [PureExp] ")" ;
+SyncMethCall. EffExp ::= PureExp "." LIdent "(" [PureExp] ")" ;
+ThisSyncMethCall. EffExp ::= "this" "." LIdent "(" [PureExp] ")" ;
+AsyncMethCall. EffExp ::= PureExp "!" LIdent "(" [PureExp] ")" ;
+ThisAsyncMethCall. EffExp ::= "this" "!" LIdent "(" [PureExp] ")" ;
 Get. EffExp ::= PureExp "." "get" ;
 Spawns. EffExp ::= PureExp "spawns" Type "(" [PureExp] ")" ;
 
 --Annotations (turned off because we don't make use of them)
 SimpleAnn. Ann ::= "[" PureExp "]";
 separator Ann "" ;
-AnnDecl. AnnDecl ::= [Ann] Decl;
+AnnDec. AnnDecl ::= [Ann] Decl;
 terminator AnnDecl "" ;
-AnnType. AnnType ::= [Ann] Type;
+AnnTyp. AnnType ::= [Ann] Type;
 separator AnnType "," ;
 -- there are more places where annotations can be put
 

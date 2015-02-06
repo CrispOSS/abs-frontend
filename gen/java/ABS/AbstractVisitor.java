@@ -46,14 +46,24 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
     public R visitDefault(ABS.Absyn.Type p, A arg) {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
-/* QualType */
-    public R visit(ABS.Absyn.QType p, A arg) { return visitDefault(p, arg); }
-    public R visitDefault(ABS.Absyn.QualType p, A arg) {
+/* QType */
+    public R visit(ABS.Absyn.QTyp p, A arg) { return visitDefault(p, arg); }
+    public R visitDefault(ABS.Absyn.QType p, A arg) {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
-/* QualTypeSegment */
-    public R visit(ABS.Absyn.QTypeSegment p, A arg) { return visitDefault(p, arg); }
-    public R visitDefault(ABS.Absyn.QualTypeSegment p, A arg) {
+/* QTypeSegment */
+    public R visit(ABS.Absyn.QTypeSegmen p, A arg) { return visitDefault(p, arg); }
+    public R visitDefault(ABS.Absyn.QTypeSegment p, A arg) {
+      throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
+    }
+/* TType */
+    public R visit(ABS.Absyn.TTyp p, A arg) { return visitDefault(p, arg); }
+    public R visitDefault(ABS.Absyn.TType p, A arg) {
+      throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
+    }
+/* TTypeSegment */
+    public R visit(ABS.Absyn.TTypeSegmen p, A arg) { return visitDefault(p, arg); }
+    public R visitDefault(ABS.Absyn.TTypeSegment p, A arg) {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
 /* Decl */
@@ -237,6 +247,21 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
     public R visit(ABS.Absyn.Get p, A arg) { return visitDefault(p, arg); }
     public R visit(ABS.Absyn.Spawns p, A arg) { return visitDefault(p, arg); }
     public R visitDefault(ABS.Absyn.EffExp p, A arg) {
+      throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
+    }
+/* Ann */
+    public R visit(ABS.Absyn.SimpleAnn p, A arg) { return visitDefault(p, arg); }
+    public R visitDefault(ABS.Absyn.Ann p, A arg) {
+      throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
+    }
+/* AnnDecl */
+    public R visit(ABS.Absyn.AnnDec p, A arg) { return visitDefault(p, arg); }
+    public R visitDefault(ABS.Absyn.AnnDecl p, A arg) {
+      throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
+    }
+/* AnnType */
+    public R visit(ABS.Absyn.AnnTyp p, A arg) { return visitDefault(p, arg); }
+    public R visitDefault(ABS.Absyn.AnnType p, A arg) {
       throw new IllegalArgumentException(this.getClass().getName() + ": " + p);
     }
 

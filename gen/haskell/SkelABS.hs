@@ -9,19 +9,19 @@ type Result = Err String
 failure :: Show a => a -> Result
 failure x = Bad $ "Undefined case: " ++ show x
 
-transIdent :: Ident -> Result
-transIdent x = case x of
-  Ident str  -> failure x
-
-
 transTypeIdent :: TypeIdent -> Result
 transTypeIdent x = case x of
   TypeIdent str  -> failure x
 
 
+transLIdent :: LIdent -> Result
+transLIdent x = case x of
+  LIdent str  -> failure x
+
+
 transAnyIdent :: AnyIdent -> Result
 transAnyIdent x = case x of
-  AnyIden id  -> failure x
+  AnyIden lident  -> failure x
   AnyTyIden typeident  -> failure x
 
 
@@ -32,22 +32,22 @@ transProgram x = case x of
 
 transModule :: Module -> Result
 transModule x = case x of
-  Modul qualtype exports imports decls maybeblock  -> failure x
+  Modul qtype exports imports decls maybeblock  -> failure x
 
 
 transExport :: Export -> Result
 transExport x = case x of
   AnyExport anyidents  -> failure x
-  AnyFromExport anyidents qualtype  -> failure x
+  AnyFromExport anyidents qtype  -> failure x
   StarExport  -> failure x
-  StarFromExport qualtype  -> failure x
+  StarFromExport qtype  -> failure x
 
 
 transImport :: Import -> Result
 transImport x = case x of
-  AnyImport importtype qualtype anyident  -> failure x
-  AnyFromImport importtype anyidents qualtype  -> failure x
-  StarFromImport importtype qualtype  -> failure x
+  AnyImport importtype ttype anyident  -> failure x
+  AnyFromImport importtype anyidents qtype  -> failure x
+  StarFromImport importtype qtype  -> failure x
 
 
 transImportType :: ImportType -> Result
@@ -59,18 +59,28 @@ transImportType x = case x of
 transType :: Type -> Result
 transType x = case x of
   TUnderscore  -> failure x
-  TSimple qualtype  -> failure x
-  TGen qualtype types  -> failure x
+  TSimple qtype  -> failure x
+  TGen qtype types  -> failure x
 
 
-transQualType :: QualType -> Result
-transQualType x = case x of
-  QType qualtypesegments  -> failure x
+transQType :: QType -> Result
+transQType x = case x of
+  QTyp qtypesegments  -> failure x
 
 
-transQualTypeSegment :: QualTypeSegment -> Result
-transQualTypeSegment x = case x of
-  QTypeSegment typeident  -> failure x
+transQTypeSegment :: QTypeSegment -> Result
+transQTypeSegment x = case x of
+  QTypeSegmen typeident  -> failure x
+
+
+transTType :: TType -> Result
+transTType x = case x of
+  TTyp ttypesegments  -> failure x
+
+
+transTTypeSegment :: TTypeSegment -> Result
+transTTypeSegment x = case x of
+  TTypeSegmen typeident  -> failure x
 
 
 transDecl :: Decl -> Result
@@ -79,14 +89,14 @@ transDecl x = case x of
   ExceptionDecl constrident  -> failure x
   DataDecl typeident constridents  -> failure x
   DataParDecl typeident typeidents constridents  -> failure x
-  FunDecl type' id params funbody  -> failure x
-  FunParDecl type' id typeidents params funbody  -> failure x
+  FunDecl type' lident params funbody  -> failure x
+  FunParDecl type' lident typeidents params funbody  -> failure x
   InterfDecl typeident methsignats  -> failure x
-  ExtendsDecl typeident qualtypes methsignats  -> failure x
+  ExtendsDecl typeident qtypes methsignats  -> failure x
   ClassDecl typeident classbodys1 maybeblock2 classbodys3  -> failure x
   ClassParamDecl typeident params classbodys1 maybeblock2 classbodys3  -> failure x
-  ClassImplements typeident qualtypes classbodys1 maybeblock2 classbodys3  -> failure x
-  ClassParamImplements typeident params qualtypes classbodys1 maybeblock2 classbodys3  -> failure x
+  ClassImplements typeident qtypes classbodys1 maybeblock2 classbodys3  -> failure x
+  ClassParamImplements typeident params qtypes classbodys1 maybeblock2 classbodys3  -> failure x
 
 
 transConstrIdent :: ConstrIdent -> Result
@@ -98,7 +108,7 @@ transConstrIdent x = case x of
 transConstrType :: ConstrType -> Result
 transConstrType x = case x of
   EmptyConstrType type'  -> failure x
-  RecordConstrType type' id  -> failure x
+  RecordConstrType type' lident  -> failure x
 
 
 transFunBody :: FunBody -> Result
@@ -109,14 +119,14 @@ transFunBody x = case x of
 
 transMethSignat :: MethSignat -> Result
 transMethSignat x = case x of
-  MethSig type' id params  -> failure x
+  MethSig type' lident params  -> failure x
 
 
 transClassBody :: ClassBody -> Result
 transClassBody x = case x of
-  FieldClassBody type' id  -> failure x
-  FieldAssignClassBody type' id pureexp  -> failure x
-  MethClassBody type' id params block  -> failure x
+  FieldClassBody type' lident  -> failure x
+  FieldAssignClassBody type' lident pureexp  -> failure x
+  MethClassBody type' lident params block  -> failure x
 
 
 transBlock :: Block -> Result
@@ -132,7 +142,7 @@ transMaybeBlock x = case x of
 
 transParam :: Param -> Result
 transParam x = case x of
-  Par type' id  -> failure x
+  Par type' lident  -> failure x
 
 
 transStm :: Stm -> Result
@@ -141,10 +151,10 @@ transStm x = case x of
   SBlock stms  -> failure x
   SWhile pureexp stm  -> failure x
   SReturn exp  -> failure x
-  SAss id exp  -> failure x
-  SFieldAss id exp  -> failure x
-  SDec type' id  -> failure x
-  SDecAss type' id exp  -> failure x
+  SAss lident exp  -> failure x
+  SFieldAss lident exp  -> failure x
+  SDec type' lident  -> failure x
+  SDecAss type' lident exp  -> failure x
   SIf pureexp stm  -> failure x
   SIfElse pureexp stm1 stm2  -> failure x
   SSuspend  -> failure x
@@ -169,8 +179,8 @@ transMaybeFinally x = case x of
 
 transGuard :: Guard -> Result
 transGuard x = case x of
-  VarGuard id  -> failure x
-  FieldGuard id  -> failure x
+  VarGuard lident  -> failure x
+  FieldGuard lident  -> failure x
   ExpGuard pureexp  -> failure x
   AndGuard guard1 guard2  -> failure x
 
@@ -198,15 +208,15 @@ transPureExp x = case x of
   EMod pureexp1 pureexp2  -> failure x
   ELogNeg pureexp  -> failure x
   EIntNeg pureexp  -> failure x
-  EFunCall id pureexps  -> failure x
-  EQualFunCall qualtype id pureexps  -> failure x
-  ENaryFunCall id pureexps  -> failure x
-  ENaryQualFunCall qualtype id pureexps  -> failure x
-  EVar id  -> failure x
-  EThis id  -> failure x
-  EQualVar qualtype id  -> failure x
-  ESinglConstr qualtype  -> failure x
-  EParamConstr qualtype pureexps  -> failure x
+  EFunCall lident pureexps  -> failure x
+  EQualFunCall ttype lident pureexps  -> failure x
+  ENaryFunCall lident pureexps  -> failure x
+  ENaryQualFunCall ttype lident pureexps  -> failure x
+  EVar lident  -> failure x
+  EThis lident  -> failure x
+  EQualVar ttype lident  -> failure x
+  ESinglConstr qtype  -> failure x
+  EParamConstr qtype pureexps  -> failure x
   ELit literal  -> failure x
   Let param pureexp1 pureexp2  -> failure x
   If pureexp1 pureexp2 pureexp3  -> failure x
@@ -220,7 +230,7 @@ transCaseBranch x = case x of
 
 transPattern :: Pattern -> Result
 transPattern x = case x of
-  PIdent id  -> failure x
+  PIdent lident  -> failure x
   PLit literal  -> failure x
   PSinglConstr typeident  -> failure x
   PParamConstr typeident patterns  -> failure x
@@ -240,12 +250,27 @@ transEffExp :: EffExp -> Result
 transEffExp x = case x of
   New type' pureexps  -> failure x
   NewLocal type' pureexps  -> failure x
-  SyncMethCall pureexp id pureexps  -> failure x
-  ThisSyncMethCall id pureexps  -> failure x
-  AsyncMethCall pureexp id pureexps  -> failure x
-  ThisAsyncMethCall id pureexps  -> failure x
+  SyncMethCall pureexp lident pureexps  -> failure x
+  ThisSyncMethCall lident pureexps  -> failure x
+  AsyncMethCall pureexp lident pureexps  -> failure x
+  ThisAsyncMethCall lident pureexps  -> failure x
   Get pureexp  -> failure x
   Spawns pureexp type' pureexps  -> failure x
+
+
+transAnn :: Ann -> Result
+transAnn x = case x of
+  SimpleAnn pureexp  -> failure x
+
+
+transAnnDecl :: AnnDecl -> Result
+transAnnDecl x = case x of
+  AnnDec anns decl  -> failure x
+
+
+transAnnType :: AnnType -> Result
+transAnnType x = case x of
+  AnnTyp anns type'  -> failure x
 
 
 
