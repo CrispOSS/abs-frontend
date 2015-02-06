@@ -56,7 +56,7 @@ data Tok =
  | TV !String         -- identifiers
  | TD !String         -- double precision float literals
  | TC !String         -- character literals
- | T_TypeIdent !String
+ | T_UIdent !String
  | T_LIdent !String
 
  deriving (Eq,Show,Ord)
@@ -83,7 +83,7 @@ prToken t = case t of
   PT _ (TV s)   -> s
   PT _ (TD s)   -> s
   PT _ (TC s)   -> s
-  PT _ (T_TypeIdent s) -> s
+  PT _ (T_UIdent s) -> s
   PT _ (T_LIdent s) -> s
 
 
@@ -180,7 +180,7 @@ utf8Encode = map fromIntegral . go . ord
                         ]
 
 alex_action_3 =  tok (\p s -> PT p (eitherResIdent (TV . share) s)) 
-alex_action_4 =  tok (\p s -> PT p (eitherResIdent (T_TypeIdent . share) s)) 
+alex_action_4 =  tok (\p s -> PT p (eitherResIdent (T_UIdent . share) s)) 
 alex_action_5 =  tok (\p s -> PT p (eitherResIdent (T_LIdent . share) s)) 
 alex_action_6 =  tok (\p s -> PT p (eitherResIdent (TV . share) s)) 
 alex_action_7 =  tok (\p s -> PT p (TL $ share $ unescapeInitTail s)) 

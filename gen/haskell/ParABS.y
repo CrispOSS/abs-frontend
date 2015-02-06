@@ -86,8 +86,8 @@ import ErrM
 
 L_quoted { PT _ (TL $$) }
 L_integ  { PT _ (TI $$) }
-L_TypeIdent { PT _ (T_TypeIdent $$) }
-L_LIdent { PT _ (T_LIdent $$) }
+L_UIdent { PT _ (T_UIdent _) }
+L_LIdent { PT _ (T_LIdent _) }
 L_err    { _ }
 
 
@@ -95,12 +95,12 @@ L_err    { _ }
 
 String  :: { String }  : L_quoted {  $1 }
 Integer :: { Integer } : L_integ  { (read ( $1)) :: Integer }
-TypeIdent    :: { TypeIdent} : L_TypeIdent { TypeIdent ($1)}
-LIdent    :: { LIdent} : L_LIdent { LIdent ($1)}
+UIdent    :: { UIdent} : L_UIdent { UIdent (mkPosToken $1)}
+LIdent    :: { LIdent} : L_LIdent { LIdent (mkPosToken $1)}
 
 AnyIdent :: { AnyIdent }
 AnyIdent : LIdent { AnyIden $1 } 
-  | TypeIdent { AnyTyIden $1 }
+  | UIdent { AnyTyIden $1 }
 
 
 ListAnyIdent :: { [AnyIdent] }
@@ -170,7 +170,7 @@ QType : ListQTypeSegment { QTyp $1 }
 
 
 QTypeSegment :: { QTypeSegment }
-QTypeSegment : TypeIdent { QTypeSegmen $1 } 
+QTypeSegment : UIdent { QTypeSegmen $1 } 
 
 
 ListQTypeSegment :: { [QTypeSegment] }
@@ -183,7 +183,7 @@ TType : ListTTypeSegment { TTyp $1 }
 
 
 TTypeSegment :: { TTypeSegment }
-TTypeSegment : TypeIdent { TTypeSegmen $1 } 
+TTypeSegment : UIdent { TTypeSegmen $1 } 
 
 
 ListTTypeSegment :: { [TTypeSegment] }
@@ -197,23 +197,23 @@ ListDecl : {- empty -} { [] }
 
 
 Decl :: { Decl }
-Decl : 'type' TypeIdent '=' Type ';' { TypeDecl $2 $4 } 
+Decl : 'type' UIdent '=' Type ';' { TypeDecl $2 $4 } 
   | 'exception' ConstrIdent ';' { ExceptionDecl $2 }
-  | 'data' TypeIdent '=' ListConstrIdent ';' { DataDecl $2 $4 }
-  | 'data' TypeIdent '<' ListTypeIdent '>' '=' ListConstrIdent ';' { DataParDecl $2 $4 $7 }
+  | 'data' UIdent '=' ListConstrIdent ';' { DataDecl $2 $4 }
+  | 'data' UIdent '<' ListUIdent '>' '=' ListConstrIdent ';' { DataParDecl $2 $4 $7 }
   | 'def' Type LIdent '(' ListParam ')' '=' FunBody ';' { FunDecl $2 $3 $5 $8 }
-  | 'def' Type LIdent '<' ListTypeIdent '>' '(' ListParam ')' '=' FunBody ';' { FunParDecl $2 $3 $5 $8 $11 }
-  | 'interface' TypeIdent '{' ListMethSignat '}' { InterfDecl $2 (reverse $4) }
-  | 'interface' TypeIdent 'extends' ListQType '{' ListMethSignat '}' { ExtendsDecl $2 $4 (reverse $6) }
-  | 'class' TypeIdent '{' ListClassBody MaybeBlock ListClassBody '}' { ClassDecl $2 (reverse $4) $5 (reverse $6) }
-  | 'class' TypeIdent '(' ListParam ')' '{' ListClassBody MaybeBlock ListClassBody '}' { ClassParamDecl $2 $4 (reverse $7) $8 (reverse $9) }
-  | 'class' TypeIdent 'implements' ListQType '{' ListClassBody MaybeBlock ListClassBody '}' { ClassImplements $2 $4 (reverse $6) $7 (reverse $8) }
-  | 'class' TypeIdent '(' ListParam ')' 'implements' ListQType '{' ListClassBody MaybeBlock ListClassBody '}' { ClassParamImplements $2 $4 $7 (reverse $9) $10 (reverse $11) }
+  | 'def' Type LIdent '<' ListUIdent '>' '(' ListParam ')' '=' FunBody ';' { FunParDecl $2 $3 $5 $8 $11 }
+  | 'interface' UIdent '{' ListMethSignat '}' { InterfDecl $2 (reverse $4) }
+  | 'interface' UIdent 'extends' ListQType '{' ListMethSignat '}' { ExtendsDecl $2 $4 (reverse $6) }
+  | 'class' UIdent '{' ListClassBody MaybeBlock ListClassBody '}' { ClassDecl $2 (reverse $4) $5 (reverse $6) }
+  | 'class' UIdent '(' ListParam ')' '{' ListClassBody MaybeBlock ListClassBody '}' { ClassParamDecl $2 $4 (reverse $7) $8 (reverse $9) }
+  | 'class' UIdent 'implements' ListQType '{' ListClassBody MaybeBlock ListClassBody '}' { ClassImplements $2 $4 (reverse $6) $7 (reverse $8) }
+  | 'class' UIdent '(' ListParam ')' 'implements' ListQType '{' ListClassBody MaybeBlock ListClassBody '}' { ClassParamImplements $2 $4 $7 (reverse $9) $10 (reverse $11) }
 
 
 ConstrIdent :: { ConstrIdent }
-ConstrIdent : TypeIdent { SinglConstrIdent $1 } 
-  | TypeIdent '(' ListConstrType ')' { ParamConstrIdent $1 $3 }
+ConstrIdent : UIdent { SinglConstrIdent $1 } 
+  | UIdent '(' ListConstrType ')' { ParamConstrIdent $1 $3 }
 
 
 ConstrType :: { ConstrType }
@@ -227,9 +227,9 @@ ListConstrType : {- empty -} { [] }
   | ConstrType ',' ListConstrType { (:) $1 $3 }
 
 
-ListTypeIdent :: { [TypeIdent] }
-ListTypeIdent : TypeIdent { (:[]) $1 } 
-  | TypeIdent ',' ListTypeIdent { (:) $1 $3 }
+ListUIdent :: { [UIdent] }
+ListUIdent : UIdent { (:[]) $1 } 
+  | UIdent ',' ListUIdent { (:) $1 $3 }
 
 
 ListConstrIdent :: { [ConstrIdent] }
@@ -416,8 +416,8 @@ ListPattern : {- empty -} { [] }
 Pattern :: { Pattern }
 Pattern : LIdent { PIdent $1 } 
   | Literal { PLit $1 }
-  | TypeIdent { PSinglConstr $1 }
-  | TypeIdent '(' ListPattern ')' { PParamConstr $1 $3 }
+  | UIdent { PSinglConstr $1 }
+  | UIdent '(' ListPattern ')' { PParamConstr $1 $3 }
   | '_' { PUnderscore }
 
 

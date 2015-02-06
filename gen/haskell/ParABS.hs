@@ -29,10 +29,10 @@ happyIn5 x = Happy_GHC_Exts.unsafeCoerce# x
 happyOut5 :: (HappyAbsSyn ) -> (Integer)
 happyOut5 x = Happy_GHC_Exts.unsafeCoerce# x
 {-# INLINE happyOut5 #-}
-happyIn6 :: (TypeIdent) -> (HappyAbsSyn )
+happyIn6 :: (UIdent) -> (HappyAbsSyn )
 happyIn6 x = Happy_GHC_Exts.unsafeCoerce# x
 {-# INLINE happyIn6 #-}
-happyOut6 :: (HappyAbsSyn ) -> (TypeIdent)
+happyOut6 :: (HappyAbsSyn ) -> (UIdent)
 happyOut6 x = Happy_GHC_Exts.unsafeCoerce# x
 {-# INLINE happyOut6 #-}
 happyIn7 :: (LIdent) -> (HappyAbsSyn )
@@ -185,10 +185,10 @@ happyIn31 x = Happy_GHC_Exts.unsafeCoerce# x
 happyOut31 :: (HappyAbsSyn ) -> ([ConstrType])
 happyOut31 x = Happy_GHC_Exts.unsafeCoerce# x
 {-# INLINE happyOut31 #-}
-happyIn32 :: ([TypeIdent]) -> (HappyAbsSyn )
+happyIn32 :: ([UIdent]) -> (HappyAbsSyn )
 happyIn32 x = Happy_GHC_Exts.unsafeCoerce# x
 {-# INLINE happyIn32 #-}
-happyOut32 :: (HappyAbsSyn ) -> ([TypeIdent])
+happyOut32 :: (HappyAbsSyn ) -> ([UIdent])
 happyOut32 x = Happy_GHC_Exts.unsafeCoerce# x
 {-# INLINE happyOut32 #-}
 happyIn33 :: ([ConstrIdent]) -> (HappyAbsSyn )
@@ -649,16 +649,16 @@ happyReduction_2 happy_x_1
 
 happyReduce_3 = happySpecReduce_1  2# happyReduction_3
 happyReduction_3 happy_x_1
-	 =  case happyOutTok happy_x_1 of { (PT _ (T_TypeIdent happy_var_1)) -> 
+	 =  case happyOutTok happy_x_1 of { happy_var_1 -> 
 	happyIn6
-		 (TypeIdent (happy_var_1)
+		 (UIdent (mkPosToken happy_var_1)
 	)}
 
 happyReduce_4 = happySpecReduce_1  3# happyReduction_4
 happyReduction_4 happy_x_1
-	 =  case happyOutTok happy_x_1 of { (PT _ (T_LIdent happy_var_1)) -> 
+	 =  case happyOutTok happy_x_1 of { happy_var_1 -> 
 	happyIn7
-		 (LIdent (happy_var_1)
+		 (LIdent (mkPosToken happy_var_1)
 	)}
 
 happyReduce_5 = happySpecReduce_1  4# happyReduction_5
@@ -2469,8 +2469,8 @@ happyNewToken action sts stk (tk:tks) =
 	PT _ (TS _ 68) -> cont 68#;
 	PT _ (TL happy_dollar_dollar) -> cont 69#;
 	PT _ (TI happy_dollar_dollar) -> cont 70#;
-	PT _ (T_TypeIdent happy_dollar_dollar) -> cont 71#;
-	PT _ (T_LIdent happy_dollar_dollar) -> cont 72#;
+	PT _ (T_UIdent _) -> cont 71#;
+	PT _ (T_LIdent _) -> cont 72#;
 	_ -> cont 73#;
 	_ -> happyError' (tk:tks)
 	}

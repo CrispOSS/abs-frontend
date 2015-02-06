@@ -79,22 +79,22 @@ instance Print Double where
 
 
 
-instance Print TypeIdent where
-  prt _ (TypeIdent i) = doc (showString ( i))
+instance Print UIdent where
+  prt _ (UIdent (_,i)) = doc (showString ( i))
   prtList es = case es of
    [x] -> (concatD [prt 0 x])
    x:xs -> (concatD [prt 0 x , doc (showString ",") , prt 0 xs])
 
 
 instance Print LIdent where
-  prt _ (LIdent i) = doc (showString ( i))
+  prt _ (LIdent (_,i)) = doc (showString ( i))
 
 
 
 instance Print AnyIdent where
   prt i e = case e of
    AnyIden lident -> prPrec i 0 (concatD [prt 0 lident])
-   AnyTyIden typeident -> prPrec i 0 (concatD [prt 0 typeident])
+   AnyTyIden uident -> prPrec i 0 (concatD [prt 0 uident])
 
   prtList es = case es of
    [x] -> (concatD [prt 0 x])
@@ -160,7 +160,7 @@ instance Print QType where
 
 instance Print QTypeSegment where
   prt i e = case e of
-   QTypeSegmen typeident -> prPrec i 0 (concatD [prt 0 typeident])
+   QTypeSegmen uident -> prPrec i 0 (concatD [prt 0 uident])
 
   prtList es = case es of
    [x] -> (concatD [prt 0 x])
@@ -173,7 +173,7 @@ instance Print TType where
 
 instance Print TTypeSegment where
   prt i e = case e of
-   TTypeSegmen typeident -> prPrec i 0 (concatD [prt 0 typeident])
+   TTypeSegmen uident -> prPrec i 0 (concatD [prt 0 uident])
 
   prtList es = case es of
    [x] -> (concatD [prt 0 x , doc (showString ".")])
@@ -181,18 +181,18 @@ instance Print TTypeSegment where
 
 instance Print Decl where
   prt i e = case e of
-   TypeDecl typeident type' -> prPrec i 0 (concatD [doc (showString "type") , prt 0 typeident , doc (showString "=") , prt 0 type' , doc (showString ";")])
+   TypeDecl uident type' -> prPrec i 0 (concatD [doc (showString "type") , prt 0 uident , doc (showString "=") , prt 0 type' , doc (showString ";")])
    ExceptionDecl constrident -> prPrec i 0 (concatD [doc (showString "exception") , prt 0 constrident , doc (showString ";")])
-   DataDecl typeident constridents -> prPrec i 0 (concatD [doc (showString "data") , prt 0 typeident , doc (showString "=") , prt 0 constridents , doc (showString ";")])
-   DataParDecl typeident typeidents constridents -> prPrec i 0 (concatD [doc (showString "data") , prt 0 typeident , doc (showString "<") , prt 0 typeidents , doc (showString ">") , doc (showString "=") , prt 0 constridents , doc (showString ";")])
+   DataDecl uident constridents -> prPrec i 0 (concatD [doc (showString "data") , prt 0 uident , doc (showString "=") , prt 0 constridents , doc (showString ";")])
+   DataParDecl uident uidents constridents -> prPrec i 0 (concatD [doc (showString "data") , prt 0 uident , doc (showString "<") , prt 0 uidents , doc (showString ">") , doc (showString "=") , prt 0 constridents , doc (showString ";")])
    FunDecl type' lident params funbody -> prPrec i 0 (concatD [doc (showString "def") , prt 0 type' , prt 0 lident , doc (showString "(") , prt 0 params , doc (showString ")") , doc (showString "=") , prt 0 funbody , doc (showString ";")])
-   FunParDecl type' lident typeidents params funbody -> prPrec i 0 (concatD [doc (showString "def") , prt 0 type' , prt 0 lident , doc (showString "<") , prt 0 typeidents , doc (showString ">") , doc (showString "(") , prt 0 params , doc (showString ")") , doc (showString "=") , prt 0 funbody , doc (showString ";")])
-   InterfDecl typeident methsignats -> prPrec i 0 (concatD [doc (showString "interface") , prt 0 typeident , doc (showString "{") , prt 0 methsignats , doc (showString "}")])
-   ExtendsDecl typeident qtypes methsignats -> prPrec i 0 (concatD [doc (showString "interface") , prt 0 typeident , doc (showString "extends") , prt 0 qtypes , doc (showString "{") , prt 0 methsignats , doc (showString "}")])
-   ClassDecl typeident classbodys0 maybeblock classbodys -> prPrec i 0 (concatD [doc (showString "class") , prt 0 typeident , doc (showString "{") , prt 0 classbodys0 , prt 0 maybeblock , prt 0 classbodys , doc (showString "}")])
-   ClassParamDecl typeident params classbodys0 maybeblock classbodys -> prPrec i 0 (concatD [doc (showString "class") , prt 0 typeident , doc (showString "(") , prt 0 params , doc (showString ")") , doc (showString "{") , prt 0 classbodys0 , prt 0 maybeblock , prt 0 classbodys , doc (showString "}")])
-   ClassImplements typeident qtypes classbodys0 maybeblock classbodys -> prPrec i 0 (concatD [doc (showString "class") , prt 0 typeident , doc (showString "implements") , prt 0 qtypes , doc (showString "{") , prt 0 classbodys0 , prt 0 maybeblock , prt 0 classbodys , doc (showString "}")])
-   ClassParamImplements typeident params qtypes classbodys0 maybeblock classbodys -> prPrec i 0 (concatD [doc (showString "class") , prt 0 typeident , doc (showString "(") , prt 0 params , doc (showString ")") , doc (showString "implements") , prt 0 qtypes , doc (showString "{") , prt 0 classbodys0 , prt 0 maybeblock , prt 0 classbodys , doc (showString "}")])
+   FunParDecl type' lident uidents params funbody -> prPrec i 0 (concatD [doc (showString "def") , prt 0 type' , prt 0 lident , doc (showString "<") , prt 0 uidents , doc (showString ">") , doc (showString "(") , prt 0 params , doc (showString ")") , doc (showString "=") , prt 0 funbody , doc (showString ";")])
+   InterfDecl uident methsignats -> prPrec i 0 (concatD [doc (showString "interface") , prt 0 uident , doc (showString "{") , prt 0 methsignats , doc (showString "}")])
+   ExtendsDecl uident qtypes methsignats -> prPrec i 0 (concatD [doc (showString "interface") , prt 0 uident , doc (showString "extends") , prt 0 qtypes , doc (showString "{") , prt 0 methsignats , doc (showString "}")])
+   ClassDecl uident classbodys0 maybeblock classbodys -> prPrec i 0 (concatD [doc (showString "class") , prt 0 uident , doc (showString "{") , prt 0 classbodys0 , prt 0 maybeblock , prt 0 classbodys , doc (showString "}")])
+   ClassParamDecl uident params classbodys0 maybeblock classbodys -> prPrec i 0 (concatD [doc (showString "class") , prt 0 uident , doc (showString "(") , prt 0 params , doc (showString ")") , doc (showString "{") , prt 0 classbodys0 , prt 0 maybeblock , prt 0 classbodys , doc (showString "}")])
+   ClassImplements uident qtypes classbodys0 maybeblock classbodys -> prPrec i 0 (concatD [doc (showString "class") , prt 0 uident , doc (showString "implements") , prt 0 qtypes , doc (showString "{") , prt 0 classbodys0 , prt 0 maybeblock , prt 0 classbodys , doc (showString "}")])
+   ClassParamImplements uident params qtypes classbodys0 maybeblock classbodys -> prPrec i 0 (concatD [doc (showString "class") , prt 0 uident , doc (showString "(") , prt 0 params , doc (showString ")") , doc (showString "implements") , prt 0 qtypes , doc (showString "{") , prt 0 classbodys0 , prt 0 maybeblock , prt 0 classbodys , doc (showString "}")])
 
   prtList es = case es of
    [] -> (concatD [])
@@ -200,8 +200,8 @@ instance Print Decl where
 
 instance Print ConstrIdent where
   prt i e = case e of
-   SinglConstrIdent typeident -> prPrec i 0 (concatD [prt 0 typeident])
-   ParamConstrIdent typeident constrtypes -> prPrec i 0 (concatD [prt 0 typeident , doc (showString "(") , prt 0 constrtypes , doc (showString ")")])
+   SinglConstrIdent uident -> prPrec i 0 (concatD [prt 0 uident])
+   ParamConstrIdent uident constrtypes -> prPrec i 0 (concatD [prt 0 uident , doc (showString "(") , prt 0 constrtypes , doc (showString ")")])
 
   prtList es = case es of
    [x] -> (concatD [prt 0 x])
@@ -361,8 +361,8 @@ instance Print Pattern where
   prt i e = case e of
    PIdent lident -> prPrec i 0 (concatD [prt 0 lident])
    PLit literal -> prPrec i 0 (concatD [prt 0 literal])
-   PSinglConstr typeident -> prPrec i 0 (concatD [prt 0 typeident])
-   PParamConstr typeident patterns -> prPrec i 0 (concatD [prt 0 typeident , doc (showString "(") , prt 0 patterns , doc (showString ")")])
+   PSinglConstr uident -> prPrec i 0 (concatD [prt 0 uident])
+   PParamConstr uident patterns -> prPrec i 0 (concatD [prt 0 uident , doc (showString "(") , prt 0 patterns , doc (showString ")")])
    PUnderscore  -> prPrec i 0 (concatD [doc (showString "_")])
 
   prtList es = case es of

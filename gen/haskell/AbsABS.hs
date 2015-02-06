@@ -7,11 +7,11 @@ module AbsABS where
 
 
 
-newtype TypeIdent = TypeIdent String deriving (Eq,Ord,Show,Read)
-newtype LIdent = LIdent String deriving (Eq,Ord,Show,Read)
+newtype UIdent = UIdent ((Int,Int),String) deriving (Eq,Ord,Show,Read)
+newtype LIdent = LIdent ((Int,Int),String) deriving (Eq,Ord,Show,Read)
 data AnyIdent =
    AnyIden LIdent
- | AnyTyIden TypeIdent
+ | AnyTyIden UIdent
   deriving (Eq,Ord,Show,Read)
 
 data Program =
@@ -51,7 +51,7 @@ data QType =
   deriving (Eq,Ord,Show,Read)
 
 data QTypeSegment =
-   QTypeSegmen TypeIdent
+   QTypeSegmen UIdent
   deriving (Eq,Ord,Show,Read)
 
 data TType =
@@ -59,27 +59,27 @@ data TType =
   deriving (Eq,Ord,Show,Read)
 
 data TTypeSegment =
-   TTypeSegmen TypeIdent
+   TTypeSegmen UIdent
   deriving (Eq,Ord,Show,Read)
 
 data Decl =
-   TypeDecl TypeIdent Type
+   TypeDecl UIdent Type
  | ExceptionDecl ConstrIdent
- | DataDecl TypeIdent [ConstrIdent]
- | DataParDecl TypeIdent [TypeIdent] [ConstrIdent]
+ | DataDecl UIdent [ConstrIdent]
+ | DataParDecl UIdent [UIdent] [ConstrIdent]
  | FunDecl Type LIdent [Param] FunBody
- | FunParDecl Type LIdent [TypeIdent] [Param] FunBody
- | InterfDecl TypeIdent [MethSignat]
- | ExtendsDecl TypeIdent [QType] [MethSignat]
- | ClassDecl TypeIdent [ClassBody] MaybeBlock [ClassBody]
- | ClassParamDecl TypeIdent [Param] [ClassBody] MaybeBlock [ClassBody]
- | ClassImplements TypeIdent [QType] [ClassBody] MaybeBlock [ClassBody]
- | ClassParamImplements TypeIdent [Param] [QType] [ClassBody] MaybeBlock [ClassBody]
+ | FunParDecl Type LIdent [UIdent] [Param] FunBody
+ | InterfDecl UIdent [MethSignat]
+ | ExtendsDecl UIdent [QType] [MethSignat]
+ | ClassDecl UIdent [ClassBody] MaybeBlock [ClassBody]
+ | ClassParamDecl UIdent [Param] [ClassBody] MaybeBlock [ClassBody]
+ | ClassImplements UIdent [QType] [ClassBody] MaybeBlock [ClassBody]
+ | ClassParamImplements UIdent [Param] [QType] [ClassBody] MaybeBlock [ClassBody]
   deriving (Eq,Ord,Show,Read)
 
 data ConstrIdent =
-   SinglConstrIdent TypeIdent
- | ParamConstrIdent TypeIdent [ConstrType]
+   SinglConstrIdent UIdent
+ | ParamConstrIdent UIdent [ConstrType]
   deriving (Eq,Ord,Show,Read)
 
 data ConstrType =
@@ -194,8 +194,8 @@ data CaseBranch =
 data Pattern =
    PIdent LIdent
  | PLit Literal
- | PSinglConstr TypeIdent
- | PParamConstr TypeIdent [Pattern]
+ | PSinglConstr UIdent
+ | PParamConstr UIdent [Pattern]
  | PUnderscore
   deriving (Eq,Ord,Show,Read)
 

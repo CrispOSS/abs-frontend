@@ -23,7 +23,7 @@ Integer literals //Integer// are nonempty sequences of digits.
 
 
 
-TypeIdent literals are recognized by the regular expression
+UIdent literals are recognized by the regular expression
 `````upper (letter | digit | '_' | ''')*`````
 
 LIdent literals are recognized by the regular expression
@@ -65,7 +65,7 @@ and **eps** (empty rule) belong to the BNF notation.
 All other symbols are terminals.
 
   | //AnyIdent// | -> | //LIdent// 
-  |  |  **|**  | //TypeIdent// 
+  |  |  **|**  | //UIdent// 
   | //[AnyIdent]// | -> | //AnyIdent// 
   |  |  **|**  | //AnyIdent// ``,`` //[AnyIdent]// 
   | //Program// | -> | //[Module]// 
@@ -93,36 +93,36 @@ All other symbols are terminals.
   | //[QType]// | -> | //QType// 
   |  |  **|**  | //QType// ``,`` //[QType]// 
   | //QType// | -> | //[QTypeSegment]// 
-  | //QTypeSegment// | -> | //TypeIdent// 
+  | //QTypeSegment// | -> | //UIdent// 
   | //[QTypeSegment]// | -> | //QTypeSegment// 
   |  |  **|**  | //QTypeSegment// ``.`` //[QTypeSegment]// 
   | //TType// | -> | //[TTypeSegment]// 
-  | //TTypeSegment// | -> | //TypeIdent// 
+  | //TTypeSegment// | -> | //UIdent// 
   | //[TTypeSegment]// | -> | //TTypeSegment// ``.`` 
   |  |  **|**  | //TTypeSegment// ``.`` //[TTypeSegment]// 
   | //[Decl]// | -> | **eps**
   |  |  **|**  | //Decl// //[Decl]// 
-  | //Decl// | -> | ``type`` //TypeIdent// ``=`` //Type// ``;`` 
+  | //Decl// | -> | ``type`` //UIdent// ``=`` //Type// ``;`` 
   |  |  **|**  | ``exception`` //ConstrIdent// ``;`` 
-  |  |  **|**  | ``data`` //TypeIdent// ``=`` //[ConstrIdent]// ``;`` 
-  |  |  **|**  | ``data`` //TypeIdent// ``<`` //[TypeIdent]// ``>`` ``=`` //[ConstrIdent]// ``;`` 
+  |  |  **|**  | ``data`` //UIdent// ``=`` //[ConstrIdent]// ``;`` 
+  |  |  **|**  | ``data`` //UIdent// ``<`` //[UIdent]// ``>`` ``=`` //[ConstrIdent]// ``;`` 
   |  |  **|**  | ``def`` //Type// //LIdent// ``(`` //[Param]// ``)`` ``=`` //FunBody// ``;`` 
-  |  |  **|**  | ``def`` //Type// //LIdent// ``<`` //[TypeIdent]// ``>`` ``(`` //[Param]// ``)`` ``=`` //FunBody// ``;`` 
-  |  |  **|**  | ``interface`` //TypeIdent// ``{`` //[MethSignat]// ``}`` 
-  |  |  **|**  | ``interface`` //TypeIdent// ``extends`` //[QType]// ``{`` //[MethSignat]// ``}`` 
-  |  |  **|**  | ``class`` //TypeIdent// ``{`` //[ClassBody]// //MaybeBlock// //[ClassBody]// ``}`` 
-  |  |  **|**  | ``class`` //TypeIdent// ``(`` //[Param]// ``)`` ``{`` //[ClassBody]// //MaybeBlock// //[ClassBody]// ``}`` 
-  |  |  **|**  | ``class`` //TypeIdent// ``implements`` //[QType]// ``{`` //[ClassBody]// //MaybeBlock// //[ClassBody]// ``}`` 
-  |  |  **|**  | ``class`` //TypeIdent// ``(`` //[Param]// ``)`` ``implements`` //[QType]// ``{`` //[ClassBody]// //MaybeBlock// //[ClassBody]// ``}`` 
-  | //ConstrIdent// | -> | //TypeIdent// 
-  |  |  **|**  | //TypeIdent// ``(`` //[ConstrType]// ``)`` 
+  |  |  **|**  | ``def`` //Type// //LIdent// ``<`` //[UIdent]// ``>`` ``(`` //[Param]// ``)`` ``=`` //FunBody// ``;`` 
+  |  |  **|**  | ``interface`` //UIdent// ``{`` //[MethSignat]// ``}`` 
+  |  |  **|**  | ``interface`` //UIdent// ``extends`` //[QType]// ``{`` //[MethSignat]// ``}`` 
+  |  |  **|**  | ``class`` //UIdent// ``{`` //[ClassBody]// //MaybeBlock// //[ClassBody]// ``}`` 
+  |  |  **|**  | ``class`` //UIdent// ``(`` //[Param]// ``)`` ``{`` //[ClassBody]// //MaybeBlock// //[ClassBody]// ``}`` 
+  |  |  **|**  | ``class`` //UIdent// ``implements`` //[QType]// ``{`` //[ClassBody]// //MaybeBlock// //[ClassBody]// ``}`` 
+  |  |  **|**  | ``class`` //UIdent// ``(`` //[Param]// ``)`` ``implements`` //[QType]// ``{`` //[ClassBody]// //MaybeBlock// //[ClassBody]// ``}`` 
+  | //ConstrIdent// | -> | //UIdent// 
+  |  |  **|**  | //UIdent// ``(`` //[ConstrType]// ``)`` 
   | //ConstrType// | -> | //Type// 
   |  |  **|**  | //Type// //LIdent// 
   | //[ConstrType]// | -> | **eps**
   |  |  **|**  | //ConstrType// 
   |  |  **|**  | //ConstrType// ``,`` //[ConstrType]// 
-  | //[TypeIdent]// | -> | //TypeIdent// 
-  |  |  **|**  | //TypeIdent// ``,`` //[TypeIdent]// 
+  | //[UIdent]// | -> | //UIdent// 
+  |  |  **|**  | //UIdent// ``,`` //[UIdent]// 
   | //[ConstrIdent]// | -> | //ConstrIdent// 
   |  |  **|**  | //ConstrIdent// ``|`` //[ConstrIdent]// 
   | //FunBody// | -> | ``builtin`` 
@@ -219,8 +219,8 @@ All other symbols are terminals.
   |  |  **|**  | //Pattern// ``,`` //[Pattern]// 
   | //Pattern// | -> | //LIdent// 
   |  |  **|**  | //Literal// 
-  |  |  **|**  | //TypeIdent// 
-  |  |  **|**  | //TypeIdent// ``(`` //[Pattern]// ``)`` 
+  |  |  **|**  | //UIdent// 
+  |  |  **|**  | //UIdent// ``(`` //[Pattern]// ``)`` 
   |  |  **|**  | ``_`` 
   | //Literal// | -> | ``null`` 
   |  |  **|**  | ``this`` 

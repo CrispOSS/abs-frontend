@@ -9,9 +9,9 @@ type Result = Err String
 failure :: Show a => a -> Result
 failure x = Bad $ "Undefined case: " ++ show x
 
-transTypeIdent :: TypeIdent -> Result
-transTypeIdent x = case x of
-  TypeIdent str  -> failure x
+transUIdent :: UIdent -> Result
+transUIdent x = case x of
+  UIdent str  -> failure x
 
 
 transLIdent :: LIdent -> Result
@@ -22,7 +22,7 @@ transLIdent x = case x of
 transAnyIdent :: AnyIdent -> Result
 transAnyIdent x = case x of
   AnyIden lident  -> failure x
-  AnyTyIden typeident  -> failure x
+  AnyTyIden uident  -> failure x
 
 
 transProgram :: Program -> Result
@@ -70,7 +70,7 @@ transQType x = case x of
 
 transQTypeSegment :: QTypeSegment -> Result
 transQTypeSegment x = case x of
-  QTypeSegmen typeident  -> failure x
+  QTypeSegmen uident  -> failure x
 
 
 transTType :: TType -> Result
@@ -80,29 +80,29 @@ transTType x = case x of
 
 transTTypeSegment :: TTypeSegment -> Result
 transTTypeSegment x = case x of
-  TTypeSegmen typeident  -> failure x
+  TTypeSegmen uident  -> failure x
 
 
 transDecl :: Decl -> Result
 transDecl x = case x of
-  TypeDecl typeident type'  -> failure x
+  TypeDecl uident type'  -> failure x
   ExceptionDecl constrident  -> failure x
-  DataDecl typeident constridents  -> failure x
-  DataParDecl typeident typeidents constridents  -> failure x
+  DataDecl uident constridents  -> failure x
+  DataParDecl uident uidents constridents  -> failure x
   FunDecl type' lident params funbody  -> failure x
-  FunParDecl type' lident typeidents params funbody  -> failure x
-  InterfDecl typeident methsignats  -> failure x
-  ExtendsDecl typeident qtypes methsignats  -> failure x
-  ClassDecl typeident classbodys1 maybeblock2 classbodys3  -> failure x
-  ClassParamDecl typeident params classbodys1 maybeblock2 classbodys3  -> failure x
-  ClassImplements typeident qtypes classbodys1 maybeblock2 classbodys3  -> failure x
-  ClassParamImplements typeident params qtypes classbodys1 maybeblock2 classbodys3  -> failure x
+  FunParDecl type' lident uidents params funbody  -> failure x
+  InterfDecl uident methsignats  -> failure x
+  ExtendsDecl uident qtypes methsignats  -> failure x
+  ClassDecl uident classbodys1 maybeblock2 classbodys3  -> failure x
+  ClassParamDecl uident params classbodys1 maybeblock2 classbodys3  -> failure x
+  ClassImplements uident qtypes classbodys1 maybeblock2 classbodys3  -> failure x
+  ClassParamImplements uident params qtypes classbodys1 maybeblock2 classbodys3  -> failure x
 
 
 transConstrIdent :: ConstrIdent -> Result
 transConstrIdent x = case x of
-  SinglConstrIdent typeident  -> failure x
-  ParamConstrIdent typeident constrtypes  -> failure x
+  SinglConstrIdent uident  -> failure x
+  ParamConstrIdent uident constrtypes  -> failure x
 
 
 transConstrType :: ConstrType -> Result
@@ -232,8 +232,8 @@ transPattern :: Pattern -> Result
 transPattern x = case x of
   PIdent lident  -> failure x
   PLit literal  -> failure x
-  PSinglConstr typeident  -> failure x
-  PParamConstr typeident patterns  -> failure x
+  PSinglConstr uident  -> failure x
+  PParamConstr uident patterns  -> failure x
   PUnderscore  -> failure x
 
 
