@@ -198,6 +198,7 @@ ListDecl : {- empty -} { [] }
 
 Decl :: { Decl }
 Decl : 'type' UIdent '=' Type ';' { TypeDecl $2 $4 } 
+  | 'type' UIdent '<' ListUIdent '>' '=' Type ';' { TypeParDecl $2 $4 $7 }
   | 'exception' ConstrIdent ';' { ExceptionDecl $2 }
   | 'data' UIdent '=' ListConstrIdent ';' { DataDecl $2 $4 }
   | 'data' UIdent '<' ListUIdent '>' '=' ListConstrIdent ';' { DataParDecl $2 $4 $7 }

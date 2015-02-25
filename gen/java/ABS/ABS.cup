@@ -227,6 +227,7 @@ ListDecl ::=  /* empty */  {: RESULT = new ABS.Absyn.ListDecl(); :}
   | ListDecl:p_1 Decl:p_2  {: RESULT = p_1; p_1.addLast(p_2); :}
 ;
 Decl ::= _SYMB_66 UIdent:p_2 _SYMB_7 Type:p_4 _SYMB_1  {: RESULT = new ABS.Absyn.TypeDecl(p_2,p_4); :} 
+  | _SYMB_66 UIdent:p_2 _SYMB_4 ListUIdent:p_4 _SYMB_5 _SYMB_7 Type:p_7 _SYMB_1  {: RESULT = new ABS.Absyn.TypeParDecl(p_2,p_4,p_7); :}
   | _SYMB_39 ConstrIdent:p_2 _SYMB_1  {: RESULT = new ABS.Absyn.ExceptionDecl(p_2); :}
   | _SYMB_36 UIdent:p_2 _SYMB_7 ListConstrIdent:p_4 _SYMB_1  {: RESULT = new ABS.Absyn.DataDecl(p_2,p_4); :}
   | _SYMB_36 UIdent:p_2 _SYMB_4 ListUIdent:p_4 _SYMB_5 _SYMB_7 ListConstrIdent:p_7 _SYMB_1  {: RESULT = new ABS.Absyn.DataParDecl(p_2,p_4,p_7); :}

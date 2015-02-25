@@ -225,6 +225,14 @@ public class ComposVisitor<A> implements
 
       return new ABS.Absyn.TypeDecl(uident_, type_);
     }
+    public Decl visit(ABS.Absyn.TypeParDecl p, A arg)
+    {
+      String uident_ = p.uident_;
+      ListUIdent listuident_ = p.listuident_;
+      Type type_ = p.type_.accept(this, arg);
+
+      return new ABS.Absyn.TypeParDecl(uident_, listuident_, type_);
+    }
     public Decl visit(ABS.Absyn.ExceptionDecl p, A arg)
     {
       ConstrIdent constrident_ = p.constrident_.accept(this, arg);

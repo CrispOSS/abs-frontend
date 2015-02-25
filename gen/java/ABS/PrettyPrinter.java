@@ -1241,6 +1241,20 @@ public class PrettyPrinter
        render(";");
        if (_i_ > 0) render(_R_PAREN);
     }
+    else     if (foo instanceof ABS.Absyn.TypeParDecl)
+    {
+       ABS.Absyn.TypeParDecl _typepardecl = (ABS.Absyn.TypeParDecl) foo;
+       if (_i_ > 0) render(_L_PAREN);
+       render("type");
+       pp(_typepardecl.uident_, 0);
+       render("<");
+       pp(_typepardecl.listuident_, 0);
+       render(">");
+       render("=");
+       pp(_typepardecl.type_, 0);
+       render(";");
+       if (_i_ > 0) render(_R_PAREN);
+    }
     else     if (foo instanceof ABS.Absyn.ExceptionDecl)
     {
        ABS.Absyn.ExceptionDecl _exceptiondecl = (ABS.Absyn.ExceptionDecl) foo;
@@ -2802,6 +2816,18 @@ public class PrettyPrinter
        render("TypeDecl");
        sh(_typedecl.uident_);
        sh(_typedecl.type_);
+       render(")");
+    }
+    if (foo instanceof ABS.Absyn.TypeParDecl)
+    {
+       ABS.Absyn.TypeParDecl _typepardecl = (ABS.Absyn.TypeParDecl) foo;
+       render("(");
+       render("TypeParDecl");
+       sh(_typepardecl.uident_);
+       render("[");
+       sh(_typepardecl.listuident_);
+       render("]");
+       sh(_typepardecl.type_);
        render(")");
     }
     if (foo instanceof ABS.Absyn.ExceptionDecl)

@@ -241,6 +241,17 @@ public class VisitSkel
 
       return null;
     }
+    public R visit(ABS.Absyn.TypeParDecl p, A arg)
+    {
+      /* Code For TypeParDecl Goes Here */
+
+      //p.uident_;
+      for (String x : p.listuident_) {
+      }
+      p.type_.accept(new TypeVisitor<R,A>(), arg);
+
+      return null;
+    }
     public R visit(ABS.Absyn.ExceptionDecl p, A arg)
     {
       /* Code For ExceptionDecl Goes Here */

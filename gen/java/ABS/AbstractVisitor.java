@@ -68,6 +68,7 @@ public class AbstractVisitor<R,A> implements AllVisitor<R,A> {
     }
 /* Decl */
     public R visit(ABS.Absyn.TypeDecl p, A arg) { return visitDefault(p, arg); }
+    public R visit(ABS.Absyn.TypeParDecl p, A arg) { return visitDefault(p, arg); }
     public R visit(ABS.Absyn.ExceptionDecl p, A arg) { return visitDefault(p, arg); }
     public R visit(ABS.Absyn.DataDecl p, A arg) { return visitDefault(p, arg); }
     public R visit(ABS.Absyn.DataParDecl p, A arg) { return visitDefault(p, arg); }

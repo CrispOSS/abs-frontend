@@ -51,6 +51,7 @@ terminator nonempty TTypeSegment "." ;
 -- Declarations (ADT)
 terminator Decl "" ;
 TypeDecl. Decl ::= "type" UIdent "=" Type ";" ;
+TypeParDecl. Decl ::= "type" UIdent "<" [UIdent] ">" "=" Type ";" ;
 ExceptionDecl. Decl ::= "exception" ConstrIdent ";" ; -- single constructor
 DataDecl. Decl ::= "data" UIdent "=" [ConstrIdent] ";" ;
 DataParDecl. Decl ::= "data" UIdent "<" [UIdent] ">" "=" [ConstrIdent] ";" ;
