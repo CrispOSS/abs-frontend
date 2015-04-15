@@ -1,26 +1,28 @@
-// Updated grammar for Java 8 specification
-Author : Nagarajagowda
+{-
+   Updated grammar for Java 8 specification
+   Author : Chetan Nagarajagowda
+-}
 
 
-//Program
+--Program
 
 entrypoints ProgramFile;
 
 Prpkg.		ProgramFile ::= "package" [Ident] [Semi] [Import] [TypeDecl];
 ProgF.		ProgramFile ::= [Import] [TypeDecl];
 
-// Import Declarations
+--Import Declarations
 
 ImportN. 	Import ::= "import" [Ident] [Semi];
 ImportA.	Import ::= "import" [Ident] ".*" [Semi];	
 separator Import "";
 
-//Type Declarations
+--Type Declarations
 
 TypeDecl.	TypeDecl ::= ClassHeader "{" [FieldDeclaration] "}";
 separator TypeDecl "";
 
-//Class and interface declaration
+--Class and interface declaration
 
 ClassDec.	ClassHeader ::= [Modifier] "class" Ident;
 ClassDecE.	ClassHeader ::= [Modifier] "class" Ident "extends" [TypeName];
@@ -31,8 +33,8 @@ InterDecE.	ClassHeader ::= [Modifier] "interface" Ident "extends" [TypeName];
 InterDecI.	ClassHeader ::= [Modifier] "interface" Ident "implements" [TypeName];
 InterDecEI.	ClassHeader ::= [Modifier] "interface" Ident "extends" [TypeName] "implements" [TypeName];
 
-//Field declaration
--- note: i'm not sure why it is necessary to have the Dstk rule...enabling it causes conflicts, so it's disabled
+--Field declaration
+
 Dvar.			FieldDeclaration ::= [Modifier] TypeSpec [VarDecl] ";";
 Dmth.			FieldDeclaration ::= [Modifier] TypeSpec MethodDecl MethodBody;
 Dmthth.			FieldDeclaration ::= [Modifier] TypeSpec MethodDecl "throws" [TypeName] MethodBody;
@@ -43,11 +45,11 @@ Dinnerclass.		FieldDeclaration ::= TypeDecl;
 --Dstk.			FieldDeclaration ::= "static" Body;
 terminator  	FieldDeclaration "";
 
-//MethodBody
+--MethodBody
 IBody.	MethodBody ::= ";";
 MBody.	MethodBody ::= Body;
 
-//Variable declarations and statements
+--Variable declarations and statements
 LVar.		LVarStatement ::= TypeSpec [VarDecl] ";";
 LVarf.		LVarStatement ::= "final" TypeSpec [VarDecl] ";";
 Statem.		LVarStatement ::= Stm;
@@ -55,7 +57,7 @@ separator 	LVarStatement "";
 
 Body.	Body ::= "{" [LVarStatement] "}";
 
-//Statements
+--Statements
 Sem.	Stm ::= ";";
 Lbl.	Stm ::= Ident ":";
 Case.	Stm ::= "case" Exp ":";
@@ -67,14 +69,14 @@ Grd.	Stm ::= GuardStm;
 Iter.	Stm ::= IterStm;
 Sel.	Stm ::= SelectionStm;
 
-//Declarations(SDT)
+--Declarations(SDT)
 DeclName.	DeclaratorName ::= Ident;
 DeclArray.	DeclaratorName ::= Ident [BracketsOpt];
 VDeclAssign.	VarDecl ::= DeclaratorName "=" VariableInits;
 VDecl.		VarDecl ::= Ident;
 separator nonempty VarDecl ",";
 
-//Static initializers
+--Static initializers
 IExp.	VariableInits ::= Exp;
 IEmpt.	VariableInits ::= "{" "}";
 IArri.	VariableInits ::= "{" ArrayInits "}";
@@ -122,7 +124,7 @@ DVar.		ForInit ::= TypeSpec [VarDecl] ";";
 DVarf.		ForInit ::= "final" TypeSpec [VarDecl] ";";
 
 
--- modifiers
+--modifiers
 Mabstract.	  Modifier ::= "abstract";
 Mfinal.		  Modifier ::= "final";
 Mpublic.	  Modifier ::= "public";
@@ -135,7 +137,7 @@ Msync.		  Modifier ::= "synchronized";
 Mstatic.	  Modifier ::= "static";
 terminator Modifier "";
 
--- build-in types
+--build-in types
 Tchar.        BasicType ::= "char";
 Tshort.       BasicType ::= "short";
 Tint.         BasicType ::= "int";
@@ -157,8 +159,8 @@ BracketsOpt.   BracketsOpt ::= "[]";
 
 separator nonempty BracketsOpt "";
 
-//Identifiers & Variables
-//qualified identifier
+--Identifiers & Variables
+--qualified identifier
 separator nonempty Ident ".";
 
 
@@ -323,14 +325,7 @@ AssignOr.     Assignment_op ::= "|=" ;
 
 Sem1.	Semi ::=  ";";
 terminator Semi "";
-
-{-
-	there is a problem with comments... 
-	the first 2 commented out directives fail to work.
-	some alex hacking is probably in order to get a full
-	java parser; i've noticed the unbalanced /*'s appear
-	enough to be annoying
--}   	
+   	
 --comment "/**" "*/" ;
 --comment "/*" "**/" ;
 comment "/**" "**/" ;
