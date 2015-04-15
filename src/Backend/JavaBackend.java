@@ -3,23 +3,21 @@
 Author : Chetan Nagarajagowda
 Project Name : Upscale
  */
-package ABS;
-import ABS.Absyn;
+package ABS2java;
+// import ABS.Absyn;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.List;
-import abs.frontend.ast.*;
-import Language.Java.Exts.Pretty;
-import abs.frontend.parser.Main;
+//import abs.frontend.ast.*;
+//import Language.Java.Exts.Pretty;
+//import abs.frontend.parser.Main;
 
 
-public class JavaBackend extends Main {
-
-    // public final static String CHARSET = "UTF-8";
-
-    public static void main(final String... args) {
+public class JavaBackend //extends Main
+ {
+       public static void main(final String... args) {
         try {
             new JavaBackend().compile(args);
         } catch (Exception e) {
