@@ -14,7 +14,7 @@ Prog. Program  ::= [Module]; -- a Program is a list of modules definitions
 separator Module "";
 
 -- Modules
-Modul. Module ::= "module" QType ";" [Export] [Import] [Decl] MaybeBlock ;
+Modul. Module ::= "module" QType ";" [Export] [Import] [AnnotDecl] MaybeBlock ;
 
 -- Exports
 AnyExport. Export ::= "export" [AnyIdent] ;
@@ -49,7 +49,6 @@ TTypeSegmen. TTypeSegment ::= UIdent ;
 terminator nonempty TTypeSegment "." ;
 
 -- Declarations (ADT)
-terminator Decl "" ;
 TypeDecl. Decl ::= "type" UIdent "=" Type ";" ;
 TypeParDecl. Decl ::= "type" UIdent "<" [UIdent] ">" "=" Type ";" ;
 ExceptionDecl. Decl ::= "exception" ConstrIdent ";" ; -- single constructor
@@ -70,10 +69,9 @@ BuiltinFunBody. FunBody ::= "builtin" ;
 NormalFunBody. FunBody ::= PureExp ;
 
 -- Declarations (Interface)
-InterfDecl. Decl ::= "interface" UIdent "{" [MethSignat] "}" ;
-ExtendsDecl. Decl ::= "interface" UIdent "extends" [QType] "{" [MethSignat] "}" ;
+InterfDecl. Decl ::= "interface" UIdent "{" [AnnotMethSignat] "}" ;
+ExtendsDecl. Decl ::= "interface" UIdent "extends" [QType] "{" [AnnotMethSignat] "}" ;
 MethSig. MethSignat ::= Type LIdent "(" [Param] ")" ;
-terminator MethSignat ";" ;
 
 -- Declarations (Class)
 ClassDecl. Decl ::= "class" UIdent "{" [ClassBody] MaybeBlock [ClassBody] "}" ;
@@ -86,8 +84,8 @@ MethClassBody. ClassBody ::= Type LIdent "(" [Param] ")" Block ;
 separator ClassBody "" ;
 
 -- Blocks
-Bloc. Block ::= "{" [Stm] "}" ;
-JustBlock. MaybeBlock ::= Block ;
+Bloc. Block ::= "{" [AnnotStm] "}" ;
+JustBlock. MaybeBlock ::= [Annot] Block ;
 NoBlock.   MaybeBlock ::=  ;
 
 -- Formal parameters to function/interface/method declarations
@@ -95,26 +93,25 @@ separator Param "," ;
 Par. Param ::= Type LIdent;
 
 -- Statements
-terminator Stm "" ;
 SExp.    Stm ::= Exp ";" ;
-SBlock.  Stm ::= "{" [Stm] "}" ;
-SWhile.  Stm ::= "while" "(" PureExp ")" Stm ;
+SBlock.  Stm ::= "{" [AnnotStm] "}" ;
+SWhile.  Stm ::= "while" "(" PureExp ")" AnnotStm ;
 SReturn. Stm ::= "return" Exp  ";" ;
 SAss.    Stm ::= LIdent "=" Exp ";" ;
 SFieldAss. Stm ::= "this" "." LIdent "=" Exp ";" ;
 SDec.    Stm ::= Type LIdent ";" ;
 SDecAss. Stm ::= Type LIdent "=" Exp ";" ;
-SIf.     Stm ::= "if" "(" PureExp ")" Stm ;
-SIfElse. Stm ::= "if" "(" PureExp ")" Stm "else" Stm ;
+SIf.     Stm ::= "if" "(" PureExp ")" AnnotStm ;
+SIfElse. Stm ::= "if" "(" PureExp ")" AnnotStm "else" AnnotStm ;
 SSuspend. Stm ::= "suspend" ";" ;
 SSkip. Stm ::= "skip" ";" ;
 SAssert. Stm ::= "assert" PureExp ";" ;
 SAwait.  Stm ::= "await" Guard ";" ;
 SThrow. Stm ::= "throw" PureExp ";" ;
-STryCatchFinally. Stm ::= "try" Stm "catch" "{" [CatchBranch] "}" MaybeFinally ;
-CatchBranc. CatchBranch ::= Pattern "=>" Stm ;
+STryCatchFinally. Stm ::= "try" AnnotStm "catch" "{" [CatchBranch] "}" MaybeFinally ;
+CatchBranc. CatchBranch ::= Pattern "=>" AnnotStm ;
 terminator CatchBranch "" ; -- can be empty, and does not have to be terminated by ";"
-JustFinally. MaybeFinally ::= "finally" Stm ;
+JustFinally. MaybeFinally ::= "finally" AnnotStm ;
 NoFinally. MaybeFinally ::= ;
 SPrint. Stm ::= "println" PureExp ";" ;
 
@@ -188,14 +185,24 @@ ThisAsyncMethCall. EffExp ::= "this" "!" LIdent "(" [PureExp] ")" ;
 Get. EffExp ::= PureExp "." "get" ;
 Spawns. EffExp ::= PureExp "spawns" Type "(" [PureExp] ")" ;
 
---Annotations (turned off because we don't make use of them)
-SimpleAnn. Ann ::= "[" PureExp "]";
-separator Ann "" ;
-AnnDec. AnnDecl ::= [Ann] Decl;
-terminator AnnDecl "" ;
-AnnTyp. AnnType ::= [Ann] Type;
-separator AnnType "," ;
--- there are more places where annotations can be put
+-- Annotations
+Ann. Annot ::= "[" Annot_ "]";
+separator Annot "" ;
+AnnWithType. Annot_ ::= Type ":" PureExp ;
+AnnNoType.   Annot_ ::= PureExp  ;
+
+AnnStm. AnnotStm ::= [Annot] Stm;
+terminator AnnotStm "" ;
+
+AnnDec. AnnotDecl ::= [Annot] Decl;
+terminator AnnotDecl "" ;
+
+AnnMethSig. AnnotMethSignat ::= [Annot] MethSignat ;
+terminator AnnotMethSignat ";" ;
+
+-- turned-off , a lot of r-r conflicts
+-- AnnClassBody. AnnotClassBody ::= [Annot] ClassBody;
+-- separator AnnotClassBody "" ;
 
 --TODO: Deltas
 

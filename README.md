@@ -1,4 +1,4 @@
-s# New frontend for ABS
+# New frontend for ABS
 
 ## Installing dependencies
 

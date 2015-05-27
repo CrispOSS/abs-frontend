@@ -6,3 +6,4 @@
 *.o
 *.bak
 /gen/haskell/TestABS
+*~
