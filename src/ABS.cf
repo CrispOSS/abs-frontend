@@ -106,7 +106,7 @@ SIfElse. Stm ::= "if" "(" PureExp ")" AnnotStm "else" AnnotStm ;
 SSuspend. Stm ::= "suspend" ";" ;
 SSkip. Stm ::= "skip" ";" ;
 SAssert. Stm ::= "assert" PureExp ";" ;
-SAwait.  Stm ::= "await" Guard ";" ;
+SAwait.  Stm ::= "await" AwaitGuard ";" ;
 SThrow. Stm ::= "throw" PureExp ";" ;
 STryCatchFinally. Stm ::= "try" AnnotStm "catch" "{" [CatchBranch] "}" MaybeFinally ;
 CatchBranc. CatchBranch ::= Pattern "=>" AnnotStm ;
@@ -116,10 +116,10 @@ NoFinally. MaybeFinally ::= ;
 SPrint. Stm ::= "println" PureExp ";" ;
 
 -- Await Guards
-VarGuard. Guard ::= LIdent "?" ;
-FieldGuard. Guard ::= "this" "." LIdent "?" ;
-ExpGuard. Guard ::= PureExp ; -- this should be disabled, because it has ABS semantics/pragmatic problems.
-AndGuard. Guard ::= Guard "&" Guard ;
+FutGuard. AwaitGuard ::= LIdent "?" ;
+FutFieldGuard. AwaitGuard ::= "this" "." LIdent "?" ;
+ExpGuard. AwaitGuard ::= PureExp ;
+AndGuard. AwaitGuard ::= AwaitGuard "&" AwaitGuard ;
 
 -- Expressions
 ExpP. Exp ::= PureExp ;
