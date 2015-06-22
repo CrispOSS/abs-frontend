@@ -20,7 +20,7 @@ $i = [$l $d _ ']          -- identifier character
 $u = [\0-\255]          -- universal: any character
 
 @rsyms =    -- symbols and non-identifier-like reserved words
-   \, | \; | \* | \_ | \< | \> | \. | \= | \( | \) | \| | \{ | \} | \= \> | \? | \& | \| \| | \& \& | \= \= | \! \= | \< \= | \> \= | \+ | \- | \/ | \% | \~ | \[ | \] | \! | \:
+   \, | \; | \* | \_ | \< | \> | \. | \= | \( | \) | \| | \{ | \} | \= \> | \? | \$ | \& | \| \| | \& \& | \= \= | \! \= | \< \= | \> \= | \+ | \- | \/ | \% | \~ | \[ | \] | \! | \:
 
 :-
 "//" [.]* ; -- Toss single line comments
@@ -92,7 +92,7 @@ eitherResIdent tv s = treeFind resWords
                               | s > a  = treeFind right
                               | s == a = t
 
-resWords = b "else" 35 (b "=" 18 (b "+" 9 (b "&&" 5 (b "%" 3 (b "!=" 2 (b "!" 1 N N) N) (b "&" 4 N N)) (b ")" 7 (b "(" 6 N N) (b "*" 8 N N))) (b ":" 14 (b "." 12 (b "-" 11 (b "," 10 N N) N) (b "/" 13 N N)) (b "<" 16 (b ";" 15 N N) (b "<=" 17 N N)))) (b "assert" 27 (b "?" 23 (b ">" 21 (b "=>" 20 (b "==" 19 N N) N) (b ">=" 22 N N)) (b "]" 25 (b "[" 24 N N) (b "_" 26 N N))) (b "catch" 31 (b "builtin" 29 (b "await" 28 N N) (b "case" 30 N N)) (b "data" 33 (b "class" 32 N N) (b "def" 34 N N))))) (b "println" 53 (b "implements" 44 (b "finally" 40 (b "extends" 38 (b "export" 37 (b "exception" 36 N N) N) (b "fimport" 39 N N)) (b "get" 42 (b "from" 41 N N) (b "if" 43 N N))) (b "local" 49 (b "interface" 47 (b "in" 46 (b "import" 45 N N) N) (b "let" 48 N N)) (b "new" 51 (b "module" 50 N N) (b "null" 52 N N)))) (b "try" 62 (b "then" 58 (b "spawns" 56 (b "skip" 55 (b "return" 54 N N) N) (b "suspend" 57 N N)) (b "thisDC" 60 (b "this" 59 N N) (b "throw" 61 N N))) (b "|" 66 (b "while" 64 (b "type" 63 N N) (b "{" 65 N N)) (b "}" 68 (b "||" 67 N N) (b "~" 69 N N)))))
+resWords = b "export" 38 (b "=" 19 (b "+" 10 (b "&" 5 (b "$" 3 (b "!=" 2 (b "!" 1 N N) N) (b "%" 4 N N)) (b ")" 8 (b "(" 7 (b "&&" 6 N N) N) (b "*" 9 N N))) (b ":" 15 (b "." 13 (b "-" 12 (b "," 11 N N) N) (b "/" 14 N N)) (b "<" 17 (b ";" 16 N N) (b "<=" 18 N N)))) (b "await" 29 (b "?" 24 (b ">" 22 (b "=>" 21 (b "==" 20 N N) N) (b ">=" 23 N N)) (b "_" 27 (b "]" 26 (b "[" 25 N N) N) (b "assert" 28 N N))) (b "data" 34 (b "catch" 32 (b "case" 31 (b "builtin" 30 N N) N) (b "class" 33 N N)) (b "else" 36 (b "def" 35 N N) (b "exception" 37 N N))))) (b "pro_isempty" 57 (b "interface" 48 (b "get" 43 (b "finally" 41 (b "fimport" 40 (b "extends" 39 N N) N) (b "from" 42 N N)) (b "import" 46 (b "implements" 45 (b "if" 44 N N) N) (b "in" 47 N N))) (b "null" 53 (b "module" 51 (b "local" 50 (b "let" 49 N N) N) (b "new" 52 N N)) (b "pro_get" 55 (b "println" 54 N N) (b "pro_give" 56 N N)))) (b "throw" 66 (b "suspend" 62 (b "skip" 60 (b "return" 59 (b "pro_new" 58 N N) N) (b "spawns" 61 N N)) (b "this" 64 (b "then" 63 N N) (b "thisDC" 65 N N))) (b "|" 71 (b "while" 69 (b "type" 68 (b "try" 67 N N) N) (b "{" 70 N N)) (b "}" 73 (b "||" 72 N N) (b "~" 74 N N)))))
    where b s n = let bs = id s
                   in B bs (TS bs n)
 

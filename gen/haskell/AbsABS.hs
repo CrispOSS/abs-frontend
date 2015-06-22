@@ -130,8 +130,9 @@ data Stm =
  | SSuspend
  | SSkip
  | SAssert PureExp
- | SAwait Guard
+ | SAwait AwaitGuard
  | SThrow PureExp
+ | SGive PureExp PureExp
  | STryCatchFinally AnnotStm [CatchBranch] MaybeFinally
  | SPrint PureExp
   deriving (Eq,Ord,Show,Read)
@@ -145,11 +146,13 @@ data MaybeFinally =
  | NoFinally
   deriving (Eq,Ord,Show,Read)
 
-data Guard =
-   VarGuard LIdent
- | FieldGuard LIdent
+data AwaitGuard =
+   FutGuard LIdent
+ | ProGuard LIdent
+ | FutFieldGuard LIdent
+ | ProFieldGuard LIdent
  | ExpGuard PureExp
- | AndGuard Guard Guard
+ | AndGuard AwaitGuard AwaitGuard
   deriving (Eq,Ord,Show,Read)
 
 data Exp =
@@ -216,6 +219,9 @@ data EffExp =
  | AsyncMethCall PureExp LIdent [PureExp]
  | ThisAsyncMethCall LIdent [PureExp]
  | Get PureExp
+ | ProGet PureExp
+ | ProNew
+ | ProEmpty PureExp
  | Spawns PureExp Type [PureExp]
   deriving (Eq,Ord,Show,Read)
 

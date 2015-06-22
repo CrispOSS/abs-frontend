@@ -28,7 +28,7 @@ AnyImport. Import ::= ImportType TType AnyIdent  ; -- maybe ambiguous, but no su
 AnyFromImport. Import ::= ImportType [AnyIdent] "from" QType ;
 StarFromImport. Import ::= ImportType "*" "from" QType ;
 terminator Import ";" ;
-ForeignImport. ImportType ::= "fimport";
+ForeignImport. ImportType ::= "fimport"; -- not official ABS, only used by an extension in the Haskell backend
 NormalImport.     ImportType ::= "import";
 
 -- Type valid names
@@ -108,6 +108,7 @@ SSkip. Stm ::= "skip" ";" ;
 SAssert. Stm ::= "assert" PureExp ";" ;
 SAwait.  Stm ::= "await" AwaitGuard ";" ;
 SThrow. Stm ::= "throw" PureExp ";" ;
+SGive. Stm ::= PureExp "." "pro_give" "(" PureExp ")" ";" ;
 STryCatchFinally. Stm ::= "try" AnnotStm "catch" "{" [CatchBranch] "}" MaybeFinally ;
 CatchBranc. CatchBranch ::= Pattern "=>" AnnotStm ;
 terminator CatchBranch "" ; -- can be empty, and does not have to be terminated by ";"
@@ -117,7 +118,9 @@ SPrint. Stm ::= "println" PureExp ";" ;
 
 -- Await Guards
 FutGuard. AwaitGuard ::= LIdent "?" ;
+ProGuard. AwaitGuard ::= LIdent "$" ; -- not official ABS, only used by an extension in the Haskell backend
 FutFieldGuard. AwaitGuard ::= "this" "." LIdent "?" ;
+ProFieldGuard. AwaitGuard ::= "this" "." LIdent "$" ; -- not official ABS, only used by an extension in the Haskell backend
 ExpGuard. AwaitGuard ::= PureExp ;
 AndGuard. AwaitGuard ::= AwaitGuard "&" AwaitGuard ;
 
@@ -183,7 +186,10 @@ ThisSyncMethCall. EffExp ::= "this" "." LIdent "(" [PureExp] ")" ;
 AsyncMethCall. EffExp ::= PureExp "!" LIdent "(" [PureExp] ")" ;
 ThisAsyncMethCall. EffExp ::= "this" "!" LIdent "(" [PureExp] ")" ;
 Get. EffExp ::= PureExp "." "get" ;
-Spawns. EffExp ::= PureExp "spawns" Type "(" [PureExp] ")" ;
+ProGet. EffExp ::= PureExp "." "pro_get" ; -- not official ABS, only used by an extension in the Haskell backend
+ProNew. EffExp ::= "pro_new" ; -- not official ABS, only used by an extension in the Haskell backend
+ProEmpty. EffExp ::= PureExp "." "pro_isempty" ; -- not official ABS, only used by an extension in the Haskell backend
+Spawns. EffExp ::= PureExp "spawns" Type "(" [PureExp] ")" ; -- not official ABS, only used by an extension in the Haskell backend
 
 -- Annotations
 Ann. Annot ::= "[" Annot_ "]";

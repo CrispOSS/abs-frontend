@@ -17,73 +17,78 @@ import ErrM
 %token 
  '!' { PT _ (TS _ 1) }
  '!=' { PT _ (TS _ 2) }
- '%' { PT _ (TS _ 3) }
- '&' { PT _ (TS _ 4) }
- '&&' { PT _ (TS _ 5) }
- '(' { PT _ (TS _ 6) }
- ')' { PT _ (TS _ 7) }
- '*' { PT _ (TS _ 8) }
- '+' { PT _ (TS _ 9) }
- ',' { PT _ (TS _ 10) }
- '-' { PT _ (TS _ 11) }
- '.' { PT _ (TS _ 12) }
- '/' { PT _ (TS _ 13) }
- ':' { PT _ (TS _ 14) }
- ';' { PT _ (TS _ 15) }
- '<' { PT _ (TS _ 16) }
- '<=' { PT _ (TS _ 17) }
- '=' { PT _ (TS _ 18) }
- '==' { PT _ (TS _ 19) }
- '=>' { PT _ (TS _ 20) }
- '>' { PT _ (TS _ 21) }
- '>=' { PT _ (TS _ 22) }
- '?' { PT _ (TS _ 23) }
- '[' { PT _ (TS _ 24) }
- ']' { PT _ (TS _ 25) }
- '_' { PT _ (TS _ 26) }
- 'assert' { PT _ (TS _ 27) }
- 'await' { PT _ (TS _ 28) }
- 'builtin' { PT _ (TS _ 29) }
- 'case' { PT _ (TS _ 30) }
- 'catch' { PT _ (TS _ 31) }
- 'class' { PT _ (TS _ 32) }
- 'data' { PT _ (TS _ 33) }
- 'def' { PT _ (TS _ 34) }
- 'else' { PT _ (TS _ 35) }
- 'exception' { PT _ (TS _ 36) }
- 'export' { PT _ (TS _ 37) }
- 'extends' { PT _ (TS _ 38) }
- 'fimport' { PT _ (TS _ 39) }
- 'finally' { PT _ (TS _ 40) }
- 'from' { PT _ (TS _ 41) }
- 'get' { PT _ (TS _ 42) }
- 'if' { PT _ (TS _ 43) }
- 'implements' { PT _ (TS _ 44) }
- 'import' { PT _ (TS _ 45) }
- 'in' { PT _ (TS _ 46) }
- 'interface' { PT _ (TS _ 47) }
- 'let' { PT _ (TS _ 48) }
- 'local' { PT _ (TS _ 49) }
- 'module' { PT _ (TS _ 50) }
- 'new' { PT _ (TS _ 51) }
- 'null' { PT _ (TS _ 52) }
- 'println' { PT _ (TS _ 53) }
- 'return' { PT _ (TS _ 54) }
- 'skip' { PT _ (TS _ 55) }
- 'spawns' { PT _ (TS _ 56) }
- 'suspend' { PT _ (TS _ 57) }
- 'then' { PT _ (TS _ 58) }
- 'this' { PT _ (TS _ 59) }
- 'thisDC' { PT _ (TS _ 60) }
- 'throw' { PT _ (TS _ 61) }
- 'try' { PT _ (TS _ 62) }
- 'type' { PT _ (TS _ 63) }
- 'while' { PT _ (TS _ 64) }
- '{' { PT _ (TS _ 65) }
- '|' { PT _ (TS _ 66) }
- '||' { PT _ (TS _ 67) }
- '}' { PT _ (TS _ 68) }
- '~' { PT _ (TS _ 69) }
+ '$' { PT _ (TS _ 3) }
+ '%' { PT _ (TS _ 4) }
+ '&' { PT _ (TS _ 5) }
+ '&&' { PT _ (TS _ 6) }
+ '(' { PT _ (TS _ 7) }
+ ')' { PT _ (TS _ 8) }
+ '*' { PT _ (TS _ 9) }
+ '+' { PT _ (TS _ 10) }
+ ',' { PT _ (TS _ 11) }
+ '-' { PT _ (TS _ 12) }
+ '.' { PT _ (TS _ 13) }
+ '/' { PT _ (TS _ 14) }
+ ':' { PT _ (TS _ 15) }
+ ';' { PT _ (TS _ 16) }
+ '<' { PT _ (TS _ 17) }
+ '<=' { PT _ (TS _ 18) }
+ '=' { PT _ (TS _ 19) }
+ '==' { PT _ (TS _ 20) }
+ '=>' { PT _ (TS _ 21) }
+ '>' { PT _ (TS _ 22) }
+ '>=' { PT _ (TS _ 23) }
+ '?' { PT _ (TS _ 24) }
+ '[' { PT _ (TS _ 25) }
+ ']' { PT _ (TS _ 26) }
+ '_' { PT _ (TS _ 27) }
+ 'assert' { PT _ (TS _ 28) }
+ 'await' { PT _ (TS _ 29) }
+ 'builtin' { PT _ (TS _ 30) }
+ 'case' { PT _ (TS _ 31) }
+ 'catch' { PT _ (TS _ 32) }
+ 'class' { PT _ (TS _ 33) }
+ 'data' { PT _ (TS _ 34) }
+ 'def' { PT _ (TS _ 35) }
+ 'else' { PT _ (TS _ 36) }
+ 'exception' { PT _ (TS _ 37) }
+ 'export' { PT _ (TS _ 38) }
+ 'extends' { PT _ (TS _ 39) }
+ 'fimport' { PT _ (TS _ 40) }
+ 'finally' { PT _ (TS _ 41) }
+ 'from' { PT _ (TS _ 42) }
+ 'get' { PT _ (TS _ 43) }
+ 'if' { PT _ (TS _ 44) }
+ 'implements' { PT _ (TS _ 45) }
+ 'import' { PT _ (TS _ 46) }
+ 'in' { PT _ (TS _ 47) }
+ 'interface' { PT _ (TS _ 48) }
+ 'let' { PT _ (TS _ 49) }
+ 'local' { PT _ (TS _ 50) }
+ 'module' { PT _ (TS _ 51) }
+ 'new' { PT _ (TS _ 52) }
+ 'null' { PT _ (TS _ 53) }
+ 'println' { PT _ (TS _ 54) }
+ 'pro_get' { PT _ (TS _ 55) }
+ 'pro_give' { PT _ (TS _ 56) }
+ 'pro_isempty' { PT _ (TS _ 57) }
+ 'pro_new' { PT _ (TS _ 58) }
+ 'return' { PT _ (TS _ 59) }
+ 'skip' { PT _ (TS _ 60) }
+ 'spawns' { PT _ (TS _ 61) }
+ 'suspend' { PT _ (TS _ 62) }
+ 'then' { PT _ (TS _ 63) }
+ 'this' { PT _ (TS _ 64) }
+ 'thisDC' { PT _ (TS _ 65) }
+ 'throw' { PT _ (TS _ 66) }
+ 'try' { PT _ (TS _ 67) }
+ 'type' { PT _ (TS _ 68) }
+ 'while' { PT _ (TS _ 69) }
+ '{' { PT _ (TS _ 70) }
+ '|' { PT _ (TS _ 71) }
+ '||' { PT _ (TS _ 72) }
+ '}' { PT _ (TS _ 73) }
+ '~' { PT _ (TS _ 74) }
 
 L_quoted { PT _ (TL $$) }
 L_integ  { PT _ (TI $$) }
@@ -287,8 +292,9 @@ Stm : Exp ';' { SExp $1 }
   | 'suspend' ';' { SSuspend }
   | 'skip' ';' { SSkip }
   | 'assert' PureExp ';' { SAssert $2 }
-  | 'await' Guard ';' { SAwait $2 }
+  | 'await' AwaitGuard ';' { SAwait $2 }
   | 'throw' PureExp ';' { SThrow $2 }
+  | PureExp '.' 'pro_give' '(' PureExp ')' ';' { SGive $1 $5 }
   | 'try' AnnotStm 'catch' '{' ListCatchBranch '}' MaybeFinally { STryCatchFinally $2 (reverse $5) $7 }
   | 'println' PureExp ';' { SPrint $2 }
 
@@ -307,11 +313,13 @@ MaybeFinally : 'finally' AnnotStm { JustFinally $2 }
   | {- empty -} { NoFinally }
 
 
-Guard :: { Guard }
-Guard : LIdent '?' { VarGuard $1 } 
-  | 'this' '.' LIdent '?' { FieldGuard $3 }
+AwaitGuard :: { AwaitGuard }
+AwaitGuard : LIdent '?' { FutGuard $1 } 
+  | LIdent '$' { ProGuard $1 }
+  | 'this' '.' LIdent '?' { FutFieldGuard $3 }
+  | 'this' '.' LIdent '$' { ProFieldGuard $3 }
   | PureExp { ExpGuard $1 }
-  | Guard '&' Guard { AndGuard $1 $3 }
+  | AwaitGuard '&' AwaitGuard { AndGuard $1 $3 }
 
 
 Exp :: { Exp }
@@ -424,6 +432,9 @@ EffExp : 'new' Type '(' ListPureExp ')' { New $2 $4 }
   | PureExp '!' LIdent '(' ListPureExp ')' { AsyncMethCall $1 $3 $5 }
   | 'this' '!' LIdent '(' ListPureExp ')' { ThisAsyncMethCall $3 $5 }
   | PureExp '.' 'get' { Get $1 }
+  | PureExp '.' 'pro_get' { ProGet $1 }
+  | 'pro_new' { ProNew }
+  | PureExp '.' 'pro_isempty' { ProEmpty $1 }
   | PureExp 'spawns' Type '(' ListPureExp ')' { Spawns $1 $3 $5 }
 
 
